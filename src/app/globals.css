@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #5501DD;
+  --color-secondary: #374151;
+  --color-header: #111827;
+  
+}
+
+@theme inline {
+    /* customize breakpoints */
+  --breakpoint-sm: 36rem; /* 576 */
+  --breakpoint-md: 48rem;  /* 768 */
+  --breakpoint-lg: 62rem; /* 992 */
+  --breakpoint-xl: 75rem;  /* 1200 */
+  --breakpoint-2xl: 87.5rem; /* 1400 */
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-header;
+  }
+
+  button {
+    @apply rounded cursor-pointer;
+  }
+}
