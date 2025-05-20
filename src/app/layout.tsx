@@ -24,10 +24,10 @@ export default function RootLayout({
 }>) {
   const navLinks: { key: string; link: string }[] = [
     { key: "الرئيسية", link: "/" },
-    { key: "تحليل تصميم", link: "/تحليل-تصميم" },
-    { key: "مكتبة المنتجات", link: "/مكتبة-المنتجات" },
-    { key: "عن مقدار", link: "/عن-مقدار" },
-    { key: "تواصل معنا", link: "/تواصل-معنا" },
+    { key: "تحليل تصميم", link: "/design-analysis" },
+    { key: "مكتبة المنتجات", link: "/product-library" },
+    { key: "عن مقدار", link: "/about-miqdar" },
+    { key: "تواصل معنا", link: "/contact-us" },
   ];
 
   return (
@@ -35,7 +35,7 @@ export default function RootLayout({
       <body className={`antialiased`}>
         <Navbar navLinks={navLinks} />
         {children}
-        <Footer />
+        <Footer navLinks={navLinks} />
       </body>
     </html>
   );
