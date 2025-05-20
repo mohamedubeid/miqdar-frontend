@@ -2,7 +2,7 @@
 import { User, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import styles from "@/app/components/styles.module.css";
+import styles from "@/components/layouts/styles.module.css";
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
