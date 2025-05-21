@@ -71,7 +71,7 @@ const Footer = ({ navLinks }: NavbarProps) => {
               <input
                 type="email"
                 placeholder="البريد الإلكتروني"
-                className="px-3 py-2 rounded-md bg-[#1F2937] text-white placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-primary max-w-[250px]"
+                className="px-3 py-2 rounded-md bg-[#1F2937] text-white placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-primary w-full max-w-[250px]"
               />
               <button
                 type="submit"
