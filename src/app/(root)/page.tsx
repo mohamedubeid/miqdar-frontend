@@ -1,14 +1,20 @@
-import { ArrowLeft, ArrowUpFromLine, Check, Database } from "lucide-react";
 import Image from "next/image";
+import { ArrowDownToLine, ArrowLeft, ArrowUpFromLine, Check, CloudUpload, Database, GraduationCap, Info, PencilRuler, PenTool, Printer, Ruler, UserPlus } from "lucide-react";
+import Categories from "@/components/home/Categories";
 
 export default function Home() {
   return (
     <>
       <div id="hero-section">
-        <section id="hero-section" className="flex flex-col items-center justify-center gap-y-10 h-screen bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}>
+        <section id="hero-section" className="relative flex flex-col items-center justify-center gap-y-10 h-screen bg-cover bg-center bg-no-repeat"   style={{
+          backgroundImage: `
+            linear-gradient(90deg, rgba(255, 255, 255, 0.765) 0%, rgba(255, 255, 255, 0.68) 50%, rgba(0, 0, 0, 0) 100%),
+            url('/images/hero-bg.png')
+          `
+        }}>
           <h1>القياسات الدقيقة للمصممين</h1>
           <p className="text-[18px] text-[#374151] max-w-[541px] text-center">وفر الوقت والجهد في البحث عن قياسات المنتجات. حلل تصاميمك أو استعرض مكتبتنا للقياسات الدقيقة.</p>
-          <div className="flex gap-x-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <button className="flex items-center gap-4 px-16 py-3 rounded-[8px] bg-primary text-white border border-primary hover:bg-white hover:text-primary transition">
               <ArrowUpFromLine />
               <span>تحليل التصميم AI</span>
@@ -20,8 +26,8 @@ export default function Home() {
           </div>
         </section>
         <section id="features" className="flex flex-col items-center justify-center gap-y-8 py-16">
-          <h2 className="text-3xl font-bold">ميزاتنا الرئيسية</h2>
-          <p className="text-[#4B5563] max-w-[1042px] text-center">مشروع &quot;مقدار&quot; هو موقع إلكتروني موجه للمصممين الصناعيين ومصممي المنتجات، يوفر لهم حلًا سريعًا وذكيًا للحصول على المقاسات الدقيقة للمنتجات الفيزيائية الشائعة. يهدف الموقع إلى تسريع عملية التصميم وتوفير الوقت الذي يتم ضياعه في البحث عن الأبعاد الدقيقة للمنتجات المرجعية مثل دلة القهوة، الأكواب، الأغطية، والقطع الميكانيكية.</p>
+          <h3>ميزاتنا الرئيسية</h3>
+          <p className="text-cstm-gray max-w-[1042px] text-center p-2">مشروع &quot;مقدار&quot; هو موقع إلكتروني موجه للمصممين الصناعيين ومصممي المنتجات، يوفر لهم حلًا سريعًا وذكيًا للحصول على المقاسات الدقيقة للمنتجات الفيزيائية الشائعة. يهدف الموقع إلى تسريع عملية التصميم وتوفير الوقت الذي يتم ضياعه في البحث عن الأبعاد الدقيقة للمنتجات المرجعية مثل دلة القهوة، الأكواب، الأغطية، والقطع الميكانيكية.</p>
           <div className="mt-25 w-full max-w-[840px] bg-[#5501DD0D] rounded-2xl p-6 flex flex-col items-center gap-y-6">
             <h4 className="font-bold text-xl text-primary">لماذا مقدار؟ </h4>
             <div className="flex items-center gap-x-3">
@@ -38,7 +44,7 @@ export default function Home() {
             </div>
           </div>
           <div className="container mx-auto my-8">
-            <div className="flex items-center gap-14">
+            <div className="flex flex-col md:flex-row items-center gap-14 p-2">
               <div className="flex-auto card-style">
                 <Image src="/images/analysis.png" alt="analysis" width={606} height={272} className="rounded-t-[16px]"/>
                 <div className="flex flex-col gap-6 p-6">
@@ -83,6 +89,202 @@ export default function Home() {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+        <Categories />
+        <section className="py-16 bg-[#F9FAFB] text-center p-2">
+          <h3>كيف يعمل</h3>
+          <p className="text-cstm-gray mt-8">خطوات بسيطة تمكنك من الحصول على القياسات الدقيقة بسرعة وسهولة</p>
+          <div className="flex gap-6 w-full max-w-[896px] mx-auto mt-18">
+            <div className="hidden md:flex">
+              <div className="relative flex flex-col items-center h-full">
+                <div className="absolute left-1/2 top-0 -translate-x-1/2 h-full w-0.5 bg-primary-100"></div>
+                <div className="relative z-10 grid px-3 py-1 text-white bg-primary rounded-4xl place-items-center">
+                  1
+                </div>
+                <div className="h-1/3"></div>
+                <div className="relative z-10 grid px-3 py-1 text-white bg-primary rounded-4xl place-items-center">
+                  2
+                </div>
+                <div className="h-1/3"></div>
+                <div className="relative z-10 grid px-3 py-1 text-white bg-primary rounded-4xl place-items-center">
+                  3
+                </div>
+                <div className="h-1/3"></div>
+              </div>
+            </div>
+            <div className="flex-auto">
+              <div className="flex flex-col gap-y-6 text-start bg-white p-6 rounded-[16px]">
+                <h4 className="text-primary">تحميل التصميم أو اختيار منتج</h4>
+                <p className="text-cstm-gray">قم بتحميل صورة أو نموذج ثلاثي الأبعاد للتصميم الخاص بك، أو اختر منتجاً من مكتبتنا الشاملة</p>
+                <div className="flex items-center gap-x-3 text-primary">
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">صور</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">نماذج ثلاثية الأبعاد</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">رسومات</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-6 text-start bg-white p-6 rounded-[16px] mt-10">
+                <h4 className="text-primary">تحليل ذكي للقياسات</h4>
+                <p className="text-cstm-gray">يقوم نظامنا المتطور بتحليل التصميم واستخراج جميع القياسات الضرورية بدقة عالية</p>
+                <div className="flex items-center gap-x-3 text-primary">
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">نتائج فورية</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">دقة عالية</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">تحليل تلقائي</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-6 text-start bg-white p-6 rounded-[16px] mt-10">
+                <h4 className="text-primary">تصدير وتنزيل النتائج</h4>
+                <p className="text-cstm-gray">احصل على تقرير شامل بجميع القياسات بالتنسيق الذي تفضله</p>
+                <div className="flex items-center gap-x-3 text-primary">
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">JSON</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">CSV</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">DXF</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">PDF</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="pt-2 pb-16 w-full max-w-[896px] mx-auto">
+          <div className="flex items-center justify-around">
+            <div className="p-6 bg-[#3B82F61A] rounded-full">
+              <CloudUpload size={28} className="text-primary"/>
+            </div>
+            <div className="p-6 bg-[#3B82F61A] rounded-full">
+              <Ruler size={28} className="text-primary"/>
+            </div>
+            <div className="p-6 bg-[#3B82F61A] rounded-full">
+              <ArrowDownToLine size={28} className="text-primary"/>
+            </div>
+          </div>
+          <div className="flex items-center w-full mt-4">
+            <div className="flex-1 h-0.25 bg-primary-100 mx-2"></div>
+            <div className="relative z-10 grid px-4 py-2 text-white bg-primary rounded-full place-items-center">
+              1
+            </div>
+            <div className="flex-2 h-0.25 bg-primary-100 mx-2"></div>
+            <div className="relative z-10 grid px-4 py-2 text-white bg-primary rounded-full place-items-center">
+              2
+            </div>
+            <div className="flex-2 h-0.25 bg-primary-100 mx-2"></div>
+            <div className="relative z-10 grid px-4 py-2 text-white bg-primary rounded-full place-items-center">
+              3
+            </div>
+            <div className="flex-1 h-0.25 bg-primary-100 mx-2"></div>
+          </div>
+          <div className="flex items-center justify-around gap-x-4">
+            <div className="text-center">
+              <h6>حمّل التصميم أو اختر منتج</h6>
+              <p className="text-cstm-gray mt-4">حمّل صورة أو نموذج ثلاثي الأبعاد أو اختر من مكتبتنا </p>
+            </div>
+            <div className="text-center">
+              <h6>تحليل الذكاء الاصطناعي / عرض القياسات</h6>
+              <p className="text-cstm-gray mt-4">يقوم نظامنا بتحليل التصميم وعرض القياسات الدقيقة</p>
+            </div>
+            <div className="text-center">
+              <h6>تنزيل النتائج</h6>
+              <p className="text-cstm-gray mt-4">احصل على القياسات بتنسيقات متعددة جاهزة للاستخدام</p>
+            </div>
+          </div>
+            <button className="flex items-center gap-2 px-14 py-3 rounded-[8px] mx-auto mt-18 bg-primary text-white border border-primary hover:bg-white hover:text-primary transition">
+              <span>ابدأ الآن</span>
+              <ArrowLeft size={16} />
+            </button>
+        </section>
+        <section className="bg-[#F9FAFB]">
+          <div className="container mx-auto py-16">
+            <h3 className="text-center">فوائد للجميع</h3>
+            <p className="text-cstm-gray mt-8 text-center">صمم مقدار لتلبية احتياجات مجموعة متنوعة من المستخدمين في مجال التصميم والإنتاج</p>
+            <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-10">
+              <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
+                <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
+                  <PenTool size={20} className="text-primary" />
+                </div>
+                <h5>مصممي المنتجات والصناعيين</h5>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">استخراج القياسات الدقيقة باستخدام الذكاء الاصطناعي</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">ضمان الدقة في تصاميم المنتجات</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">تسريع عملية التصميم وتقليل التكرار</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
+                <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
+                  <PencilRuler size={20} className="text-primary" />
+                </div>
+                <h5>المهندسين</h5>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">تحليل دقيق للمواصفات الهندسية</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">توافق مع معايير الصناعة</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">تكامل مع أدوات</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
+                <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
+                  <Printer size={20} className="text-primary" />
+                </div>
+                <h5>هواة الطباعة ثلاثية الأبعاد</h5>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">الحصول على قياسات دقيقة للنماذج الموجودة</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">تصميم قطع متوافقة مع المنتجات</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">تقليل هدر المواد من خلال الحصول على القياسات الصحيحة</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
+                <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
+                  <GraduationCap size={20} className="text-primary" />
+                </div>
+                <h5>الطلاب والحرفيين</h5>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">تحليل وقياس النماذج لمشاريع التخرج والتدريب</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">استخراج القياسات تلقائياً للمشاريع التعليمية</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">أدوات تحليل داعمة لتقارير المشاريع والتدريب</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="bg-[#3B82F60D]">
+          <div className="flex flex-col items-center justify-center gap-y-10 py-16 text-center">
+            <h3>جاهز للبدء؟</h3>
+            <p className="text-cstm-gray">انضم إلى مجتمع المصممين الذين يوفرون الوقت والجهد باستخدام مقدار للحصول على قياسات دقيقة </p>
+            <div className="flex flex-col md:flex-row gap-4">
+              <button className="flex items-center gap-4 px-16 py-3 rounded-[8px] bg-primary text-white border border-primary hover:bg-white hover:text-primary transition">
+                <UserPlus />
+                <span>إنشاء حساب مجاني </span>
+              </button>
+              <button className="flex items-center gap-4 px-16 py-3 rounded-[8px] text-primary bg-white border border-primary hover:bg-primary hover:text-white transition">
+                <Info size={20} />
+                <span>معرفة المزيد</span>
+              </button>
             </div>
           </div>
         </section>

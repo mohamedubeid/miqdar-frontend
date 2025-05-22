@@ -2,8 +2,10 @@
 
 @theme {
   --color-primary: #5501DD;
+  --color-primary-100: #5501DD1A;
   --color-secondary: #374151;
   --color-header: #111827;
+  --color-cstm-gray: #4B5563;
   
 }
 
@@ -41,6 +43,10 @@
     @apply text-xl font-bold;
   }
 
+  h6{
+    @apply font-bold;
+  }
+
   button {
     @apply rounded cursor-pointer;
   }
@@ -54,5 +60,9 @@
       0px 4px 6px -1px #0000001A,
       0px 2px 4px -2px #0000001A;
     border-radius: 16px;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+  .card-style:hover {
+    transform: scale(1.04);
   }
 }
