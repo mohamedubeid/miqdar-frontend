@@ -15,13 +15,13 @@ export default function Home() {
           <h1>القياسات الدقيقة للمصممين</h1>
           <p className="text-[18px] text-[#374151] max-w-[541px] text-center">وفر الوقت والجهد في البحث عن قياسات المنتجات. حلل تصاميمك أو استعرض مكتبتنا للقياسات الدقيقة.</p>
           <div className="flex flex-col md:flex-row gap-4">
-            <button className="flex items-center gap-4 px-16 py-3 rounded-[8px] bg-primary text-white border border-primary hover:bg-white hover:text-primary transition">
+            <button className="primary-button">
               <ArrowUpFromLine />
-              <span>تحليل التصميم AI</span>
+              <span>رفع صورة المنتج</span>
             </button>
-            <button className="flex items-center gap-4 px-16 py-3 rounded-[8px] text-primary bg-white border border-primary hover:bg-primary hover:text-white transition">
+            <button className="secondary-button">
               <Database />
-              <span>استعرض المكتبة</span>
+              <span>تصفح المكتبة</span>
             </button>
           </div>
         </section>
@@ -61,8 +61,8 @@ export default function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p>تنزيل النتائج بتنسيقات متعددة</p>
                   </div>
-                  <button className="flex items-center gap-4 px-10 py-3 w-fit rounded-[8px] bg-primary text-white border border-primary hover:bg-white hover:text-primary transition">
-                    جرب الآن
+                  <button className="primary-button w-fit">
+                    <span> جرب الآن</span>
                     <ArrowLeft size={16} strokeWidth={1} />
                   </button>
                 </div>
@@ -83,7 +83,7 @@ export default function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p>مقارنة التصاميم مع المنتجات الموجودة</p>
                   </div>
-                  <button className="flex items-center gap-4 px-10 py-3 w-fit rounded-[8px] bg-primary text-white border border-primary hover:bg-white hover:text-primary transition">
+                  <button className="primary-button w-fit">
                     استكشف المكتبة
                     <ArrowLeft size={16} strokeWidth={1} />
                   </button>
@@ -187,7 +187,7 @@ export default function Home() {
               <p className="text-cstm-gray mt-4">احصل على القياسات بتنسيقات متعددة جاهزة للاستخدام</p>
             </div>
           </div>
-            <button className="flex items-center gap-2 px-14 py-3 rounded-[8px] mx-auto mt-18 bg-primary text-white border border-primary hover:bg-white hover:text-primary transition">
+            <button className="primary-button mx-auto mt-8">
               <span>ابدأ الآن</span>
               <ArrowLeft size={16} />
             </button>
@@ -277,11 +277,11 @@ export default function Home() {
             <h3>جاهز للبدء؟</h3>
             <p className="text-cstm-gray">انضم إلى مجتمع المصممين الذين يوفرون الوقت والجهد باستخدام مقدار للحصول على قياسات دقيقة </p>
             <div className="flex flex-col md:flex-row gap-4">
-              <button className="flex items-center gap-4 px-16 py-3 rounded-[8px] bg-primary text-white border border-primary hover:bg-white hover:text-primary transition">
+              <button className="primary-button">
                 <UserPlus />
                 <span>إنشاء حساب مجاني </span>
               </button>
-              <button className="flex items-center gap-4 px-16 py-3 rounded-[8px] text-primary bg-white border border-primary hover:bg-primary hover:text-white transition">
+              <button className="secondary-button">
                 <Info size={20} />
                 <span>معرفة المزيد</span>
               </button>

@@ -59,8 +59,8 @@ const Navbar = ({ navLinks }: NavbarProps) => {
           }
         </motion.button>
         <div className="hidden lg:flex items-center gap-8">
-          <button className="flex items-center whitespace-nowrap gap-2 py-2 px-6 flex-nowrap rounded-[8px] hover:bg-primary hover:text-white"><User /><span>تسجيل الدخول</span></button>
-          <button className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap"><UserPlus /><span>التسجيل</span></button>
+          <button className="secondary-button !gap-2 !px-6"><User /><span>تسجيل الدخول</span></button>
+          <button className="primary-button !gap-2 !px-6"><UserPlus /><span>التسجيل</span></button>
         </div>
       </div>
       <AnimatePresence>
@@ -82,7 +82,7 @@ const Navbar = ({ navLinks }: NavbarProps) => {
                 </li>
               ))}
               <div className="flex items-center gap-8">
-                <button className="flex items-center whitespace-nowrap gap-2 py-2 px-6 flex-nowrap rounded-[8px] hover:bg-primary hover:text-white"><span>تسجيل الدخول</span><User /></button>
+                <button className="secondary-button  whitespace-nowrap flex-nowrap !px-3 !py-2"><span>تسجيل الدخول</span><User /></button>
                 <button className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap"><span>التسجيل</span><UserPlus /></button>
               </div>
             </ul>

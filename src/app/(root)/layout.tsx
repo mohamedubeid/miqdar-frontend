@@ -1,5 +1,6 @@
 import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
+import { ToastContainer } from "react-toastify";
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
 
@@ -15,6 +16,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
     <main>
         <Navbar navLinks={navLinks}/>
           {children}
+          <ToastContainer newestOnTop position={"top-left"} rtl={true} />
         <Footer navLinks={navLinks}/>
     </main>
   );

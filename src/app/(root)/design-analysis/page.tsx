@@ -1,0 +1,330 @@
+'use client';
+
+import React, { useState, useRef, useEffect } from 'react'
+import Image from "next/image";
+import { CloudUpload, Images, Palette, Trash2, ZoomIn, ZoomOut } from 'lucide-react';
+import { toast } from 'react-toastify';
+import AnalysisResult from '@/components/design-analysis/AnalysisResult';
+import { MEASURE_UNITS } from '@/lib/constants';
+
+const Page = () => {
+  const [autoDimensions, setAutoDimensions] = useState(true);
+  const [colorAnalysis, setColorAnalysis] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [productName, setProductName] = useState('');
+  const [width, setWidth] = useState('');
+  const [height, setHeight] = useState('');
+  const [measureUnit, setMeasureUnit] = useState('mm');
+  const [zoom, setZoom] = useState(1);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const allowedTypes = ['image/png', 'image/jpeg', 'image/svg+xml'];
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      if (allowedTypes.includes(file.type)) {
+        setUploadedImage(file);
+      } else {
+        toast.error('يرجى رفع صورة بصيغة PNG أو JPG أو SVG فقط');
+      }
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (allowedTypes.includes(file.type)) {
+        setUploadedImage(file);
+      } else {
+        toast.error('يرجى رفع صورة بصيغة PNG أو JPG أو SVG فقط');
+      }
+    }
+  };
+
+  const handleSubmit = () => {
+    if(!uploadedImage) {
+      toast.error("يرجى رفع صورة أولاً");
+      return;
+    }
+    if(!productName) {
+      toast.error("يرجى إدخال اسم المنتج");
+      return;
+    }
+    if(!autoDimensions && (!width || !height)) {
+      toast.error("يرجى إدخال الأبعاد إذا لم يتم تفعيل التحليل التلقائي");
+      return;
+    }
+    const data = {
+      image: uploadedImage,
+      productName,
+      colorAnalysis,
+      autoDimensions,
+      width: autoDimensions ? null : width,
+      height: autoDimensions ? null : height,
+      measureUnit: autoDimensions ? null : measureUnit,
+    };
+    console.log(data);
+  };
+
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  const applyZoom = () => {
+    if (imageRef.current) {
+      imageRef.current.style.transform = `scale(${zoom})`;
+      imageRef.current.style.cursor = zoom > 1 ? "zoom-out" : "zoom-in";
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (zoom <= 1 || !imageRef.current) return;
+    const rect = imageRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    imageRef.current.style.transformOrigin = `${x}% ${y}%`;
+  };
+
+  const handleClick = () => {
+    setZoom(prev => (prev > 1 ? 1 : 1.3));
+  };
+
+  useEffect(() => {
+    applyZoom();
+  }, [zoom]);
+
+  return (
+    <div className="bg-[#F9FAFB] p-2">
+      <div className="container mx-auto py-8">
+        <h3>تحليل التصميم</h3>
+        <p className="text-cstm-gray mt-4">قم بتحميل التصميم الخاص بك للحصول على قياسات دقيقة باستخدام الذكاء الاصطناعي </p>
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className="primary-button mx-auto md:mx-0 md:mr-auto mt-4"
+        >
+          <span>تحليل التصميم</span>
+        </button>
+
+        <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8 mt-8">
+          <div className="w-full max-w-[395px]">
+            <div>
+              <div className="bg-white rounded-[16px] p-6 pb-10 cstm-card-style">
+                <h3 className="text-right text-lg font-bold text-gray-800 mb-4">تحميل الملف</h3>
+                <div
+                  className={`border-2 border-dashed border-[#CBD5E1] rounded-[16px] flex flex-col items-center justify-center text-center space-y-4 h-[282px] transition cursor-pointer ${dragActive ? 'bg-violet-50 border-violet-400' : ''}`}
+                  onDragEnter={handleDrag}
+                  onDragOver={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDrop={handleDrop}
+                  onClick={() => inputRef.current?.click()}
+                >
+                  <div className="bg-[#3B82F61A] text-primary rounded-full flex items-center justify-center p-5">
+                    <CloudUpload size={28} strokeWidth={2.5} />
+                  </div>
+                  {uploadedImage ? (
+                    <div className="text-cstm-gray">
+                      <p>تم رفع الملف:</p>
+                      <p className="font-bold text-sm break-words whitespace-normal w-[80%] mx-auto">{uploadedImage.name}</p>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-cstm-gray">اسحب وأفلت الملفات هنا </p>
+                      <p className="text-cstm-gray">أو</p>
+                      <button
+                        type="button"
+                        className="secondary-button hover:!bg-violet-50 !text-violet-700"
+                        onClick={e => {
+                          e.stopPropagation();
+                          inputRef.current?.click();
+                        }}
+                      >تصفح</button>
+                      <input
+                        id="image_upload"
+                        type="file"
+                        className="sr-only"
+                        accept="image/png, image/jpeg, image/svg+xml"
+                        ref={inputRef}
+                        onChange={handleChange}
+                      />
+                    </>
+                  )}
+                </div>
+                <div className="mt-4">
+                  <p className="text-sm text-[#6B7280]">الملفات المدعومة:</p>
+                  <span className="inline-flex gap-2 mt-2">
+                    <span className="px-2 py-1 rounded-full bg-[#F3F4F6] text-[#6B7280] text-xs">SVG</span>
+                    <span className="px-2 py-1 rounded-full bg-[#F3F4F6] text-[#6B7280] text-xs">JPG</span>
+                    <span className="px-2 py-1 rounded-full bg-[#F3F4F6] text-[#6B7280] text-xs">PNG</span>
+                  </span>
+                </div>
+              </div>
+              <div className="bg-white rounded-[16px] p-6 pb-10 cstm-card-style mt-4">
+                <h3 className="text-right text-lg font-bold text-gray-800 mb-4">خيارات التحليل</h3>
+                <div>
+                  <label htmlFor="product_name" className="block mb-2 text-sm font-medium text-gray-900">اسم المنتج</label>
+                  <input
+                    type="text"
+                    id="product_name"
+                    className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    placeholder="اسم المنتج"
+                    value={productName}
+                    onChange={e => setProductName(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center justify-between mt-7">
+                  <div className="flex items-center gap-5">
+                    <Palette size={16} />
+                    <p>تحليل الألوان</p>
+                  </div>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      id="color_analysis"
+                      type="checkbox"
+                      className="sr-only peer"
+                      checked={colorAnalysis}
+                      onChange={() => setColorAnalysis(v => !v)}
+                    />
+                    <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                  </label>
+                </div>
+                <div className="flex items-center justify-between mt-7">
+                  <div className="flex items-center gap-5">
+                    <p>تحليل الأبعاد تلقائياً</p>
+                  </div>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      id="auto_dimensions"
+                      type="checkbox"
+                      checked={autoDimensions}
+                      onChange={() => setAutoDimensions((v) => !v)}
+                      className="sr-only peer"
+                    />
+                    <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                  </label>
+                </div>
+                <div className="flex items-center gap-x-4 mt-3">
+                  <div>
+                    <input
+                      id="width"
+                      type="number"
+                      placeholder="العرض"
+                      disabled={autoDimensions}
+                      value={width}
+                      onChange={e => setWidth(e.target.value)}
+                      className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <input
+                      id="height"
+                      type="number"
+                      placeholder="الطول"
+                      required
+                      disabled={autoDimensions}
+                      value={height}
+                      onChange={e => setHeight(e.target.value)}
+                      className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <select
+                      id="measure_unit"
+                      value={measureUnit}
+                      onChange={e => setMeasureUnit(e.target.value)}
+                      disabled={autoDimensions}
+                      className="min-w-[80px] bg-white border border-gray-500 text-gray-900 text-m rounded-lg outline-none block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
+                    >
+                      {MEASURE_UNITS.map(unit => (
+                        <option key={unit.value} value={unit.value}>
+                          {unit.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full">
+            <div className="bg-white rounded-[16px] p-6 cstm-card-style flex flex-col h-full">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-right text-lg font-bold text-gray-800 mb-4">معاينة التصميم</h3>
+                <div className="flex items-center gap-2">
+                  <button
+                    disabled={zoom <= 0.5 || !uploadedImage}
+                    type="button"
+                    className="p-2 rounded bg-gray-100 hover:bg-gray-200 transition
+                      disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
+                    onClick={() => setZoom(prev => Math.max(0.5, prev - 0.1))}
+                    title="تصغير"
+                  >
+                    <ZoomOut size={18} />
+                  </button>
+                  <span className="text-sm w-10 text-center">{Math.round(zoom * 100)}%</span>
+                  <button
+                    disabled={zoom >= 4 || !uploadedImage}
+                    type="button"
+                    className="p-2 rounded bg-gray-100 hover:bg-gray-200 transition
+                      disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
+                    onClick={() => setZoom(prev => Math.min(prev + 0.1, 4))}
+                    title="تكبير"
+                  >
+                    <ZoomIn size={18} />
+                  </button>
+                  {uploadedImage && <button className="focus:none outline-none ms-4" onClick={() => setUploadedImage(null)} disabled={!uploadedImage}>
+                    <span className="sr-only">حذف الصورة</span>
+                    <Trash2 className="hover:text-red-400" />
+                  </button>}
+                </div>
+              </div>
+              {uploadedImage ? (
+                <div className="bg-[#F9FAFB] h-full w-full rounded-[16px] flex items-center justify-center overflow-auto">
+                  <div
+                    className="flex items-center justify-center w-full h-full transition-transform duration-200"
+                    style={{ transform: `scale(${zoom})` }}
+                  >
+                    <Image
+                      ref={imageRef}
+                      src={URL.createObjectURL(uploadedImage)}
+                      alt="معاينة التصميم"
+                      className="p-8 max-h-[727px] rounded-[16px] object-contain transition-transform duration-200"
+                      width={747}
+                      height={727}
+                      onMouseMove={handleMouseMove}
+                      onClick={handleClick}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="min-h-[300px] bg-[#F9FAFB] rounded-[16px] border border-[#E5E7EB] h-full flex flex-col gap-y-4 items-center justify-center">
+                  <div className="p-5 rounded-full bg-[#E5E7EB]">
+                    <Images className="text-[#9CA3AF]" size={36} />
+                  </div>
+                  <p className="text-[#6B7280]">قم بتحميل ملف لعرض المعاينة </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <AnalysisResult />
+      </div>
+    </div>
+  )
+}
+
+export default Page;
