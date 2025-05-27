@@ -81,8 +81,8 @@ const Navbar = ({ navLinks }: NavbarProps) => {
                   <Link href={item.link}>{item.key}</Link>
                 </li>
               ))}
-              <div className="flex items-center gap-8">
-                <button className="secondary-button  whitespace-nowrap flex-nowrap !px-3 !py-2"><span>تسجيل الدخول</span><User /></button>
+              <div className="flex items-center gap-2 sm:gap-8">
+                <button className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2"><span>تسجيل الدخول</span><User /></button>
                 <button className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap"><span>التسجيل</span><UserPlus /></button>
               </div>
             </ul>

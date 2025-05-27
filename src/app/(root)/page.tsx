@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowDownToLine, ArrowLeft, ArrowUpFromLine, Check, CloudUpload, Database, GraduationCap, Info, PencilRuler, PenTool, Printer, Ruler, UserPlus } from "lucide-react";
 import Categories from "@/components/home/Categories";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -15,14 +16,14 @@ export default function Home() {
           <h1>القياسات الدقيقة للمصممين</h1>
           <p className="text-[18px] text-[#374151] max-w-[541px] text-center">وفر الوقت والجهد في البحث عن قياسات المنتجات. حلل تصاميمك أو استعرض مكتبتنا للقياسات الدقيقة.</p>
           <div className="flex flex-col md:flex-row gap-4">
-            <button className="primary-button">
+            <Link href="/design-analysis" className="primary-button">
               <ArrowUpFromLine />
               <span>رفع صورة المنتج</span>
-            </button>
-            <button className="secondary-button">
+            </Link>
+            <Link href="/product-library" className="secondary-button">
               <Database />
               <span>تصفح المكتبة</span>
-            </button>
+            </Link>
           </div>
         </section>
         <section id="features" className="flex flex-col items-center justify-center gap-y-8 py-16">

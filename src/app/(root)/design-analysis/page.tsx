@@ -179,7 +179,7 @@ const Page = () => {
                   <input
                     type="text"
                     id="product_name"
-                    className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className="bg-[#F9FAFB] border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5"
                     placeholder="اسم المنتج"
                     value={productName}
                     onChange={e => setProductName(e.target.value)}
