@@ -27,7 +27,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   console.log('slug: ', slug);
 
   return (
-    <div className="bg-[#F9FAFB] px-2 py-19">
+    <div className="surface-box px-2 py-19">
       <div className="container mx-auto p-6 bg-white rounded-[16px]">
 
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between">

@@ -94,7 +94,7 @@ export default function Home() {
           </div>
         </section>
         <Categories />
-        <section className="py-16 bg-[#F9FAFB] text-center p-2">
+        <section className="py-16 bg-main-bg text-center p-2">
           <h3>كيف يعمل</h3>
           <p className="text-cstm-gray mt-8">خطوات بسيطة تمكنك من الحصول على القياسات الدقيقة بسرعة وسهولة</p>
           <div className="flex gap-6 w-full max-w-[896px] mx-auto mt-18">
@@ -193,7 +193,7 @@ export default function Home() {
               <ArrowLeft size={16} />
             </button>
         </section>
-        <section className="bg-[#F9FAFB]">
+        <section className="bg-main-bg">
           <div className="container mx-auto py-16">
             <h3 className="text-center">فوائد للجميع</h3>
             <p className="text-cstm-gray mt-8 text-center">صمم مقدار لتلبية احتياجات مجموعة متنوعة من المستخدمين في مجال التصميم والإنتاج</p>

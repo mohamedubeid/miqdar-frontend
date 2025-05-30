@@ -30,7 +30,7 @@ const CATEGORIES = [
 
 const Categories = () => {
   return (
-    <section id="categories" className="bg-[#F9FAFB] pt-16 pb-4 mb-16">
+    <section id="categories" className="bg-main-bg pt-16 pb-4 mb-16">
       <div className="container mx-auto">
         <h3 className="text-center">فئات المنتجات</h3>
         <p className="text-center mt-8 text-cstm-gray">استكشف مجموعتنا الواسعة من فئات المنتجات للعثور على القياسات التي تحتاجها</p>

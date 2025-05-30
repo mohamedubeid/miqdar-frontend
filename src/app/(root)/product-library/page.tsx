@@ -91,7 +91,7 @@ const Page = () => {
   };
 
   return (
-    <div className="bg-[#F9FAFB] p-2">
+    <div className="surface-box">
       <div className="container mx-auto py-8 px-4">
         <h3>مكتبة المنتجات والقياسات</h3>
         <p className="text-cstm-gray mt-4">استعرض مجموعتنا الواسعة من المنتجات مع قياساتها الدقيقة لتسريع عملية التصميم الخاصة بك</p>
@@ -104,7 +104,7 @@ const Page = () => {
               <input
                 type="text"
                 id="product_name"
-                className="bg-[#F9FAFB] border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full pr-10 p-2.5"
+                className="surface-box border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full pr-10"
                 placeholder="بحث عن منتج..."
               />
             </div>

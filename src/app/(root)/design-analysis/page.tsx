@@ -107,7 +107,7 @@ const Page = () => {
   }, [zoom]);
 
   return (
-    <div className="bg-[#F9FAFB] p-2">
+    <div className="surface-box">
       <div className="container mx-auto py-8">
         <h3>تحليل التصميم</h3>
         <p className="text-cstm-gray mt-4">قم بتحميل التصميم الخاص بك للحصول على قياسات دقيقة باستخدام الذكاء الاصطناعي </p>
@@ -179,7 +179,7 @@ const Page = () => {
                   <input
                     type="text"
                     id="product_name"
-                    className="bg-[#F9FAFB] border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5"
+                    className="bg-main-bg border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5"
                     placeholder="اسم المنتج"
                     value={productName}
                     onChange={e => setProductName(e.target.value)}
@@ -293,7 +293,7 @@ const Page = () => {
                 </div>
               </div>
               {uploadedImage ? (
-                <div className="bg-[#F9FAFB] h-full w-full rounded-[16px] flex items-center justify-center overflow-auto">
+                <div className="bg-main-bg h-full w-full rounded-[16px] flex items-center justify-center overflow-auto">
                   <div
                     className="flex items-center justify-center w-full h-full transition-transform duration-200"
                     style={{ transform: `scale(${zoom})` }}
@@ -311,7 +311,7 @@ const Page = () => {
                   </div>
                 </div>
               ) : (
-                <div className="min-h-[300px] bg-[#F9FAFB] rounded-[16px] border border-[#E5E7EB] h-full flex flex-col gap-y-4 items-center justify-center">
+                <div className="min-h-[300px] bg-main-bg rounded-[16px] border border-[#E5E7EB] h-full flex flex-col gap-y-4 items-center justify-center">
                   <div className="p-5 rounded-full bg-[#E5E7EB]">
                     <Images className="text-[#9CA3AF]" size={36} />
                   </div>

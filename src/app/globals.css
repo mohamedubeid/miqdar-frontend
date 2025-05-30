@@ -8,6 +8,7 @@
   --color-secondary: #374151;
   --color-header: #111827;
   --color-cstm-gray: #4B5563;
+  --color-main-bg: #F9FAFB;
   
 }
 
@@ -96,6 +97,10 @@
   }
   .secondary-button {
     @apply flex items-center gap-4 px-4 sm:px-6 md:px-10 lg:px-16 py-3 rounded-[8px] text-primary bg-white border border-primary hover:bg-primary hover:text-white transition whitespace-nowrap;
+  }
+
+  .surface-box {
+    @apply bg-main-bg p-2;
   }
 
 }

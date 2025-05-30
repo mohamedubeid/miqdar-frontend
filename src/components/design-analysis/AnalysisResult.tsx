@@ -76,14 +76,14 @@ const AnalysisResult = () => {
           </select>
         </div>
         <div className="mt-6 flex flex-col md:flex-row items-center gap-8">
-          <div className="bg-[#F9FAFB] rounded-[16px] p-4 w-full">
+          <div className="bg-main-bg rounded-[16px] p-4 w-full">
             <div className="flex items-center gap-4"><ArrowDownUp size={16} className="text-primary" /> <span>العرض</span></div>
             <div className="flex items-center gap-2">
               <p className="text-xl font-bold py-2">{ MEASURE_UNITS.find(u => u.value === measureUnit)?.label || measureUnit }</p>
               <p className="text-xl font-bold py-2">{width % 1 === 0 ? width : width.toFixed(2)}</p>
             </div>
           </div>
-          <div className="bg-[#F9FAFB] rounded-[16px] p-4 w-full">
+          <div className="bg-main-bg rounded-[16px] p-4 w-full">
             <div className="flex items-center gap-4"><ArrowLeftRight size={16} className="text-primary" /> <span>الطول</span></div>
             <div className="flex items-center gap-2">
               <p className="text-xl font-bold py-2">{ MEASURE_UNITS.find(u => u.value === measureUnit)?.label || measureUnit }</p>
