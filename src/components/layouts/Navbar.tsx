@@ -1,11 +1,13 @@
 "use client";
-import { User, UserPlus } from 'lucide-react';
+import { ChevronDown, LogOut, User, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from "@/components/layouts/styles.module.css";
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface NavbarProps {
   navLinks: { key: string; link: string }[];
@@ -15,6 +17,13 @@ const Navbar = ({ navLinks }: NavbarProps) => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const loggedIn = true;
+  const userName = "Mohamed Ubeid";
+  const initials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
   return (
     <header className="h-[88px]">
       <div className="container h-full mx-auto p-4 flex items-center justify-between">
@@ -40,28 +49,85 @@ const Navbar = ({ navLinks }: NavbarProps) => {
             ))}
           </ul>
         </nav>
-        <motion.button
-          className="lg:hidden ms-2"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-          whileTap={{ scale: 0.9 }}
-          animate={{ rotate: mobileOpen ? 90 : 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        >
-          {mobileOpen ? 
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x">
-              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-            </svg>
-            :
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu-icon lucide-menu">
-              <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
-            </svg>
+        <div className="flex items-center gap-x-4">
+          {loggedIn &&
+            <div className="lg:hidden">
+              <DropdownMenu dir="rtl">
+                <DropdownMenuTrigger className="" asChild>
+                  <button className="flex items-center justify-center gap-2">
+                    <Avatar>
+                      <AvatarImage src="https://github.com/shadcdn.png" />
+                      <AvatarFallback className="text-primary bg-primary-100">{initials}</AvatarFallback>
+                    </Avatar>
+                    محمد عبدالله
+                    <ChevronDown size={16} />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-46" align="center">
+                    <DropdownMenuItem>
+                      الصفحة الشخصية
+                      <DropdownMenuShortcut className="ml-0 mr-auto"><User size={16} /></DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-red-600">
+                    تسجيل الخروج
+                    <DropdownMenuShortcut className="ml-0 mr-auto"><LogOut size={16} className="text-red-600" /></DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           }
-        </motion.button>
-        <div className="hidden lg:flex items-center gap-8">
-          <button className="secondary-button !gap-2 !px-6"><User /><span>تسجيل الدخول</span></button>
-          <button className="primary-button !gap-2 !px-6"><UserPlus /><span>التسجيل</span></button>
+          <motion.button
+            className="lg:hidden ms-2"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+            whileTap={{ scale: 0.9 }}
+            animate={{ rotate: mobileOpen ? 90 : 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          >
+            {mobileOpen ? 
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x">
+                <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+              </svg>
+              :
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-menu-icon lucide-menu">
+                <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+              </svg>
+            }
+          </motion.button>
         </div>
+        {loggedIn ? (
+          <div className="hidden lg:flex">
+            <DropdownMenu dir="rtl">
+              <DropdownMenuTrigger className="" asChild>
+                <button className="flex items-center justify-center gap-2">
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcdn.png" />
+                    <AvatarFallback className="text-primary bg-primary-100">{initials}</AvatarFallback>
+                  </Avatar>
+                  محمد عبدالله
+                  <ChevronDown size={16} />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-46" align="center">
+                  <DropdownMenuItem>
+                    الصفحة الشخصية
+                    <DropdownMenuShortcut className="ml-0 mr-auto"><User size={16} /></DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-600">
+                  تسجيل الخروج
+                  <DropdownMenuShortcut className="ml-0 mr-auto"><LogOut size={16} className="text-red-600" /></DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        ) : (
+          <div className="hidden lg:flex items-center gap-8">
+            <button className="secondary-button !gap-2 !px-6"><User /><span>تسجيل الدخول</span></button>
+            <button className="primary-button !gap-2 !px-6"><UserPlus /><span>التسجيل</span></button>
+          </div>
+        )}
       </div>
       <AnimatePresence>
         {mobileOpen && (
@@ -81,10 +147,11 @@ const Navbar = ({ navLinks }: NavbarProps) => {
                   <Link href={item.link}>{item.key}</Link>
                 </li>
               ))}
+              {!loggedIn &&
               <div className="flex items-center gap-2 sm:gap-8">
                 <button className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2"><span>تسجيل الدخول</span><User /></button>
                 <button className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap"><span>التسجيل</span><UserPlus /></button>
-              </div>
+              </div>}
             </ul>
           </motion.div>
         )}
