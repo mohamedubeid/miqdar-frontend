@@ -10,6 +10,7 @@ const fakeProducts = [
   {
     id: 1,
     name: "طاولة قهوة خشبية",
+    slug: "wooden-coffee-table",
     image: "/placeholders/pro1.png",
     length: 20,
     width: 10,
@@ -21,6 +22,7 @@ const fakeProducts = [
   {
     id: 2,
     name: "كرسي مكتب مريح",
+    slug: "comfortable-office-chair",
     image: "/placeholders/pro1.png",
     length: 18,
     width: 12,
@@ -32,6 +34,7 @@ const fakeProducts = [
   {
     id: 3,
     name: "خزانة ملابس",
+    slug: "wardrobe",
     image: "/placeholders/pro1.png",
     length: 50,
     width: 20,
@@ -40,9 +43,10 @@ const fakeProducts = [
     updatedAt: "5 أبريل 2025",
     category: "أدوات منزلية"
   },
-    {
+  {
     id: 4,
     name: "طاولة قهوة خشبية",
+    slug: "wooden-coffee-table-2",
     image: "/placeholders/pro1.png",
     length: 20,
     width: 10,
@@ -54,6 +58,7 @@ const fakeProducts = [
   {
     id: 5,
     name: "كرسي مكتب مريح",
+    slug: "comfortable-office-chair-2",
     image: "/placeholders/pro1.png",
     length: 18,
     width: 12,
@@ -65,6 +70,7 @@ const fakeProducts = [
   {
     id: 6,
     name: "خزانة ملابس",
+    slug: "wardrobe-2",
     image: "/placeholders/pro1.png",
     length: 50,
     width: 20,
@@ -190,7 +196,7 @@ const Page = () => {
                   >
                     {product.category}
                   </span>
-                  <Link href="/">
+                  <Link href={`/product-library/${product.slug}`}>
                     <div className="bg-white cstm-card-style w-[210px] mx-auto">
                       <Image src={product.image} alt={product.name} width={210} height={192} className="rounded-t-[16px]" />
                       <div className="px-4 py-6">
