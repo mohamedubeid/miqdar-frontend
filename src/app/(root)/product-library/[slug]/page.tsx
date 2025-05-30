@@ -28,7 +28,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
 
         <div className="flex flex-col md:flex-row gap-8 mt-8">
 
-          <div className="flex-1 bg-amber-50">
+          <div className="flex-1">
             <EmblaCarousel options={OPTIONS} images={IMAGES} />
           </div>
 
