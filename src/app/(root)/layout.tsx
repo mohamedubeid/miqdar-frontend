@@ -8,7 +8,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
     { key: "الرئيسية", link: "/" },
     { key: "تحليل تصميم", link: "/design-analysis" },
     { key: "مكتبة المنتجات", link: "/product-library" },
-    { key: "عن مقدار", link: "/about-miqdar" },
+    { key: "عن مقدار", link: "/about" },
     { key: "تواصل معنا", link: "/contact-us" },
   ];
 

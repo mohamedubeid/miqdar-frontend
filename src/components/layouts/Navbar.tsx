@@ -1,13 +1,12 @@
 "use client";
-import { ChevronDown, LogOut, User, UserPlus } from 'lucide-react';
+import { User, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from "@/components/layouts/styles.module.css";
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import UserDropDownMenu from '@/components/layouts/UserDropDownMenu';
 
 interface NavbarProps {
   navLinks: { key: string; link: string }[];
@@ -18,12 +17,6 @@ const Navbar = ({ navLinks }: NavbarProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const loggedIn = true;
-  const userName = "Mohamed Ubeid";
-  const initials = userName
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase();
   return (
     <header className="h-[88px]">
       <div className="container h-full mx-auto p-4 flex items-center justify-between">
@@ -52,29 +45,7 @@ const Navbar = ({ navLinks }: NavbarProps) => {
         <div className="flex items-center gap-x-4">
           {loggedIn &&
             <div className="lg:hidden">
-              <DropdownMenu dir="rtl">
-                <DropdownMenuTrigger className="" asChild>
-                  <button className="flex items-center justify-center gap-2">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcdn.png" />
-                      <AvatarFallback className="text-primary bg-primary-100">{initials}</AvatarFallback>
-                    </Avatar>
-                    محمد عبدالله
-                    <ChevronDown size={16} />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-46" align="center">
-                    <DropdownMenuItem>
-                      الصفحة الشخصية
-                      <DropdownMenuShortcut className="ml-0 mr-auto"><User size={16} /></DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-600">
-                    تسجيل الخروج
-                    <DropdownMenuShortcut className="ml-0 mr-auto"><LogOut size={16} className="text-red-600" /></DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <UserDropDownMenu />
             </div>
           }
           <motion.button
@@ -98,29 +69,7 @@ const Navbar = ({ navLinks }: NavbarProps) => {
         </div>
         {loggedIn ? (
           <div className="hidden lg:flex">
-            <DropdownMenu dir="rtl">
-              <DropdownMenuTrigger className="" asChild>
-                <button className="flex items-center justify-center gap-2">
-                  <Avatar>
-                    <AvatarImage src="https://github.com/shadcdn.png" />
-                    <AvatarFallback className="text-primary bg-primary-100">{initials}</AvatarFallback>
-                  </Avatar>
-                  محمد عبدالله
-                  <ChevronDown size={16} />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-46" align="center">
-                  <DropdownMenuItem>
-                    الصفحة الشخصية
-                    <DropdownMenuShortcut className="ml-0 mr-auto"><User size={16} /></DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600">
-                  تسجيل الخروج
-                  <DropdownMenuShortcut className="ml-0 mr-auto"><LogOut size={16} className="text-red-600" /></DropdownMenuShortcut>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <UserDropDownMenu />
           </div>
         ) : (
           <div className="hidden lg:flex items-center gap-8">
