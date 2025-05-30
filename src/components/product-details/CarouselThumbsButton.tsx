@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import styles from '@/components/design-analysis/styles.module.css';
+import styles from '@/components/product-details/styles.module.css';
 
 type PropType = {
   selected: boolean
