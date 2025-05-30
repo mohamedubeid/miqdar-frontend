@@ -143,7 +143,7 @@ const AnalysisResult = () => {
             <span>تنزيل لوحة الألوان </span>
           </button>
         </div>
-        <div className="mt-6 p-6 bg-[#5501DD0D] rounded-[16px] flex items-center gap-4">
+        <div className="mt-6 p-6 bg-primary-50 rounded-[16px] flex items-center gap-4">
           <Info className="text-primary" />
           <div>
             <p className="font-bold">معلومات الدقة</p>

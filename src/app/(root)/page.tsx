@@ -29,7 +29,7 @@ export default function Home() {
         <section id="features" className="flex flex-col items-center justify-center gap-y-8 py-16">
           <h3>ميزاتنا الرئيسية</h3>
           <p className="text-cstm-gray max-w-[1042px] text-center p-2">مشروع &quot;مقدار&quot; هو موقع إلكتروني موجه للمصممين الصناعيين ومصممي المنتجات، يوفر لهم حلًا سريعًا وذكيًا للحصول على المقاسات الدقيقة للمنتجات الفيزيائية الشائعة. يهدف الموقع إلى تسريع عملية التصميم وتوفير الوقت الذي يتم ضياعه في البحث عن الأبعاد الدقيقة للمنتجات المرجعية مثل دلة القهوة، الأكواب، الأغطية، والقطع الميكانيكية.</p>
-          <div className="mt-25 w-full max-w-[840px] bg-[#5501DD0D] rounded-2xl p-6 flex flex-col items-center gap-y-6">
+          <div className="mt-25 w-full max-w-[840px] bg-primary-50 rounded-2xl p-6 flex flex-col items-center gap-y-6">
             <h4 className="font-bold text-xl text-primary">لماذا مقدار؟ </h4>
             <div className="flex items-center gap-x-3">
               <Check size={16} strokeWidth={1.5} className="text-[#3B82F6]" />
