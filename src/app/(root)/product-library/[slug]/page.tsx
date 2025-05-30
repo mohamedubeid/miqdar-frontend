@@ -2,8 +2,9 @@
 import EmblaCarousel from '@/components/product-details/EmblaCarousel'
 import FavoriteButton from '@/components/product-details/FavoriteButton';
 import ShareButton from '@/components/product-details/ShareButton';
+import DownloadDesignModal from '@/components/product-details/DownloadDesignModal';
 import { EmblaOptionsType } from 'embla-carousel'
-import { Check, Pencil, Ruler } from 'lucide-react'
+import { Check, Ruler } from 'lucide-react'
 
 const OPTIONS: EmblaOptionsType = {
   dragFree: false,
@@ -34,7 +35,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
             <h3>طاولة قهوة خشبية</h3>
             <p className="text-cstm-gray">Wooden Coffee Table</p>
           </div>
-          <button className="secondary-button">تحميل ملف التصميم</button>
+          <DownloadDesignModal />
         </div>
 
         <div className="flex flex-col md:flex-row gap-8 mt-8">
@@ -100,10 +101,10 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-4">
-                <button className="primary-button !bg-[#1F2937] hover:!bg-[#1F2937cc] !border-none hover:!text-white">
+                {/* <button className="primary-button !bg-[#1F2937] hover:!bg-[#1F2937cc] !border-none hover:!text-white">
                   <Pencil size={16} />
                   <span>تعديل القياسات</span>
-                </button>
+                </button> */}
                 <button className="primary-button">
                   <Ruler size={16} />
                   <span>تحليل التصميم</span>
