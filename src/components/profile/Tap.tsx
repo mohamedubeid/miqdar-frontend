@@ -3,6 +3,7 @@ import { Heart, Ruler } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import ModernDesignModal from './DesignAnalysisDetailsModal';
 
 const fakeProducts = [
   {
@@ -90,6 +91,12 @@ export default function Tabs() {
     );
   };
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<
+    { image: string; name: string; length: number; width: number; height: number; unit: string } | undefined
+  >(undefined);
+
+
   return (
     <div className="w-full">
 
@@ -116,26 +123,36 @@ export default function Tabs() {
         </button>
       </div>
       <div className="mt-12">
+        <ModernDesignModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          product={selectedProduct}
+        />
         {activeTab === 'modern' ? (
 
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             {fakeProducts.map(product => (
-              <div key={product.id} className="relative w-full max-w-[308px] h-[419px] mx-auto">
-                <Link href={`/product-library/${product.slug}`}>
-                  <div className="bg-white cstm-card-style w-full max-w-[308px] h-[419px] mx-auto">
-                    <Image src={product.image} alt={product.name} width={308} height={192} className="rounded-t-[16px] w-full max-w-[308px]" />
-                    <div className="px-4 py-6">
-                      <h6 className="text-lg font-semibold">{product.name}</h6>
-                      <div className="flex gap-1 mt-2">
-                        <Ruler size={20} strokeWidth={1} className="text-primary" />
-                        <p className="text-sm text-gray-500">
-                          {`${product.length} ${product.unit} × ${product.width} ${product.unit} × ${product.height} ${product.unit}`}
-                        </p>
-                      </div>
-                      <p className="text-[10px] text-[#6B7280] mt-4">تحديث: {product.updatedAt}</p>
+              <div
+                key={product.id}
+                onClick={() => {
+                  setSelectedProduct(product);
+                  setModalOpen(true);
+                }} 
+                className="relative w-full max-w-[308px] h-[419px] mx-auto"
+              >
+                <div className="bg-white cstm-card-style w-full max-w-[308px] h-[419px] mx-auto">
+                  <Image src={product.image} alt={product.name} width={308} height={192} className="rounded-t-[16px] w-full max-w-[308px]" />
+                  <div className="px-4 py-6">
+                    <h6 className="text-lg font-semibold">{product.name}</h6>
+                    <div className="flex gap-1 mt-2">
+                      <Ruler size={20} strokeWidth={1} className="text-primary" />
+                      <p className="text-sm text-gray-500">
+                        {`${product.length} ${product.unit} × ${product.width} ${product.unit} × ${product.height} ${product.unit}`}
+                      </p>
                     </div>
+                    <p className="text-[10px] text-[#6B7280] mt-4">تحديث: {product.updatedAt}</p>
                   </div>
-                </Link>
+                </div>
               </div>
             ))}
           </div>

@@ -101,6 +101,7 @@ const AnalysisResult = () => {
               key={color + idx}
               className={`
                 w-[75px] h-[75px] rounded-[16px] transition
+                border border-[#0000004D] shadow-lg
                 cursor-pointer ring-0 hover:ring-4 hover:ring-primary/40 hover:scale-105 relative
               `}
               style={{ backgroundColor: color }}
