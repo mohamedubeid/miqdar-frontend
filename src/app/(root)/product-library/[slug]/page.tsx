@@ -100,7 +100,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   <p>تجمع بين الأناقة والوظيفة العملية، مثالية للمساحات المعاصرة. تتميز بقاعدة خشبية بشكل مثلث تدعم سطح زجاجي دائري، مما يخلق مظهرًا عائمًا أنيقًا ويضيف لمسة من الأناقة إلى أي طاولة قهوة عصرية بتصميم أنيق، مصنوعة من خشب البلوط الفاخر مع سطح زجاجي شفاف.</p>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap justify-between items-center gap-4 mt-4">
                 {/* <button className="primary-button !bg-[#1F2937] hover:!bg-[#1F2937cc] !border-none hover:!text-white">
                   <Pencil size={16} />
                   <span>تعديل القياسات</span>
@@ -109,8 +109,10 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                   <Ruler size={16} />
                   <span>تحليل التصميم</span>
                 </button>
-                <ShareButton />
-                <FavoriteButton />
+                <div className="flex items-center gap-4">
+                  <ShareButton />
+                  <FavoriteButton />
+                </div>
               </div>
             </div>
           </div>
