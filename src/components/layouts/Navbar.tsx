@@ -1,5 +1,5 @@
 "use client";
-import { User, UserPlus } from 'lucide-react';
+import { UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from "@/components/layouts/styles.module.css";
@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import UserDropDownMenu from '@/components/layouts/UserDropDownMenu';
+import LoginModal from '@/components/auth/LoginModal';
 
 interface NavbarProps {
   navLinks: { key: string; link: string }[];
@@ -16,7 +17,7 @@ const Navbar = ({ navLinks }: NavbarProps) => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const loggedIn = true;
+  const loggedIn = false; // Replace with actual authentication logic
   return (
     <header className="h-[88px]">
       <div className="container h-full mx-auto p-4 flex items-center justify-between">
@@ -73,7 +74,9 @@ const Navbar = ({ navLinks }: NavbarProps) => {
           </div>
         ) : (
           <div className="hidden lg:flex items-center gap-8">
-            <button className="secondary-button !gap-2 !px-6"><User /><span>تسجيل الدخول</span></button>
+            <LoginModal onOpenChange={(open) => {
+              if (open) setMobileOpen(false);
+            }} />
             <button className="primary-button !gap-2 !px-6"><UserPlus /><span>التسجيل</span></button>
           </div>
         )}
@@ -98,7 +101,7 @@ const Navbar = ({ navLinks }: NavbarProps) => {
               ))}
               {!loggedIn &&
               <div className="flex items-center gap-2 sm:gap-8">
-                <button className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2"><span>تسجيل الدخول</span><User /></button>
+                <LoginModal />
                 <button className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap"><span>التسجيل</span><UserPlus /></button>
               </div>}
             </ul>
