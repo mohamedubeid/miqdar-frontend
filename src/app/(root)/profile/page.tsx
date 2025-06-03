@@ -1,7 +1,8 @@
-import { LockKeyhole, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Tabs from "@/components/profile/Tap";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import EditUserProfileModal from "@/components/profile/EditUserProfileModal";
+import ChangePasswordModal from "@/components/profile/ChangePasswordModal";
 
 
 const Page = () => {
@@ -30,7 +31,7 @@ const Page = () => {
           </div>
           <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4">
             <EditUserProfileModal />
-            <button className="secondary-button !h-fit w-fit"><LockKeyhole size={16} /><span> تغيير كلمة المرور</span></button>
+            <ChangePasswordModal />
           </div>
         </div>
         <div className="mt-6 cstm-card-style bg-white py-9 px-6 rounded-[16px]">

@@ -42,7 +42,7 @@ const EditUserProfileModal = () => {
 
       <DialogContent className="max-w-[706px] sm:max-w-[706px] w-full rounded-[38px] p-11 max-h-[calc(100vh-2rem)]">
         <DialogHeader>
-          <DialogTitle className="text-center">تعديل الملف الشخصي</DialogTitle>
+          <DialogTitle className="text-center text-2xl">تعديل الملف الشخصي</DialogTitle>
           <DialogDescription className="text-center text-cstm-gray">
             يمكنك تعديل معلوماتك الشخصية هنا. تأكد من تحديث التفاصيل الخاصة بك بانتظام.
           </DialogDescription>
