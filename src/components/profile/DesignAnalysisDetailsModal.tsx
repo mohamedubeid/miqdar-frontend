@@ -1,9 +1,9 @@
 'use client';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowDownToLine, Check, Clock, Copy, Share2 } from "lucide-react";
-import Image from "next/image";
 import { useCallback, useState } from "react";
+import Image from "next/image";
 import { toast } from "react-toastify";
+import { ArrowDownToLine, Check, Clock, Copy, Share2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface DesignAnalysisDetailsModalProps {
   open: boolean;

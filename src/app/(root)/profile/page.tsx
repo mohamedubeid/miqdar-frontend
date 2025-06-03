@@ -1,6 +1,7 @@
+import { LockKeyhole, MapPin } from "lucide-react";
 import Tabs from "@/components/profile/Tap";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LockKeyhole, MapPin, Pencil } from "lucide-react";
+import EditUserProfileModal from "@/components/profile/EditUserProfileModal";
 
 
 const Page = () => {
@@ -28,7 +29,7 @@ const Page = () => {
             </div>
           </div>
           <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4">
-            <button className="primary-button !h-fit w-fit"><Pencil size={16} /><span> تعديل الملف الشخصي</span></button>
+            <EditUserProfileModal />
             <button className="secondary-button !h-fit w-fit"><LockKeyhole size={16} /><span> تغيير كلمة المرور</span></button>
           </div>
         </div>

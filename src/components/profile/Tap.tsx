@@ -1,9 +1,9 @@
 'use client';
+import { useState } from 'react';
 import { Heart, Ruler } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import ModernDesignModal from './DesignAnalysisDetailsModal';
+import DesignAnalysisDetailsModal from '@/components/profile/DesignAnalysisDetailsModal';
 
 const fakeProducts = [
   {
@@ -84,6 +84,11 @@ export default function Tabs() {
   const [activeTab, setActiveTab] = useState<'modern' | 'favorite'>('modern');
 
   const [favorites, setFavorites] = useState<number[]>([]);
+  const [DesignAnalysisDetailsModalOpen, setDesignAnalysisDetailsModalOpen] = useState(false);
+
+  const [selectedProduct, setSelectedProduct] = useState<
+    { image: string; name: string; length: number; width: number; height: number; unit: string } | undefined
+  >(undefined);
 
   const toggleFavorite = (id: number) => {
     setFavorites(prev =>
@@ -91,10 +96,6 @@ export default function Tabs() {
     );
   };
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<
-    { image: string; name: string; length: number; width: number; height: number; unit: string } | undefined
-  >(undefined);
 
 
   return (
@@ -123,9 +124,9 @@ export default function Tabs() {
         </button>
       </div>
       <div className="mt-12">
-        <ModernDesignModal
-          open={modalOpen}
-          onOpenChange={setModalOpen}
+        <DesignAnalysisDetailsModal
+          open={DesignAnalysisDetailsModalOpen}
+          onOpenChange={setDesignAnalysisDetailsModalOpen}
           product={selectedProduct}
         />
         {activeTab === 'modern' ? (
@@ -136,9 +137,9 @@ export default function Tabs() {
                 key={product.id}
                 onClick={() => {
                   setSelectedProduct(product);
-                  setModalOpen(true);
+                  setDesignAnalysisDetailsModalOpen(true);
                 }} 
-                className="relative w-full max-w-[308px] h-[419px] mx-auto"
+                className="relative w-full max-w-[308px] h-[419px] mx-auto cursor-pointer"
               >
                 <div className="bg-white cstm-card-style w-full max-w-[308px] h-[419px] mx-auto">
                   <Image src={product.image} alt={product.name} width={308} height={192} className="rounded-t-[16px] w-full max-w-[308px]" />
