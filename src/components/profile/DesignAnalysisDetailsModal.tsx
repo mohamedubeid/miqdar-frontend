@@ -49,7 +49,7 @@ const DesignAnalysisDetailsModal = ({ open, onOpenChange, product }: DesignAnaly
   if (!product) return null;
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton={true} className="max-w-[calc(100%-2rem)] sm:max-w-[calc(100%-2rem)] xl:max-w-6xl w-full rounded-[38px] p-11 max-h-[calc(100vh-2rem)]">
+      <DialogContent showCloseButton={true} className="max-w-[calc(100%-2rem)] sm:max-w-[calc(100%-2rem)] xl:max-w-6xl w-full rounded-[38px] p-11 max-h-[calc(100vh-2rem)] overflow-auto">
         <DialogHeader>
           <DialogTitle className="text-center text-3xl font-bold">{product.name}</DialogTitle>
         </DialogHeader>

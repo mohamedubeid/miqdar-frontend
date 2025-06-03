@@ -40,7 +40,7 @@ const EditUserProfileModal = () => {
         <span> تعديل الملف الشخصي</span>
       </DialogTrigger>
 
-      <DialogContent className="max-w-[706px] sm:max-w-[706px] w-full rounded-[38px] p-11 max-h-[calc(100vh-2rem)]">
+      <DialogContent className="max-w-[706px] sm:max-w-[706px] w-full rounded-[38px] p-11 max-h-[calc(100vh-2rem)] overflow-auto">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl">تعديل الملف الشخصي</DialogTitle>
           <DialogDescription className="text-center text-cstm-gray">

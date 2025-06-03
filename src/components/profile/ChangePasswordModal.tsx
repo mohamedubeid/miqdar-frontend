@@ -35,7 +35,7 @@ const ChangePasswordModal = () => {
         <LockKeyhole size={16} />
         <span> تغيير كلمة المرور</span>
       </DialogTrigger>
-      <DialogContent className="max-w-[706px] sm:max-w-[706px] w-full rounded-[38px] p-11 max-h-[calc(100vh-2rem)] py-10 ">
+      <DialogContent className="max-w-[706px] sm:max-w-[706px] w-full rounded-[38px] p-11 max-h-[calc(100vh-2rem)] overflow-auto py-10">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl">تغيير كلمة المرور</DialogTitle>
           <DialogDescription className="text-center text-cstm-gray">

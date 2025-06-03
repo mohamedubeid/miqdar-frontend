@@ -9,7 +9,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
     { key: "تحليل تصميم", link: "/design-analysis" },
     { key: "مكتبة المنتجات", link: "/product-library" },
     { key: "عن مقدار", link: "/about" },
-    { key: "تواصل معنا", link: "/contact-us" },
+    { key: "تواصل معنا", link: "/contact" },
   ];
 
   return (

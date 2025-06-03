@@ -76,7 +76,7 @@ export default function CountryStateSelect({
   onStateChange,
 }: Props) {
   return (
-    <div className="flex justify-between gap-12 mt-6">
+    <div className="flex flex-col md:flex-row justify-between gap-12 mt-6">
       <div className="flex-1">
         <label className="text-xl text-cstm-gray block mb-3">الدولة</label>
         <Select
