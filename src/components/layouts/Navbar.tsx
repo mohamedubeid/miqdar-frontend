@@ -1,5 +1,5 @@
 "use client";
-import { UserPlus } from 'lucide-react';
+import { User, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from "@/components/layouts/styles.module.css";
@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import UserDropDownMenu from '@/components/layouts/UserDropDownMenu';
 import LoginModal from '@/components/auth/LoginModal';
+import ForgetPasswordModal from '@/components/auth/ForgetPasswordModal';
 
 interface NavbarProps {
   navLinks: { key: string; link: string }[];
@@ -16,6 +17,8 @@ interface NavbarProps {
 const Navbar = ({ navLinks }: NavbarProps) => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
 
   const loggedIn = false; // Replace with actual authentication logic
   return (
@@ -74,7 +77,11 @@ const Navbar = ({ navLinks }: NavbarProps) => {
           </div>
         ) : (
           <div className="hidden lg:flex items-center gap-8">
-            <LoginModal />
+            {/* <LoginModal /> */}
+            <button className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2" onClick={() => setLoginModalOpen(true)}>
+              <User />
+              <span>تسجيل الدخول</span>
+            </button>
             <Link href="/register" className="primary-button !gap-2 !px-6 flex items-center">
               <UserPlus />
               <span>التسجيل</span>
@@ -82,6 +89,16 @@ const Navbar = ({ navLinks }: NavbarProps) => {
           </div>
         )}
       </div>
+      <ForgetPasswordModal
+        open={forgetPasswordModalOpen}
+        onOpenChange={setForgetPasswordModalOpen}
+        loginModalOnOpenChange={setLoginModalOpen}
+      />
+      <LoginModal
+        open={loginModalOpen}
+        onOpenChange={setLoginModalOpen}
+        forgetPasswordModalOnOpenChange={setForgetPasswordModalOpen}
+      />
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -102,7 +119,10 @@ const Navbar = ({ navLinks }: NavbarProps) => {
               ))}
               {!loggedIn &&
               <div className="flex items-center gap-2 sm:gap-8">
-                <LoginModal />
+                <button className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2" onClick={() => setLoginModalOpen(true)}>
+                  <User />
+                  <span>تسجيل الدخول</span>
+                </button>
                 <Link href="/register" className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap">
                   <span>التسجيل</span>
                   <UserPlus />

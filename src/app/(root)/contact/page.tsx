@@ -61,7 +61,7 @@ const Page = () => {
                 <label className="text-xl text-cstm-gray block mb-3">البريد الإلكتروني</label>
                 <input
                   type="email"
-                  id="email"
+                  id="contact-email"
                   name="email"
                   className="bg-white block w-full p-4 text-black border border-0.5 border-[#5501DD66] rounded-[15px]"
                   placeholder="example@email.com"

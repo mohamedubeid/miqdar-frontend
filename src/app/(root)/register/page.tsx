@@ -4,6 +4,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import CountryStateSelect from '@/components/profile/CountryStateSelect';
 import LoginModal from '@/components/auth/LoginModal';
 import { useFormik } from 'formik';
+import ForgetPasswordModal from '@/components/auth/ForgetPasswordModal';
 
 type Option = {
   label: string;
@@ -16,8 +17,10 @@ const Page = () => {
     password: false,
     confirmPassword: false,
   });
+  const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
 
-    const formik = useFormik({
+  const formik = useFormik({
     initialValues: {
       name: '',
       jobTitle: '',
@@ -26,7 +29,7 @@ const Page = () => {
       confirmPassword: '',
       country: null as Option | null,
       state: null as Option | null,
-      rememberMe: false,
+      termsAccepted: false,
     },
     onSubmit: (values) => {
       console.log('Register values:', values);
@@ -72,7 +75,7 @@ const Page = () => {
             <label className="text-xl text-cstm-gray block mb-3">البريد الالكتروني</label>
             <input
               type="email"
-              id="email"
+              id="register-email"
               name="email"
               onChange={formik.handleChange}
               value={formik.values.email}
@@ -131,7 +134,7 @@ const Page = () => {
               type="checkbox"
               id="rememberMe"
               name="rememberMe"
-              checked={formik.values.rememberMe}
+              checked={formik.values.termsAccepted}
               onChange={formik.handleChange}
               className="me-2 accent-primary cursor-pointer w-[20] h-[20] border-0.5 border-[#5501DD66] rounded-[5px] focus:ring-2 focus:ring-primary/50"
             />
@@ -158,9 +161,26 @@ const Page = () => {
           <button type="submit" className="primary-button !py-4 mx-auto w-full !rounded-[15px]">انشاء حساب</button>
         </form>
         <div className="text-center">
-          <p className="text-cstm-gray">هل لديك حساب بالفعل؟ <LoginModal isInlineTrigger={true} /></p>
+          <p className="text-cstm-gray">هل لديك حساب بالفعل؟ 
+            <button type="button" className="text-primary hover:underline"
+              onClick={() => {
+                setLoginModalOpen(true);
+              }}>
+              <span className="ms-2">تسجيل الدخول</span>
+            </button>
+          </p>
         </div>
       </div>
+      <ForgetPasswordModal
+        open={forgetPasswordModalOpen}
+        onOpenChange={setForgetPasswordModalOpen}
+        loginModalOnOpenChange={setLoginModalOpen}
+      />
+      <LoginModal
+        open={loginModalOpen}
+        onOpenChange={setLoginModalOpen}
+        forgetPasswordModalOnOpenChange={setForgetPasswordModalOpen}
+      />
     </div>
   )
 }

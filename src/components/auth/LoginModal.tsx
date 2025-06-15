@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { Eye, EyeOff, User } from "lucide-react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Eye, EyeOff } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import Link from "next/link";
 
 interface LoginModalProps {
-  isInlineTrigger?: boolean;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  forgetPasswordModalOnOpenChange: (open: boolean) => void;
 }
 
-const LoginModal = ({ isInlineTrigger = false }: LoginModalProps) => {
+const LoginModal = ({ open, onOpenChange, forgetPasswordModalOnOpenChange }: LoginModalProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,18 +22,7 @@ const LoginModal = ({ isInlineTrigger = false }: LoginModalProps) => {
   };
 
   return (
-    <Dialog>
-      {isInlineTrigger ? (
-      <DialogTrigger className="text-primary hover:underline">
-        <span>تسجيل الدخول</span>
-      </DialogTrigger>
-      ) : 
-      (
-        <DialogTrigger className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2">
-          <User />
-          <span>تسجيل الدخول</span>
-        </DialogTrigger>)
-      }
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-full sm:max-w-[calc(100vw-2rem)] md:max-w-[604px] rounded-[38px] p-11 max-h-[calc(100vh-2rem)] overflow-auto z-1001">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl">تسجيل الدخول</DialogTitle>
@@ -41,7 +33,7 @@ const LoginModal = ({ isInlineTrigger = false }: LoginModalProps) => {
             <label className="text-cstm-gray block mb-3">البريد الالكتروني</label>
             <input
               type="email"
-              id="email"
+              id="login-email"
               name="email"
               className="bg-white block w-full p-4 text-black border border-0.5 border-[#5501DD66] rounded-[15px]"
               placeholder="example@email.com"
@@ -86,7 +78,12 @@ const LoginModal = ({ isInlineTrigger = false }: LoginModalProps) => {
               </label>
             </div>
             <div className="text-right">
-              <a href="#" className="text-primary hover:underline">نسيت كلمة المرور؟</a>
+              <button type="button" className="text-primary hover:underline" 
+              onClick={() => {
+                onOpenChange(false);
+                forgetPasswordModalOnOpenChange(true);
+                console.log("Forget Password clicked", 'sssssssssssssssssssssssssssssssssssssssssssssssssssssssss');
+              }}>نسيت كلمة المرور؟</button>
             </div>
           </div>
           <div className="flex items-center my-6">
@@ -107,7 +104,12 @@ const LoginModal = ({ isInlineTrigger = false }: LoginModalProps) => {
           </button>
           <button type="submit" className="primary-button !py-4 mx-auto w-full !rounded-[15px]"> تسجيل دخول </button>
           <p className="text-center text-cstm-gray">
-            مستخدم جديد ؟ <a href="#" className="text-primary hover:underline ms-2">إنشاء حساب جديد</a>
+            مستخدم جديد ؟ 
+            <Link 
+              href="/register" 
+              className="text-primary hover:underline ms-2" 
+              onClick={() => onOpenChange(false)}
+            >إنشاء حساب جديد</Link>
           </p>
         </form>
       </DialogContent>
