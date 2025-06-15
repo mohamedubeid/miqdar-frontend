@@ -5,6 +5,7 @@ import CountryStateSelect from '@/components/profile/CountryStateSelect';
 import LoginModal from '@/components/auth/LoginModal';
 import { useFormik } from 'formik';
 import ForgetPasswordModal from '@/components/auth/ForgetPasswordModal';
+import SetNewPasswordModal from '@/components/auth/SetNewPasswordModal';
 
 type Option = {
   label: string;
@@ -17,8 +18,9 @@ const Page = () => {
     password: false,
     confirmPassword: false,
   });
-  const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
+  const [setNewPasswordModalOpen, setSetNewPasswordModalOpen] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -171,15 +173,20 @@ const Page = () => {
           </p>
         </div>
       </div>
-      <ForgetPasswordModal
-        open={forgetPasswordModalOpen}
-        onOpenChange={setForgetPasswordModalOpen}
-        loginModalOnOpenChange={setLoginModalOpen}
-      />
       <LoginModal
         open={loginModalOpen}
         onOpenChange={setLoginModalOpen}
         forgetPasswordModalOnOpenChange={setForgetPasswordModalOpen}
+      />
+      <ForgetPasswordModal
+        open={forgetPasswordModalOpen}
+        onOpenChange={setForgetPasswordModalOpen}
+        loginModalOnOpenChange={setLoginModalOpen}
+        setNewPasswordOnOpenChange={setSetNewPasswordModalOpen}
+      />
+      <SetNewPasswordModal
+        open={setNewPasswordModalOpen}
+        onOpenChange={setSetNewPasswordModalOpen}
       />
     </div>
   )

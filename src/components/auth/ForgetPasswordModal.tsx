@@ -5,17 +5,20 @@ interface ForgetPasswordModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   loginModalOnOpenChange: (open: boolean) => void;
+  setNewPasswordOnOpenChange: (open: boolean) => void;
 }
 
 
-const ForgetPasswordModal = ({ open, onOpenChange, loginModalOnOpenChange }: ForgetPasswordModalProps) => {
+const ForgetPasswordModal = ({ open, onOpenChange, loginModalOnOpenChange, setNewPasswordOnOpenChange }: ForgetPasswordModalProps) => {
   const [email, setEmail] = useState("");
 
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Handle login logic here
-    console.log({ email });
+    console.log('forget password values', { email });
+    onOpenChange(false);
+    setNewPasswordOnOpenChange(true);
   };
 
   return (
@@ -37,7 +40,6 @@ const ForgetPasswordModal = ({ open, onOpenChange, loginModalOnOpenChange }: For
               placeholder="example@email.com"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              required
             />
           </div>
           <button type="submit" className="primary-button !py-4 mx-auto w-full !rounded-[15px]">ارسال رابط التعيين</button>

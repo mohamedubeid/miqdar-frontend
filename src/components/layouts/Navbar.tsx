@@ -9,6 +9,7 @@ import { useState } from 'react';
 import UserDropDownMenu from '@/components/layouts/UserDropDownMenu';
 import LoginModal from '@/components/auth/LoginModal';
 import ForgetPasswordModal from '@/components/auth/ForgetPasswordModal';
+import SetNewPasswordModal from '../auth/SetNewPasswordModal';
 
 interface NavbarProps {
   navLinks: { key: string; link: string }[];
@@ -17,8 +18,9 @@ interface NavbarProps {
 const Navbar = ({ navLinks }: NavbarProps) => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
+  const [setNewPasswordModalOpen, setSetNewPasswordModalOpen] = useState(false);
 
   const loggedIn = false; // Replace with actual authentication logic
   return (
@@ -89,15 +91,20 @@ const Navbar = ({ navLinks }: NavbarProps) => {
           </div>
         )}
       </div>
-      <ForgetPasswordModal
-        open={forgetPasswordModalOpen}
-        onOpenChange={setForgetPasswordModalOpen}
-        loginModalOnOpenChange={setLoginModalOpen}
-      />
       <LoginModal
         open={loginModalOpen}
         onOpenChange={setLoginModalOpen}
         forgetPasswordModalOnOpenChange={setForgetPasswordModalOpen}
+      />
+      <ForgetPasswordModal
+        open={forgetPasswordModalOpen}
+        onOpenChange={setForgetPasswordModalOpen}
+        loginModalOnOpenChange={setLoginModalOpen}
+        setNewPasswordOnOpenChange={setSetNewPasswordModalOpen}
+      />
+      <SetNewPasswordModal
+        open={setNewPasswordModalOpen}
+        onOpenChange={setSetNewPasswordModalOpen}
       />
       <AnimatePresence>
         {mobileOpen && (
