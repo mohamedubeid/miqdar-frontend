@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Eye, EyeOff, User } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
-const LoginModal = ({ onOpenChange }: { onOpenChange?: (open: boolean) => void }) => {
+interface LoginModalProps {
+  isInlineTrigger?: boolean;
+}
+
+const LoginModal = ({ isInlineTrigger = false }: LoginModalProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,11 +19,18 @@ const LoginModal = ({ onOpenChange }: { onOpenChange?: (open: boolean) => void }
   };
 
   return (
-    <Dialog onOpenChange={onOpenChange}>
-      <DialogTrigger className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2">
-        <User />
+    <Dialog>
+      {isInlineTrigger ? (
+      <DialogTrigger className="text-primary hover:underline">
         <span>تسجيل الدخول</span>
       </DialogTrigger>
+      ) : 
+      (
+        <DialogTrigger className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2">
+          <User />
+          <span>تسجيل الدخول</span>
+        </DialogTrigger>)
+      }
       <DialogContent className="w-full sm:max-w-[calc(100vw-2rem)] md:max-w-[604px] rounded-[38px] p-11 max-h-[calc(100vh-2rem)] overflow-auto z-1001">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl">تسجيل الدخول</DialogTitle>

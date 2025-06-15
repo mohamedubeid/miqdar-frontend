@@ -1,9 +1,10 @@
 'use client';
 
-import Select from 'react-select';
+import Select, { ControlProps, components as selectComponents } from 'react-select';
 import { Country, State } from 'country-state-city';
 import { StylesConfig } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import { MapPin } from 'lucide-react';
 
 type Option = {
   label: string;
@@ -69,6 +70,13 @@ const getStates = (countryCode: string): Option[] => {
   );
 };
 
+const CustomControl = (props: ControlProps<Option, false>) => (
+  <selectComponents.Control {...props}>
+    <MapPin className="ml-2 text-[#9CA3AF]" size={30} strokeWidth={2.5} />
+    {props.children}
+  </selectComponents.Control>
+);
+
 export default function CountryStateSelect({
   country,
   state,
@@ -81,21 +89,24 @@ export default function CountryStateSelect({
         <label className="text-xl text-cstm-gray block mb-3">الدولة</label>
         <Select
           options={countries}
-          placeholder="Select Country"
+          placeholder="أدخل الدولة"
           value={country}
           onChange={(value) => onCountryChange(value)}
           styles={customSelectStyles}
+          components={{ Control: CustomControl }}
         />
       </div>
       <div className="flex-1">
         <label className="text-xl text-cstm-gray block mb-3">المدينة</label>
         <CreatableSelect
           options={country ? getStates(country.value) : []}
-          placeholder="Select State"
+          placeholder="أدخل المدينة"
+          isClearable
           value={state}
           onChange={(value) => onStateChange(value)}
           isDisabled={!country}
           styles={customSelectStyles}
+          components={{ Control: CustomControl }}
         />
       </div>
     </div>

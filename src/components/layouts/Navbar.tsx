@@ -74,10 +74,11 @@ const Navbar = ({ navLinks }: NavbarProps) => {
           </div>
         ) : (
           <div className="hidden lg:flex items-center gap-8">
-            <LoginModal onOpenChange={(open) => {
-              if (open) setMobileOpen(false);
-            }} />
-            <button className="primary-button !gap-2 !px-6"><UserPlus /><span>التسجيل</span></button>
+            <LoginModal />
+            <Link href="/register" className="primary-button !gap-2 !px-6 flex items-center">
+              <UserPlus />
+              <span>التسجيل</span>
+            </Link>
           </div>
         )}
       </div>
@@ -102,7 +103,10 @@ const Navbar = ({ navLinks }: NavbarProps) => {
               {!loggedIn &&
               <div className="flex items-center gap-2 sm:gap-8">
                 <LoginModal />
-                <button className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap"><span>التسجيل</span><UserPlus /></button>
+                <Link href="/register" className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap">
+                  <span>التسجيل</span>
+                  <UserPlus />
+                </Link>
               </div>}
             </ul>
           </motion.div>
