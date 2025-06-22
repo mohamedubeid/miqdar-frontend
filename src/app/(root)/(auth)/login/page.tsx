@@ -6,7 +6,6 @@ import { login } from "@/actions/auth";
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
 import ForgetPasswordModal from "@/components/auth/ForgetPasswordModal";
-import SetNewPasswordModal from "@/components/auth/SetNewPasswordModal";
 
 
 const Page = () => {
@@ -14,7 +13,6 @@ const Page = () => {
   const [state, formAction, isPending] = useActionState(login, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
-  const [setNewPasswordModalOpen, setSetNewPasswordModalOpen] = useState(false);
 
   useEffect(() => {
     if(state?.message == 'success') {
@@ -116,11 +114,6 @@ const Page = () => {
       <ForgetPasswordModal
         open={forgetPasswordModalOpen}
         onOpenChange={setForgetPasswordModalOpen}
-        setNewPasswordOnOpenChange={setSetNewPasswordModalOpen}
-      />
-      <SetNewPasswordModal
-        open={setNewPasswordModalOpen}
-        onOpenChange={setSetNewPasswordModalOpen}
       />
     </div>
   )

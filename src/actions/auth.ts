@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { setAuthCookie, clearAuthCookie, getAuthToken } from '@/lib/session';
-import { RegisterFormState, LoginFormSchema, RegisterFormSchema, LoginFormState, UserResponse } from '@/lib/definitions';
+import { RegisterFormState, LoginFormSchema, RegisterFormSchema, LoginFormState, UserResponse, ResetPasswordState, ResetPasswordSchema, ForgotPasswordState, ForgotPasswordSchema } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
 
 export async function register(_state: RegisterFormState, formData: FormData): Promise<RegisterFormState> {
@@ -100,3 +100,64 @@ export async function logout() {
   redirect('/');
 }
 
+export async function forgotPassword(_state: ForgotPasswordState, formData: FormData): Promise<ForgotPasswordState> {
+  const values: Record<string, string> = {};
+  for (const [key, value] of formData.entries()) {
+    values[key] = typeof value === 'string' ? value : '';
+  }
+  const result = ForgotPasswordSchema.safeParse(values);
+  if (!result.success) {
+    return { errors: result.error.flatten().fieldErrors, message: 'حدث خطأ أثناء التحقق من صحة البيانات' };
+  }
+  const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+    },
+    body: formData
+  });
+  const text = await res.text();
+  if (!res.ok) {
+    try {
+      const error = JSON.parse(text);
+      return {
+        message: error.message || 'حدث خطأ، يرجى المحاولة مرة أخرى',
+        errors: error.errors,
+      }
+    } catch {
+      return { message: 'حدث خطأ، يرجى المحاولة مرة أخرى لاحقا' }
+    }
+  }
+  return { message: 'success' };
+}
+
+export async function resetPassword(_state: ResetPasswordState, formData: FormData): Promise<ResetPasswordState> {
+  const values: Record<string, string> = {};
+  for (const [key, value] of formData.entries()) {
+    values[key] = typeof value === 'string' ? value : '';
+  }
+  const result = ResetPasswordSchema.safeParse(values);
+  if (!result.success) {
+    return { errors: result.error.flatten().fieldErrors, message: 'حدث خطأ أثناء اعادة تعيين كلمة المرور' };
+  }
+  const res = await fetch(`${API_URL}/api/auth/reset-password`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+    },
+    body: formData
+  });
+  const text = await res.text();
+  if (!res.ok) {
+    try {
+      const error = JSON.parse(text);
+      return {
+        message: error.message || 'حدث خطأ أثناء اعادة تعيين كلمة المرور، يرجى المحاولة مرة أخرى',
+        errors: error.errors,
+      }
+    } catch {
+      return { message: 'حدث خطأ أثناء اعادة تعيين كلمة المرور، يرجى المحاولة مرة أخرى' }
+    }
+  }
+  return { message: 'success' };
+}
