@@ -10,7 +10,7 @@ import UserDropDownMenu from '@/components/layouts/UserDropDownMenu';
 import { User as UserType } from '@/lib/definitions';
 
 interface NavbarProps {
-  user: UserType | null;
+  user: UserType | undefined;
   navLinks: { key: string; link: string }[];
 }
 

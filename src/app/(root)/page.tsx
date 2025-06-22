@@ -95,7 +95,7 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        <Categories />
+        {user && <Categories />}
         <section className="py-16 bg-main-bg text-center p-2">
           <h3>كيف يعمل</h3>
           <p className="text-cstm-gray mt-8">خطوات بسيطة تمكنك من الحصول على القياسات الدقيقة بسرعة وسهولة</p>

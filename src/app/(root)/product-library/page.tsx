@@ -104,7 +104,7 @@ const Page = () => {
               <input
                 type="text"
                 id="product_name"
-                className="surface-box border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full pr-10"
+                className="surface-box border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full !ps-8"
                 placeholder="بحث عن منتج..."
               />
             </div>

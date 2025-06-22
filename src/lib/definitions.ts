@@ -125,6 +125,16 @@ export type RegisterFormState =
     city: string;
   };
 
+  export type Category = {
+    id: number;
+    name: string;
+    slug: string;
+    simplified_name: string;
+    created_at: string;
+    updated_at: string;
+    image: string;
+  };
+
   export type EditUserPasswordState =
   | {
       errors?: {

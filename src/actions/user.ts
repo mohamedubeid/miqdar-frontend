@@ -4,12 +4,11 @@ import { getAuthToken } from '@/lib/session';
 import { EditUserProfileState, EditUserProfileSchema, EditUserPasswordState, EditUserPasswordSchema } from '@/lib/definitions';
 import { User } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
+// import { redirect } from 'next/navigation';
 
-export async function getUser(): Promise<User | { message: string; errors?: string[] }> {
+export async function getUser(): Promise<User | undefined> {
   const token = await getAuthToken();
-  if (!token) {
-    return { message: 'يرجى تسجيل الدخول و المحاولة مرة أخرى' };
-  }
+  if (!token) return
   const res = await fetch(`${API_URL}/api/profile`, {
     method: 'GET',
     headers: {
@@ -19,19 +18,12 @@ export async function getUser(): Promise<User | { message: string; errors?: stri
     cache: 'no-store',
   });
   const text = await res.text();
-  if (!res.ok) {
-    try {
-      const error = JSON.parse(text);
-      return {
-        message: 'فشل في جلب بيانات الملف الشخصي',
-        errors: error.errors,
-      }
-    } catch {
-      return { message: 'فشل في جلب بيانات الملف الشخصي'}
-    }
+  if (res.ok) {
+    const user: User = JSON.parse(text);
+    return user;
   }
-  const user: User = JSON.parse(text);
-  return user;
+  // redirect('/');
+  return;
 }
 
 export async function updateUserProfile(_state: EditUserProfileState, formData: FormData): Promise<EditUserProfileState> {

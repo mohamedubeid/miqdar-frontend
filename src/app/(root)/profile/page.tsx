@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 
 const Page = async () => {
   const user = await getUser();
-  if ('message' in user) {
+  if (!user) {
     redirect('/');
   }
   return (
