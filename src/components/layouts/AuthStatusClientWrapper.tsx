@@ -1,4 +1,4 @@
-import { getUser } from "@/actions/auth";
+import { getUser } from "@/actions/user";
 import Navbar from "./Navbar";
 
 interface AuthStatusClientWrapperProps {

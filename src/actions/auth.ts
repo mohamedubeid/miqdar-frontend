@@ -2,9 +2,8 @@
 
 import { redirect } from 'next/navigation';
 import { setAuthCookie, clearAuthCookie, getAuthToken } from '@/lib/session';
-import { RegisterFormState, LoginFormSchema, RegisterFormSchema, LoginFormState, UserResponse, EditUserProfileState, EditUserProfileSchema } from '@/lib/definitions';
-import { User } from '@/lib/definitions';
-const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL!
+import { RegisterFormState, LoginFormSchema, RegisterFormSchema, LoginFormState, UserResponse } from '@/lib/definitions';
+import { API_URL } from '@/lib/constants';
 
 export async function register(_state: RegisterFormState, formData: FormData): Promise<RegisterFormState> {
 
@@ -101,69 +100,3 @@ export async function logout() {
   redirect('/');
 }
 
-export async function getUser(): Promise<User | { message: string; errors?: string[] }> {
-  const token = await getAuthToken();
-  if (!token) {
-    return { message: 'يرجى تسجيل الدخول و المحاولة مرة أخرى' };
-  }
-  const res = await fetch(`${API_URL}/api/profile`, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    cache: 'no-store',
-  });
-  const text = await res.text();
-  if (!res.ok) {
-    try {
-      const error = JSON.parse(text);
-      return {
-        message: 'فشل في جلب بيانات الملف الشخصي',
-        errors: error.errors,
-      }
-    } catch {
-      return { message: 'فشل في جلب بيانات الملف الشخصي'}
-    }
-  }
-  const user: User = JSON.parse(text);
-  return user;
-}
-
-export async function updateUserProfile(_state: EditUserProfileState, formData: FormData): Promise<EditUserProfileState> {
-  const token = await getAuthToken();
-  if (!token) {
-    return { message: 'يرجى تسجيل الدخول و المحاولة مرة أخرى' };
-  }
-
-  const values: Record<string, string> = {};
-  for (const [key, value] of formData.entries()) {
-    values[key] = typeof value === 'string' ? value : '';
-  }
-  const result = EditUserProfileSchema.safeParse(values);
-  if (!result.success) {
-    return { errors: result.error.flatten().fieldErrors, message: 'فشل التحقق من صحة البيانات' };
-  }
-  const res = await fetch(`${API_URL}/api/profile/update`, {
-    method: 'PUT',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(values)
-  });
-  const text = await res.text();
-  if (!res.ok) {
-    try {
-      const error = JSON.parse(text);
-      return {
-        message: error.message || 'حدث خطأ أثناء تحديث اللف الشخصي, يرجى المحاولة مرة أخرى لاحقا',
-        errors: error.errors,
-      }
-    } catch {
-      return { message: 'حدث خطأ، يرجى المحاولة مرة أخرى لاحقا' }
-    }
-  }
-  return { message: 'success' };
-}

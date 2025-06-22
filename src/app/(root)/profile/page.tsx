@@ -2,8 +2,8 @@ import { MapPin } from "lucide-react";
 import Tabs from "@/components/profile/Tap";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import EditUserProfileModal from "@/components/profile/EditUserProfileModal";
-// import ChangePasswordModal from "@/components/profile/ChangePasswordModal";
-import { getUser } from "@/actions/auth";
+import ChangePasswordModal from "@/components/profile/ChangePasswordModal";
+import { getUser } from "@/actions/user";
 import { redirect } from 'next/navigation';
 
 const Page = async () => {
@@ -38,7 +38,7 @@ const Page = async () => {
           </div>
           <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4">
             <EditUserProfileModal user={user} />
-            {/* <ChangePasswordModal user={user} /> */}
+            <ChangePasswordModal />
           </div>
         </div>
         <div className="mt-6 cstm-card-style bg-white py-9 px-6 rounded-[16px]">

@@ -41,6 +41,21 @@ export const EditUserProfileSchema = z.object({
   city: z.string().min(2, { message: 'المدينة مطلوبة' }).trim(),
 });
 
+export const EditUserPasswordSchema = z.object({
+  current_password: z
+    .string()
+    .min(6, { message: 'يجب أن تكون على الأقل 6 أحرف' })
+    .trim(),
+  password: z
+    .string()
+    .min(6, { message: 'يجب أن تكون على الأقل 6 أحرف' })
+    .trim(),
+    password_confirmation: z.string().min(6, { message: 'يرجى تأكيد كلمة المرور' }),
+}).refine((data) => data.password === data.password_confirmation, {
+  message: "كلمتا المرور غير متطابقتين",
+  path: ["password_confirmation"],
+});;
+
 export type RegisterFormState =
   | {
       errors?: {
@@ -92,6 +107,17 @@ export type RegisterFormState =
     country: string;
     city: string;
   };
+
+  export type EditUserPasswordState =
+  | {
+      errors?: {
+        current_password?: string[]
+        password?: string[]
+        password_confirmation?: string[]
+      }
+      message?: string
+    }
+  | undefined;
 
 export type UserResponse = {
   user: User;

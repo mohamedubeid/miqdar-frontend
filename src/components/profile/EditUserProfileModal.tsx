@@ -4,7 +4,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { Pencil } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 // import ProfilePicInput from "@/components/profile/ProfilePicInput";
-import { updateUserProfile } from "@/actions/auth";
+import { updateUserProfile } from "@/actions/user";
 import { toast } from "react-toastify";
 import { User } from "@/lib/definitions";
 import { useRouter } from 'next/navigation';
