@@ -2,12 +2,14 @@ import Image from "next/image";
 import { ArrowDownToLine, ArrowLeft, ArrowUpFromLine, Check, CloudUpload, Database, GraduationCap, Info, PencilRuler, PenTool, Printer, Ruler, UserPlus } from "lucide-react";
 import Categories from "@/components/home/Categories";
 import Link from "next/link";
+import { getUser } from "@/actions/user";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getUser();
   return (
     <>
       <div id="hero-section">
-        <section id="hero-section" className="relative flex flex-col items-center justify-center gap-y-10 h-screen bg-cover bg-center bg-no-repeat"   style={{
+        <section id="hero-section" className="relative flex flex-col items-center justify-center gap-y-10 h-screen bg-cover bg-center bg-no-repeat" style={{
           backgroundImage: `
             linear-gradient(90deg, rgba(255, 255, 255, 0.765) 0%, rgba(255, 255, 255, 0.68) 50%, rgba(0, 0, 0, 0) 100%),
             url('/images/hero-bg.png')
@@ -273,22 +275,22 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="bg-[#3B82F60D]">
+        {!user && <section className="bg-[#3B82F60D]">
           <div className="flex flex-col items-center justify-center gap-y-10 py-16 text-center">
             <h3>جاهز للبدء؟</h3>
             <p className="text-cstm-gray">انضم إلى مجتمع المصممين الذين يوفرون الوقت والجهد باستخدام مقدار للحصول على قياسات دقيقة </p>
             <div className="flex flex-col md:flex-row gap-4">
-              <button className="primary-button">
-                <UserPlus />
-                <span>إنشاء حساب مجاني </span>
-              </button>
-              <button className="secondary-button">
-                <Info size={20} />
-                <span>معرفة المزيد</span>
-              </button>
+                <Link href="/register" className="primary-button">
+                  <UserPlus />
+                  <span>إنشاء حساب مجاني </span>
+                </Link>
+                <Link href="/about" className="secondary-button">
+                  <Info size={20} />
+                  <span>معرفة المزيد</span>
+                </Link>
             </div>
           </div>
-        </section>
+        </section>}
       </div>
     </>
   );

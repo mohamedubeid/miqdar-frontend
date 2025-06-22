@@ -1,7 +1,7 @@
 import 'server-only';
 import { cookies } from 'next/headers'
 
-const COOKIE_NAME = 'auth_token'
+export const COOKIE_NAME = 'auth_token'
 
 export async function setAuthCookie(token: string, rememberMe: boolean = false) {
   const cookieStore =await cookies()
