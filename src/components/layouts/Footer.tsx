@@ -4,11 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-interface NavbarProps {
+interface FooterProps {
   navLinks: { key: string; link: string }[];
 }
 
-const Footer = ({ navLinks }: NavbarProps) => {
+const Footer = ({ navLinks }: FooterProps) => {
     const pathname = usePathname();
   return (
     <footer className="bg-[#111827] text-[#9CA3AF] pt-12 pb-6">

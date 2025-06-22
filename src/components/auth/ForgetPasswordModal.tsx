@@ -4,12 +4,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 interface ForgetPasswordModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  loginModalOnOpenChange: (open: boolean) => void;
   setNewPasswordOnOpenChange: (open: boolean) => void;
 }
 
 
-const ForgetPasswordModal = ({ open, onOpenChange, loginModalOnOpenChange, setNewPasswordOnOpenChange }: ForgetPasswordModalProps) => {
+const ForgetPasswordModal = ({ open, onOpenChange, setNewPasswordOnOpenChange }: ForgetPasswordModalProps) => {
   const [email, setEmail] = useState("");
 
 
@@ -48,7 +47,6 @@ const ForgetPasswordModal = ({ open, onOpenChange, loginModalOnOpenChange, setNe
             className="text-center text-cstm-gray w-full hover:underline"
             onClick={() => {
               onOpenChange(false);
-              loginModalOnOpenChange(true)
             }}
             >العودة لتسجيل الدخول</button>
         </form>
