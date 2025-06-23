@@ -74,100 +74,168 @@ export const ResetPasswordSchema = z.object({
 });
 
 export type RegisterFormState =
-  | {
-      errors?: {
-        name?: string[]
-        job_title?: string[]
-        email?: string[]
-        country?: string[]
-        city?: string[]
-        password?: string[]
-        password_confirmation?: string[]
-      }
-      message?: string
+| {
+    errors?: {
+      name?: string[]
+      job_title?: string[]
+      email?: string[]
+      country?: string[]
+      city?: string[]
+      password?: string[]
+      password_confirmation?: string[]
     }
-  | undefined;
+    message?: string
+  }
+| undefined;
 
-  export type LoginFormState =
-  | {
-      errors?: {
-        email?: string[]
-        password?: string[]
-        rememberMe?: string[]
-      }
-      message?: string
+export type LoginFormState =
+| {
+    errors?: {
+      email?: string[]
+      password?: string[]
+      rememberMe?: string[]
     }
-  | undefined;
+    message?: string
+  }
+| undefined;
 
-  export type EditUserProfileState =
-  | {
-      errors?: {
-        name?: string[]
-        job_title?: string[]
-        country?: string[]
-        city?: string[]
-      }
-      message?: string
+export type EditUserProfileState =
+| {
+    errors?: {
+      name?: string[]
+      job_title?: string[]
+      country?: string[]
+      city?: string[]
     }
-  | undefined;
+    message?: string
+  }
+| undefined;
 
-  export type User = {
-    id: number;
-    role_id: number;
-    name: string;
-    email: string;
-    avatar: string;
-    email_verified_at: string | null;
-    created_at: string;
-    updated_at: string;
-    job_title: string;
-    country: string;
-    city: string;
-  };
-
-  export type Category = {
-    id: number;
-    name: string;
-    slug: string;
-    simplified_name: string;
-    created_at: string;
-    updated_at: string;
-    image: string;
-  };
-
-  export type EditUserPasswordState =
-  | {
-      errors?: {
-        current_password?: string[]
-        password?: string[]
-        password_confirmation?: string[]
-      }
-      message?: string
+export type EditUserPasswordState =
+| {
+    errors?: {
+      current_password?: string[]
+      password?: string[]
+      password_confirmation?: string[]
     }
-  | undefined;
+    message?: string
+  }
+| undefined;
 
-  export type ForgotPasswordState =
-  | {
-      errors?: {
-        email?: string[]
-      }
-      message?: string
+export type ForgotPasswordState =
+| {
+    errors?: {
+      email?: string[]
     }
-  | undefined;
+    message?: string
+  }
+| undefined;
 
-  export type ResetPasswordState =
-  | {
-      errors?: {
-        password?: string[]
-        password_confirmation?: string[]
-        email?: string[]
-        token?: string[]
-      }
-      message?: string
+export type ResetPasswordState =
+| {
+    errors?: {
+      password?: string[]
+      password_confirmation?: string[]
+      email?: string[]
+      token?: string[]
     }
-  | undefined;
+    message?: string
+  }
+| undefined;
 
 export type UserResponse = {
   user: User;
   token: string;
 };
+
+export type User = {
+  id: number;
+  role_id: number;
+  name: string;
+  email: string;
+  avatar: string;
+  email_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+  job_title: string;
+  country: string;
+  city: string;
+};
+
+export type DesignFile = {
+  download_link: string;
+  original_name: string;
+};
+
+export type Category = {
+  id: number;
+  name: string;
+  slug: string;
+  simplified_name: string;
+  created_at: string;
+  updated_at: string;
+  image: string;
+};
+
+export interface CategoryApiResponse {
+  current_page: number;
+  data: Category[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}
+export interface Product {
+  id: number;
+  name_ar: string;
+  name_en: string;
+  description: string;
+  width_mm: number | null;
+  height_mm: number | null;
+  depth_mm: number | null;
+  weight_g: number | null;
+  main_image: string;
+  images: string | null; // stored as JSON string (e.g. '["img1.png", "img2.png"]')
+  favorite_count: number | null;
+  design_file: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  slug: string;
+  category_id: number;
+  category_name: string;
+  is_favorite: boolean;
+}
+
+export interface PaginationLink {
+  url: string | null;
+  label: string;
+  active: boolean;
+}
+
+export interface ProductApiResponse {
+  current_page: number;
+  data: Product[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: PaginationLink[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+}
