@@ -14,6 +14,7 @@ export default function CategoryFilter({ categories }: { categories: Category[] 
     } else {
       params.set('category', id.toString());
     }
+    params.delete('page');
     router.push(`/product-library?${params}`);
   };
 

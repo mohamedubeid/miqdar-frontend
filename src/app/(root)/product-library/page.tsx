@@ -8,6 +8,7 @@ import { API_URL } from '@/lib/constants';
 import SortSelect from "@/components/product-library/SortSelect";
 import CategoryFilter from "@/components/product-library/CategoryFilter";
 import ProductSearchInput from "@/components/product-library/ProductSearchInput";
+import Pagination from "@/components/product-library/Pagination";
 
 interface PageProps {
   searchParams: {
@@ -15,14 +16,28 @@ interface PageProps {
     order?: string;
     category?: string;
     search?: string;
+    page?: string;
   };
 }
 
 const Page = async ({ searchParams }: PageProps) => {
-  const { sort_by = "created_at", order = "desc", category, search } = await searchParams;
-  const [categoriesRes, productsRes] = await Promise.all([ //parallel execution
+    const {
+    sort_by = "created_at",
+    order = "desc",
+    category,
+    search,
+    page = "1",
+  } = await searchParams;
+  const [categoriesRes, productsRes] = await Promise.all([
     getCategories(),
-    getProducts({ sortBy: sort_by, sortType: order, category, name: search }),
+    getProducts({
+      sortBy: sort_by,
+      sortType: order,
+      category,
+      name: search,
+      page: parseInt(page),
+      perPage: 12,
+    }),
   ]);
   return (
     <div className="surface-box">
@@ -82,6 +97,9 @@ const Page = async ({ searchParams }: PageProps) => {
             </div>
           </div>
         </div>
+        {productsRes && (
+          <Pagination currentPage={productsRes.current_page} lastPage={productsRes.last_page} />
+        )}
       </div>
     </div>
   )

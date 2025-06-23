@@ -18,7 +18,7 @@ const ProductSearchInput = () => {
     } else {
       params.delete('search');
     }
-
+    params.delete('page');
     router.push(`/product-library?${params.toString()}`);
   }, 400);
 
