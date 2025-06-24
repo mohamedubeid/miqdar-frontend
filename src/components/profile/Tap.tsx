@@ -133,10 +133,10 @@ export default async function Tabs() {
                   // setSelectedProduct(product);
                   // setDesignAnalysisDetailsModalOpen(true);
                 }} 
-                className="relative w-full max-w-[308px] h-[419px] mx-auto cursor-pointer"
+                className="relative w-[308px] h-[419px] mx-auto cursor-pointer"
               >
-                <div className="bg-white cstm-card-style w-full max-w-[308px] h-[419px] mx-auto">
-                  <Image src={product.image} alt={product.name} width={308} height={192} className="rounded-t-[16px] w-full max-w-[308px]" />
+                <div className="bg-white cstm-card-style w-[308px] h-[419px] mx-auto">
+                  <Image src={product.image} alt={product.name} width={308} height={192} className="rounded-t-[16px] w-[308px] h-[192px] object-fill" />
                   <div className="px-4 py-6">
                     <h6 className="text-lg font-semibold">{product.name}</h6>
                     <div className="flex gap-1 mt-2">
@@ -154,11 +154,11 @@ export default async function Tabs() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             {productsData.map(product => (
-              <div key={product.id} className="relative w-full max-w-[308px] h-[419px] mx-auto">
+              <div key={product.id} className="relative w-[308px] h-[419px] mx-auto">
                 <FavoriteProduct product={product} />
                 <Link href={`/product-library/${product.slug}`}>
-                  <div className="bg-white cstm-card-style w-full max-w-[308px] h-[419px] mx-auto">
-                    <Image src={`${API_URL}/storage/${product.main_image}`}  alt={product.name_ar} width={308} height={192} className="rounded-t-[16px] w-full max-w-[308px]" />
+                  <div className="bg-white cstm-card-style  mx-auto">
+                    <Image src={`${API_URL}/storage/${product.main_image}`} alt={product.name_ar} width={308} height={192} className="rounded-t-[16px] w-[308px] h-[192px] object-fill" />
                     <div className="px-4 py-6">
                       <h6 className="text-lg font-semibold">{product.name_ar}</h6>
                       <div className="flex gap-1 mt-2">

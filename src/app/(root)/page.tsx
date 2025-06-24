@@ -64,10 +64,10 @@ export default async function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p>تنزيل النتائج بتنسيقات متعددة</p>
                   </div>
-                  <button className="primary-button w-fit">
-                    <span> جرب الآن</span>
-                    <ArrowLeft size={16} strokeWidth={1} />
-                  </button>
+                    <Link href="/design-analysis" className="primary-button w-fit">
+                      <span> جرب الآن</span>
+                      <ArrowLeft size={16} strokeWidth={1} />
+                    </Link>
                 </div>
               </div>
               <div className="flex-auto card-style">
@@ -86,10 +86,10 @@ export default async function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p>مقارنة التصاميم مع المنتجات الموجودة</p>
                   </div>
-                  <button className="primary-button w-fit">
-                    استكشف المكتبة
-                    <ArrowLeft size={16} strokeWidth={1} />
-                  </button>
+                    <Link href="product-library" className="primary-button w-fit">
+                      استكشف المكتبة
+                      <ArrowLeft size={16} strokeWidth={1} />
+                    </Link>
                 </div>
               </div>
             </div>
@@ -190,16 +190,16 @@ export default async function Home() {
               <p className="text-cstm-gray mt-4">احصل على القياسات بتنسيقات متعددة جاهزة للاستخدام</p>
             </div>
           </div>
-            <button className="primary-button mx-auto mt-8">
+            <Link href="/design-analysis" className="primary-button mx-auto mt-8 w-min">
               <span>ابدأ الآن</span>
               <ArrowLeft size={16} />
-            </button>
+            </Link>
         </section>
         <section className="bg-main-bg">
           <div className="container mx-auto py-16">
             <h3 className="text-center">فوائد للجميع</h3>
             <p className="text-cstm-gray mt-8 text-center">صمم مقدار لتلبية احتياجات مجموعة متنوعة من المستخدمين في مجال التصميم والإنتاج</p>
-            <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-10">
+            <div className="flex flex-wrap justify-center md:justify-between gap-4 mt-10">
               <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
                 <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
                   <PenTool size={20} className="text-primary" />
