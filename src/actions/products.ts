@@ -5,10 +5,16 @@ import { CategoryApiResponse, ProductApiResponse } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
 
 
-export async function getCategories(): Promise<CategoryApiResponse | undefined> {
+export async function getCategories(params?: {
+  page?: number;
+  perPage?: number;
+}): Promise<CategoryApiResponse | undefined> {
   const token = await getAuthToken();
   if (!token) return;
-  const res = await fetch(`${API_URL}/api/categories`, {
+  const query = new URLSearchParams();
+  if (params?.page) query.set("page", params.page.toString());
+  if (params?.perPage) query.set("per_page", params.perPage.toString());
+  const res = await fetch(`${API_URL}/api/categories?${query.toString()}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -34,7 +40,6 @@ export async function getProducts(params?: {
 }): Promise<ProductApiResponse | undefined> {
   const token = await getAuthToken();
   if (!token) return;
-console.log('paramsparamsparamsparamsparamsparamsparamsparamsparamsparamsparamsparamsparamsparamsparamsparams', params)
   const query = new URLSearchParams();
   if (params?.sortBy) query.set("sortBy", params.sortBy);
   if (params?.sortType) query.set("sortType", params.sortType);
