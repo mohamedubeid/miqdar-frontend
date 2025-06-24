@@ -206,6 +206,19 @@ export interface CategoryApiResponse {
   to: number;
   total: number;
 }
+
+type ProductMaterial = {
+  id: number;
+  name: string;
+  desc: string;
+  created_at: string;
+  updated_at: string;
+  pivot: {
+    product_id: number;
+    material_id: number;
+  };
+};
+
 export interface Product {
   id: number;
   name_ar: string;
@@ -226,6 +239,11 @@ export interface Product {
   category_id: number;
   category_name: string;
   is_favorite: boolean;
+  design_file_stl?: string | null;
+  design_file_obj?: string | null;
+  design_file_step?: string | null;
+  design_file_fbx?: string | null;
+  materials: ProductMaterial[];
 }
 
 export interface PaginationLink {
@@ -249,3 +267,7 @@ export interface ProductApiResponse {
   to: number;
   total: number;
 }
+
+export type ProductByIdAPIRes = {
+  product: Product;
+};

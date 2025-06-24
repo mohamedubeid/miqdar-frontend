@@ -1,7 +1,7 @@
 'use server';
 
 import { getAuthToken } from '@/lib/session';
-import { CategoryApiResponse, ProductApiResponse, ToggleFavoriteState } from '@/lib/definitions';
+import { CategoryApiResponse, Product, ProductApiResponse, ToggleFavoriteState } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
 
 
@@ -84,4 +84,21 @@ export async function toggleFavorite(productId: number, isFavorite: boolean): Pr
     }
   }
   return { message: 'success' };
+}
+
+export async function getProductById(id: string): Promise<{product: Product} | undefined> {
+  const token = await getAuthToken();
+  if (!token) throw new Error("Unauthorized");
+  const res = await fetch(`${API_URL}/api/products/${id}`, {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+  if (res.ok) {
+    const product = await res.json();
+    return product;
+  }
+  return;
 }

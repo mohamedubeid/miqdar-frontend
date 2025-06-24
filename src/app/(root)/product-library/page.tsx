@@ -68,7 +68,7 @@ const Page = async ({ searchParams }: PageProps) => {
               {productsRes?.data.map(product => (
                 <div key={product.id} className="relative">
                   <FavoriteProduct product={product} />
-                  <Link href={`/product-library/${product.slug}`}>
+                  <Link href={`/product-library/${product.id}`}>
                     <div className="bg-white cstm-card-style w-[210px] mx-auto">
                       <Image src={`${API_URL}/storage/${product.main_image}`} alt={product.name_ar} width={210} height={192} className="rounded-t-[16px]" />
                       <div className="px-4 py-6">
