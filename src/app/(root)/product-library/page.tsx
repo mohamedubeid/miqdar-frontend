@@ -10,7 +10,7 @@ import CategoryFilter from "@/components/product-library/CategoryFilter";
 import ProductSearchInput from "@/components/product-library/ProductSearchInput";
 import Pagination from "@/components/product-library/Pagination";
 
-interface PageProps {
+interface ProductLibraryPageProps {
   searchParams: {
     sort_by?: string;
     order?: string;
@@ -20,7 +20,7 @@ interface PageProps {
   };
 }
 
-const Page = async ({ searchParams }: PageProps) => {
+const Page = async ({ searchParams }: ProductLibraryPageProps) => {
     const {
     sort_by = "created_at",
     order = "desc",
