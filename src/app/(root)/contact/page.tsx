@@ -1,22 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useActionState, useEffect } from 'react'
 import { Mail, Phone, Send } from 'lucide-react';
+import { contact } from '@/actions/user';
+import { toast } from 'react-toastify';
 
 const Page = () => {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(form);
-  };
+  const [state, formAction, isPending] = useActionState(contact, undefined);
+  useEffect(() => {
+    if (state?.message == 'success') {
+      toast.success('تم تسليم رسالتك بنجاح');
+    } else
+    if (state?.message && state?.message !== 'success') {
+      toast.error(state.message)
+    }
+  }, [state]);
 
   return (
     <div className="surface-box">
@@ -43,7 +41,7 @@ const Page = () => {
         </div>
         <div className="mt-12 cstm-card-style px-8 py-12 bg-white">
           <h4 className="text-center">أو يمكنك ملء النموذج أدناه وسنعاود الاتصال بك في أقرب وقت ممكن</h4>
-          <form className="mt-8" onSubmit={handleSubmit}>
+          <form className="mt-8" action={formAction}>
             <div className="flex flex-col md:flex-row gap-6">
               <div className="flex-1">
                 <label className="text-xl text-cstm-gray block mb-3">الاسم</label>
@@ -53,9 +51,10 @@ const Page = () => {
                   name="name"
                   className="bg-white block w-full p-4 text-black border border-0.5 border-[#5501DD66] rounded-[15px]"
                   placeholder="محمد عبدالله"
-                  value={form.name}
-                  onChange={handleChange}
                 />
+                {state?.errors?.name && (
+                  <p className="text-sm text-[12px] text-red-500">{state.errors?.name?.[0]}</p>
+                )}
               </div>
               <div className="flex-1">
                 <label className="text-xl text-cstm-gray block mb-3">البريد الإلكتروني</label>
@@ -65,9 +64,10 @@ const Page = () => {
                   name="email"
                   className="bg-white block w-full p-4 text-black border border-0.5 border-[#5501DD66] rounded-[15px]"
                   placeholder="example@email.com"
-                  value={form.email}
-                  onChange={handleChange}
                 />
+                {state?.errors?.email && (
+                  <p className="text-sm text-[12px] text-red-500">{state.errors?.email?.[0]}</p>
+                )}
               </div>
             </div>
             <div className="mt-6">
@@ -78,11 +78,12 @@ const Page = () => {
                 rows={6}
                 className="bg-white block w-full p-4 text-black border border-0.5 border-[#5501DD66] rounded-[15px] resize-none"
                 placeholder="اكتب رسالتك هنا..."
-                value={form.message}
-                onChange={handleChange}
               />
+              {state?.errors?.message && (
+                <p className="text-sm text-[12px] text-red-500">{state.errors?.message?.[0]}</p>
+              )}
             </div>
-            <button type="submit" className="primary-button mt-6">
+            <button disabled={isPending} type="submit" className={`primary-button mt-6 ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}>
               <Send strokeWidth={1} />
               إرسال الرسالة
             </button>

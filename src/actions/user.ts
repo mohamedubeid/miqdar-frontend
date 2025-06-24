@@ -1,7 +1,7 @@
 'use server';
 
 import { getAuthToken } from '@/lib/session';
-import { EditUserProfileState, EditUserProfileSchema, EditUserPasswordState, EditUserPasswordSchema } from '@/lib/definitions';
+import { EditUserProfileState, EditUserProfileSchema, EditUserPasswordState, EditUserPasswordSchema, ContactState, ContactSchema } from '@/lib/definitions';
 import { User } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
 // import { redirect } from 'next/navigation';
@@ -92,6 +92,39 @@ export async function updateUserPassword(_state: EditUserPasswordState, formData
       const error = JSON.parse(text);
       return {
         message: error.message || 'حدث خطأ أثناء تغيير كلمة المرور, يرجى المحاولة مرة أخرى لاحقا',
+        errors: error.errors,
+      }
+    } catch {
+      return { message: 'حدث خطأ، يرجى المحاولة مرة أخرى لاحقا' }
+    }
+  }
+  return { message: 'success' };
+}
+
+export async function contact(_state: ContactState, formData: FormData): Promise<ContactState> {
+  const values: Record<string, string> = {};
+  for (const [key, value] of formData.entries()) {
+    values[key] = typeof value === 'string' ? value : '';
+  }
+  const result = ContactSchema.safeParse(values);
+  if (!result.success) {
+    return { errors: result.error.flatten().fieldErrors, message: 'فشل التحقق من صحة البيانات' };
+  }
+  const res = await fetch(`${API_URL}/api/messages`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(values)
+  });
+
+  const text = await res.text();
+  if (!res.ok) {
+    try {
+      const error = JSON.parse(text);
+      return {
+        message: error.message || 'حدث خطأ، يرجى المحاولة مرة أخرى لاحقا',
         errors: error.errors,
       }
     } catch {

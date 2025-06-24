@@ -73,6 +73,18 @@ export const ResetPasswordSchema = z.object({
   path: ["password_confirmation"],
 });
 
+export const ContactSchema = z.object({
+  name: z
+    .string()
+    .min(2, { message: 'يجب أن يكون الاسم على الأقل حرفين' })
+    .trim(),
+  email: z.string().email({ message: 'يرجى إدخال بريد إلكتروني صحيح.' }).trim(),
+  message: z
+    .string()
+    .min(2, { message: 'يجب أن تكون الرسالة على الأقل حرفين' })
+    .trim(),
+});
+
 export type RegisterFormState =
 | {
     errors?: {
@@ -148,6 +160,17 @@ export type ToggleFavoriteState =
     errors?: {
       product_id?: string[],
       isFavorite?: string[]
+    } 
+    message?: string
+  }
+| undefined;
+
+export type ContactState =
+| {
+    errors?: {
+      name?: string[],
+      email?: string[]
+      message?: string[]
     } 
     message?: string
   }
@@ -268,6 +291,3 @@ export interface ProductApiResponse {
   total: number;
 }
 
-export type ProductByIdAPIRes = {
-  product: Product;
-};
