@@ -1,19 +1,31 @@
 'use client';
 
-import { useState } from "react";
+import { useTransition, useState } from "react";
 import { Heart } from "lucide-react";
 import { Product } from "@/lib/definitions";
+import { toggleFavorite } from "@/actions/products";
+import { toast } from "react-toastify";
 
 interface FavoriteProductProps {
   product: Product
 }
 
 const FavoriteProduct = ({ product }: FavoriteProductProps) => {
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const toggleFavorite = (id: number) => {
-    setFavorites(prev =>
-      prev.includes(id) ? prev.filter(favId => favId !== id) : [...prev, id]
-    );
+  const [isFavorite, setIsFavorite] = useState(product.is_favorite);
+  const [isPending, startTransition] = useTransition();
+
+  const handleToggle = () => {
+    const newStatus = !isFavorite;
+    setIsFavorite(newStatus);
+    startTransition(async () => {
+        const res = await toggleFavorite(product.id, newStatus);
+        if(res?.message == 'success') {
+          toast.success(newStatus ? "تم اضافة المنتج الي مفضلة" : "تم ازالة المنتج من مفضلة");
+        } else {
+        setIsFavorite(!newStatus);
+        toast.error(res?.message || "فشل في تحديث المفضلة");
+        }
+    });
   };
 
   return (
@@ -23,13 +35,14 @@ const FavoriteProduct = ({ product }: FavoriteProductProps) => {
       onClick={e => {
         e.stopPropagation();
         e.preventDefault();
-        toggleFavorite(product.id);
+        handleToggle();
       }}
+      disabled={isPending}
       aria-label="إضافة للمفضلة"
     >
       <Heart
         size={16}
-        className={favorites.includes(product.id) ? "fill-red-500 text-red-500" : "text-gray-400"}
+        className={isFavorite ? "fill-red-500 text-red-500" : "text-gray-400"}
       />
     </button>
   )

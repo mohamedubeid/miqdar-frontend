@@ -73,12 +73,14 @@ const Page = async ({ searchParams }: PageProps) => {
                       <Image src={`${API_URL}/storage/${product.main_image}`} alt={product.name_ar} width={210} height={192} className="rounded-t-[16px]" />
                       <div className="px-4 py-6">
                         <h6 className="text-lg font-semibold">{product.name_ar}</h6>
-                        <div className="flex gap-1 mt-2">
-                          <Ruler size={20} strokeWidth={1} className="text-primary" />
-                          <p className="text-sm text-gray-500">
-                            {`${product.depth_mm} mm × ${product.width_mm} mm × ${product.height_mm} mm`}
-                          </p>
-                        </div>
+                        {product.depth_mm && product.width_mm && product.height_mm && (
+                          <div className="flex gap-1 mt-2">
+                            <Ruler size={20} strokeWidth={1} className="text-primary" />
+                            <p className="text-sm text-gray-500">
+                              {`${product.depth_mm ? (product.depth_mm + ' مم ×'): ''} ${product.width_mm ? product.width_mm + 'مم × ' : ''} ${product.height_mm ? product.height_mm + 'مم' : ''} `}
+                            </p>
+                          </div>
+                        )}
                         <p className="mt-3 text-xs font-semibold text-primary-700 bg-primary-50 rounded-full px-3 py-1 inline-block w-fit">
                           {product.category_name}
                         </p>

@@ -1,7 +1,7 @@
 'use server';
 
 import { getAuthToken } from '@/lib/session';
-import { CategoryApiResponse, ProductApiResponse } from '@/lib/definitions';
+import { CategoryApiResponse, ProductApiResponse, ToggleFavoriteState } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
 
 
@@ -10,7 +10,7 @@ export async function getCategories(params?: {
   perPage?: number;
 }): Promise<CategoryApiResponse | undefined> {
   const token = await getAuthToken();
-  if (!token) return;
+  if (!token) throw new Error("Unauthorized");
   const query = new URLSearchParams();
   if (params?.page) query.set("page", params.page.toString());
   if (params?.perPage) query.set("per_page", params.perPage.toString());
@@ -39,7 +39,7 @@ export async function getProducts(params?: {
   perPage?: number;
 }): Promise<ProductApiResponse | undefined> {
   const token = await getAuthToken();
-  if (!token) return;
+  if (!token) throw new Error("Unauthorized");
   const query = new URLSearchParams();
   if (params?.sortBy) query.set("sortBy", params.sortBy);
   if (params?.sortType) query.set("sortType", params.sortType);
@@ -59,4 +59,27 @@ export async function getProducts(params?: {
   if (!res.ok) return;
 
   return await res.json();
+}
+
+export async function toggleFavorite(productId: number, isFavorite: boolean): Promise<ToggleFavoriteState> {
+  const token = await getAuthToken();
+  if (!token) throw new Error("Unauthorized");
+  const res = await fetch(`${API_URL}/api/products/favorite`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ product_id: productId, isFavorite }),
+  });
+  const text = await res.text();
+  if (!res.ok) {
+    const error = JSON.parse(text);
+    return {
+      message: error.message || 'حدث خطأ أثناء التسجيل، يرجى التحقق مرة اخرى من بياناتك',
+      errors: error.errors,
+    }
+  }
+  return { message: 'success' };
 }

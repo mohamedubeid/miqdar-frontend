@@ -143,6 +143,16 @@ export type ResetPasswordState =
   }
 | undefined;
 
+export type ToggleFavoriteState =
+| {
+    errors?: {
+      product_id?: string[],
+      isFavorite?: string[]
+    } 
+    message?: string
+  }
+| undefined;
+
 export type UserResponse = {
   user: User;
   token: string;
