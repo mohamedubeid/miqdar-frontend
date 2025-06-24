@@ -56,7 +56,7 @@ const Page = async ({ searchParams }: PageProps) => {
           </div>
           <div className="flex-1">
             <div className="flex flex-col-reverse md:flex-row items-center justify-between mb-8">
-              <p className="text-cstm-gray">عرض 120 من 360 منتج </p>
+              {/* <p className="text-cstm-gray">عرض 120 من 360 منتج </p> */}
               <div className="flex items-center gap-2 mb-4">
                 <label htmlFor="order-options" className="font-medium text-gray-700">
                   ترتيب حسب :

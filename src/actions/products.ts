@@ -37,6 +37,7 @@ export async function getProducts(params?: {
   name?: string;
   page?: number;
   perPage?: number;
+  is_favorite?: boolean;
 }): Promise<ProductApiResponse | undefined> {
   const token = await getAuthToken();
   if (!token) throw new Error("Unauthorized");
@@ -47,6 +48,7 @@ export async function getProducts(params?: {
   if (params?.name && params.name.length >= 3) query.set("name", params.name);
   if (params?.page) query.set("page", params.page.toString());
   if (params?.perPage) query.set("perPage", params.perPage.toString());
+  if (params?.is_favorite) query.set("is_favorite", params.is_favorite.toString());
 
   const res = await fetch(`${API_URL}/api/products?${query.toString()}`, {
     method: 'GET',
