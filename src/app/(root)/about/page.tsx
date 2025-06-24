@@ -1,8 +1,10 @@
+import { getUser } from '@/actions/user';
 import { CheckCheck, Headset, Lightbulb, User, UserPlus } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react'
+import Link from 'next/link';
 
-const page = () => {
+const page = async () => {
+  const user = await getUser();
   return (
     <div>
       <section id="about-header-section" className="h-[87vh] bg-cover bg-center bg-no-repeat"   style={{
@@ -49,7 +51,7 @@ const page = () => {
           </div>
         </div>
       </section>
-      <section className="container mx-auto px-4 mt-18">
+      <section className="container mx-auto px-4 my-18">
         <div className="flex flex-col md:flex-row gap-12">
           <div className="flex flex-col gap-y-4">
             <h4>رؤيتنا ورسالتنا</h4>
@@ -67,16 +69,18 @@ const page = () => {
           </div>
         </div>
       </section>
-      <section className="bg-primary-50 py-16 mt-18">
-        <div className="w-full max-w-[768px] mx-auto">
-          <h3 className="text-center mb-6">انضم إلى مجتمع مقدار</h3>
-          <p>كن جزءاً من مجتمع المصممين والمهندسين الذين يستفيدون من حلول القياس الدقيقة لتحسين مشاريعهم وتوفير الوقت والجهد. </p>
-          <div className="flex items-center justify-center flex-wrap gap-4 mt-6">
-            <button className="primary-button"> <UserPlus size={16} /> <span>انشاء حساب</span> </button>
-            <button className="secondary-button"> <Headset size={16} /> <span>تواصل معنا</span> </button>
+      {!user && 
+        <section className="bg-primary-50 py-16">
+          <div className="w-full max-w-[768px] mx-auto">
+            <h3 className="text-center mb-6">انضم إلى مجتمع مقدار</h3>
+            <p>كن جزءاً من مجتمع المصممين والمهندسين الذين يستفيدون من حلول القياس الدقيقة لتحسين مشاريعهم وتوفير الوقت والجهد. </p>
+            <div className="flex items-center justify-center flex-wrap gap-4 mt-6">
+              <Link href="/register" className="primary-button"> <UserPlus size={16} /> <span>انشاء حساب</span> </Link>
+              <Link href="/contact" className="secondary-button"> <Headset size={16} /> <span>تواصل معنا</span> </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      }
     </div>
   )
 }
