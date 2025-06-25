@@ -10,14 +10,17 @@ import CategoryFilter from "@/components/product-library/CategoryFilter";
 import ProductSearchInput from "@/components/product-library/ProductSearchInput";
 import Pagination from "@/components/product-library/Pagination";
 
+// interface ProductLibraryPageProps {
+//   searchParams: {
+//     sort_by?: string;
+//     order?: string;
+//     category?: string;
+//     search?: string;
+//     page?: string;
+//   };
+// }
 interface ProductLibraryPageProps {
-  searchParams: {
-    sort_by?: string;
-    order?: string;
-    category?: string;
-    search?: string;
-    page?: string;
-  };
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
 const Page = async ({ searchParams }: ProductLibraryPageProps) => {
