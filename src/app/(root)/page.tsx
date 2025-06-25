@@ -144,6 +144,9 @@ export default async function Home() {
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">CSV</p>
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">DXF</p>
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">PDF</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">STL</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">OBJ</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">BLENDER</p>
                 </div>
               </div>
             </div>
@@ -217,6 +220,10 @@ export default async function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p className="text-sm text-[#374151]">تسريع عملية التصميم وتقليل التكرار</p>
                 </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">اختيار الخامات المناسبة للمنتج</p>
+                </div>
               </div>
               <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
                 <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
@@ -253,6 +260,10 @@ export default async function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p className="text-sm text-[#374151]">تقليل هدر المواد من خلال الحصول على القياسات الصحيحة</p>
                 </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">توفير ملفات جاهزة لطباعة ثلاثية الأبعاد بصيغة Stl, OBJ</p>
+                </div>
               </div>
               <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
                 <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
@@ -261,15 +272,19 @@ export default async function Home() {
                 <h5>الطلاب والحرفيين</h5>
                 <div className="flex items-center gap-x-3">
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
-                    <p className="text-sm text-[#374151]">تحليل وقياس النماذج لمشاريع التخرج والتدريب</p>
+                    <p className="text-sm text-[#374151]">ختيار الخامات الأنسب للمنتجك</p>
                 </div>
                 <div className="flex items-center gap-x-3">
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
-                    <p className="text-sm text-[#374151]">استخراج القياسات تلقائياً للمشاريع التعليمية</p>
+                    <p className="text-sm text-[#374151]"> اختيار المقاسات الدقيقة لمنتجك</p>
                 </div>
                 <div className="flex items-center gap-x-3">
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
-                    <p className="text-sm text-[#374151]">أدوات تحليل داعمة لتقارير المشاريع والتدريب</p>
+                    <p className="text-sm text-[#374151]"> إنتاج نماذج ثلاثية أبعاد ( بلوكات ) من خلال النصوص</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">لتسريع من عملية التصميم</p>
                 </div>
               </div>
             </div>

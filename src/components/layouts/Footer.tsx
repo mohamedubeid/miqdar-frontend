@@ -1,5 +1,6 @@
 "use client";
 
+import { Mail, MessageCircleMore } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -21,29 +22,23 @@ const Footer = ({ navLinks }: FooterProps) => {
             />
             <p>حلول ذكية للقياسات الدقيقة لمصممي المنتجات </p>
             <div className="flex items-center gap-8">
-              <Link href="#" target="_blank">
+              <Link href="https://www.linkedin.com/company/miqdar/" target="_blank">
                 <Image src="/linked.svg" alt="linked" width={16} height={16}
                   className="w-[16px] h-auto"
                   unoptimized
                 />
               </Link>
-              <Link href="#" target="_blank">
+              <Link href="https://www.instagram.com/miqdarsa/profilecard/?igsh=NmhqNjR1ZjNtOG14" target="_blank">
                 <Image src="/insta.svg" alt="linked" width={16} height={16}
                   className="w-[16px] h-auto"
                   unoptimized
                 />
               </Link>
-              <Link href="#" target="_blank">
-                <Image src="/x.svg" alt="linked" width={16} height={16}
-                  className="w-[16px] h-auto"
-                  unoptimized
-                />
+              <Link href="mailto:info@miqdarsa.com" target="_blank">
+                <Mail size={20} />
               </Link>
-              <Link href="#" target="_blank">
-                <Image src="/face.svg" alt="linked" width={16} height={16}
-                  className="w-[16px] h-auto"
-                  unoptimized
-                />
+              <Link href="http://wa.me/966553372491" target="_blank">
+                <MessageCircleMore size={20} />
               </Link>
             </div>
           </div>
