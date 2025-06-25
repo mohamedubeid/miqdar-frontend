@@ -7,22 +7,17 @@ import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import UserDropDownMenu from '@/components/layouts/UserDropDownMenu';
-import LoginModal from '@/components/auth/LoginModal';
-import ForgetPasswordModal from '@/components/auth/ForgetPasswordModal';
-import SetNewPasswordModal from '../auth/SetNewPasswordModal';
+import { User as UserType } from '@/lib/definitions';
 
 interface NavbarProps {
+  user: UserType | undefined;
   navLinks: { key: string; link: string }[];
 }
 
-const Navbar = ({ navLinks }: NavbarProps) => {
+const Navbar = ({ user, navLinks }: NavbarProps) => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
-  const [setNewPasswordModalOpen, setSetNewPasswordModalOpen] = useState(false);
 
-  const loggedIn = false; // Replace with actual authentication logic
   return (
     <header className="h-[88px]">
       <div className="container h-full mx-auto p-4 flex items-center justify-between">
@@ -49,9 +44,9 @@ const Navbar = ({ navLinks }: NavbarProps) => {
           </ul>
         </nav>
         <div className="flex items-center gap-x-4">
-          {loggedIn &&
-            <div className="lg:hidden">
-              <UserDropDownMenu />
+          {user && 
+          <div className="lg:hidden">
+              <UserDropDownMenu user={user} />
             </div>
           }
           <motion.button
@@ -73,17 +68,16 @@ const Navbar = ({ navLinks }: NavbarProps) => {
             }
           </motion.button>
         </div>
-        {loggedIn ? (
+        {user ? (
           <div className="hidden lg:flex">
-            <UserDropDownMenu />
+            <UserDropDownMenu user={user} />
           </div>
         ) : (
           <div className="hidden lg:flex items-center gap-8">
-            {/* <LoginModal /> */}
-            <button className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2" onClick={() => setLoginModalOpen(true)}>
+            <Link href="/login" className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2 flex items-center gap-2">
               <User />
               <span>تسجيل الدخول</span>
-            </button>
+            </Link>
             <Link href="/register" className="primary-button !gap-2 !px-6 flex items-center">
               <UserPlus />
               <span>التسجيل</span>
@@ -91,21 +85,6 @@ const Navbar = ({ navLinks }: NavbarProps) => {
           </div>
         )}
       </div>
-      <LoginModal
-        open={loginModalOpen}
-        onOpenChange={setLoginModalOpen}
-        forgetPasswordModalOnOpenChange={setForgetPasswordModalOpen}
-      />
-      <ForgetPasswordModal
-        open={forgetPasswordModalOpen}
-        onOpenChange={setForgetPasswordModalOpen}
-        loginModalOnOpenChange={setLoginModalOpen}
-        setNewPasswordOnOpenChange={setSetNewPasswordModalOpen}
-      />
-      <SetNewPasswordModal
-        open={setNewPasswordModalOpen}
-        onOpenChange={setSetNewPasswordModalOpen}
-      />
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -121,16 +100,16 @@ const Navbar = ({ navLinks }: NavbarProps) => {
                   key={item.key}
                   className="hover:text-tertiary transition-colors duration-200 cursor-pointer"
                 >
-                  <Link href={item.link}>{item.key}</Link>
+                  <Link href={item.link} onClick={() => { setMobileOpen(false) }}>{item.key}</Link>
                 </li>
               ))}
-              {!loggedIn &&
+              {!user &&
               <div className="flex items-center gap-2 sm:gap-8">
-                <button className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2" onClick={() => setLoginModalOpen(true)}>
+                <Link href="/login" onClick={() => { setMobileOpen(false) }} className="secondary-button whitespace-nowrap flex-nowrap !px-3 !py-2 flex items-center gap-2">
                   <User />
                   <span>تسجيل الدخول</span>
-                </button>
-                <Link href="/register" className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap">
+                </Link>
+                <Link href="/register" onClick={() => { setMobileOpen(false) }} className="rounded-[8px] whitespace-nowrap flex items-center gap-2 bg-primary hover:bg-primary/90 text-white py-2 px-6 flex-nowrap">
                   <span>التسجيل</span>
                   <UserPlus />
                 </Link>

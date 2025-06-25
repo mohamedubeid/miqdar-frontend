@@ -2,12 +2,14 @@ import Image from "next/image";
 import { ArrowDownToLine, ArrowLeft, ArrowUpFromLine, Check, CloudUpload, Database, GraduationCap, Info, PencilRuler, PenTool, Printer, Ruler, UserPlus } from "lucide-react";
 import Categories from "@/components/home/Categories";
 import Link from "next/link";
+import { getUser } from "@/actions/user";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getUser();
   return (
     <>
       <div id="hero-section">
-        <section id="hero-section" className="relative flex flex-col items-center justify-center gap-y-10 h-screen bg-cover bg-center bg-no-repeat"   style={{
+        <section id="hero-section" className="relative flex flex-col items-center justify-center gap-y-10 h-screen bg-cover bg-center bg-no-repeat" style={{
           backgroundImage: `
             linear-gradient(90deg, rgba(255, 255, 255, 0.765) 0%, rgba(255, 255, 255, 0.68) 50%, rgba(0, 0, 0, 0) 100%),
             url('/images/hero-bg.png')
@@ -62,10 +64,10 @@ export default function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p>تنزيل النتائج بتنسيقات متعددة</p>
                   </div>
-                  <button className="primary-button w-fit">
-                    <span> جرب الآن</span>
-                    <ArrowLeft size={16} strokeWidth={1} />
-                  </button>
+                    <Link href="/design-analysis" className="primary-button w-fit">
+                      <span> جرب الآن</span>
+                      <ArrowLeft size={16} strokeWidth={1} />
+                    </Link>
                 </div>
               </div>
               <div className="flex-auto card-style">
@@ -84,16 +86,16 @@ export default function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p>مقارنة التصاميم مع المنتجات الموجودة</p>
                   </div>
-                  <button className="primary-button w-fit">
-                    استكشف المكتبة
-                    <ArrowLeft size={16} strokeWidth={1} />
-                  </button>
+                    <Link href="product-library" className="primary-button w-fit">
+                      استكشف المكتبة
+                      <ArrowLeft size={16} strokeWidth={1} />
+                    </Link>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        <Categories />
+        {user && <Categories />}
         <section className="py-16 bg-main-bg text-center p-2">
           <h3>كيف يعمل</h3>
           <p className="text-cstm-gray mt-8">خطوات بسيطة تمكنك من الحصول على القياسات الدقيقة بسرعة وسهولة</p>
@@ -142,6 +144,9 @@ export default function Home() {
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">CSV</p>
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">DXF</p>
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">PDF</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">STL</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">OBJ</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">BLENDER</p>
                 </div>
               </div>
             </div>
@@ -188,16 +193,16 @@ export default function Home() {
               <p className="text-cstm-gray mt-4">احصل على القياسات بتنسيقات متعددة جاهزة للاستخدام</p>
             </div>
           </div>
-            <button className="primary-button mx-auto mt-8">
+            <Link href="/design-analysis" className="primary-button mx-auto mt-8 w-min">
               <span>ابدأ الآن</span>
               <ArrowLeft size={16} />
-            </button>
+            </Link>
         </section>
         <section className="bg-main-bg">
           <div className="container mx-auto py-16">
             <h3 className="text-center">فوائد للجميع</h3>
             <p className="text-cstm-gray mt-8 text-center">صمم مقدار لتلبية احتياجات مجموعة متنوعة من المستخدمين في مجال التصميم والإنتاج</p>
-            <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-10">
+            <div className="flex flex-wrap justify-center md:justify-between gap-4 mt-10">
               <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
                 <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
                   <PenTool size={20} className="text-primary" />
@@ -214,6 +219,10 @@ export default function Home() {
                 <div className="flex items-center gap-x-3">
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p className="text-sm text-[#374151]">تسريع عملية التصميم وتقليل التكرار</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">اختيار الخامات المناسبة للمنتج</p>
                 </div>
               </div>
               <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
@@ -251,6 +260,10 @@ export default function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p className="text-sm text-[#374151]">تقليل هدر المواد من خلال الحصول على القياسات الصحيحة</p>
                 </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">توفير ملفات جاهزة لطباعة ثلاثية الأبعاد بصيغة Stl, OBJ</p>
+                </div>
               </div>
               <div className="flex flex-col gap-y-4 w-full max-w-[288px] min-h-[345px] bg-white p-6 rounded-[16px] card-style">
                 <div className="p-6 bg-primary-100 rounded-full w-fit mb-4">
@@ -259,36 +272,40 @@ export default function Home() {
                 <h5>الطلاب والحرفيين</h5>
                 <div className="flex items-center gap-x-3">
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
-                    <p className="text-sm text-[#374151]">تحليل وقياس النماذج لمشاريع التخرج والتدريب</p>
+                    <p className="text-sm text-[#374151]">ختيار الخامات الأنسب للمنتجك</p>
                 </div>
                 <div className="flex items-center gap-x-3">
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
-                    <p className="text-sm text-[#374151]">استخراج القياسات تلقائياً للمشاريع التعليمية</p>
+                    <p className="text-sm text-[#374151]"> اختيار المقاسات الدقيقة لمنتجك</p>
                 </div>
                 <div className="flex items-center gap-x-3">
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
-                    <p className="text-sm text-[#374151]">أدوات تحليل داعمة لتقارير المشاريع والتدريب</p>
+                    <p className="text-sm text-[#374151]"> إنتاج نماذج ثلاثية أبعاد ( بلوكات ) من خلال النصوص</p>
+                </div>
+                <div className="flex items-center gap-x-3">
+                    <Check size={16} strokeWidth={1.5} className="text-primary" />
+                    <p className="text-sm text-[#374151]">لتسريع من عملية التصميم</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        <section className="bg-[#3B82F60D]">
+        {!user && <section className="bg-[#3B82F60D]">
           <div className="flex flex-col items-center justify-center gap-y-10 py-16 text-center">
             <h3>جاهز للبدء؟</h3>
             <p className="text-cstm-gray">انضم إلى مجتمع المصممين الذين يوفرون الوقت والجهد باستخدام مقدار للحصول على قياسات دقيقة </p>
             <div className="flex flex-col md:flex-row gap-4">
-              <button className="primary-button">
-                <UserPlus />
-                <span>إنشاء حساب مجاني </span>
-              </button>
-              <button className="secondary-button">
-                <Info size={20} />
-                <span>معرفة المزيد</span>
-              </button>
+                <Link href="/register" className="primary-button">
+                  <UserPlus />
+                  <span>إنشاء حساب مجاني </span>
+                </Link>
+                <Link href="/about" className="secondary-button">
+                  <Info size={20} />
+                  <span>معرفة المزيد</span>
+                </Link>
             </div>
           </div>
-        </section>
+        </section>}
       </div>
     </>
   );

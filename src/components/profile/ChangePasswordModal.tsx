@@ -1,31 +1,29 @@
 'use client';
-import { useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Eye, EyeOff, Info, LockKeyhole } from "lucide-react";
+import { updateUserPassword } from "@/actions/user";
+import { toast } from "react-toastify";
 
 const ChangePasswordModal = () => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const [form, setForm] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
-  });
+  const [state, formAction, isPending] = useActionState(updateUserPassword, undefined);
   const [show, setShow] = useState({
     current: false,
     new: false,
     confirm: false,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(form);
-  };
+  useEffect(() => {
+    if(state?.message == 'success') {
+      closeButtonRef.current?.click();
+      toast.success('تم تغيير كلمة المرور بنجاح');
+    }else
+    if (state?.message && state?.message !== 'success') {
+      toast.error(state.message)
+    }
+  }, [state]);
   const handleCancel = () => {
-    setForm({ currentPassword: "", newPassword: "", confirmNewPassword: "" })
     closeButtonRef.current?.click();
   };
 
@@ -39,17 +37,15 @@ const ChangePasswordModal = () => {
         <DialogHeader>
           <DialogTitle className="text-center text-2xl">تغيير كلمة المرور</DialogTitle>
         </DialogHeader>
-        <form className="space-y-2 max-h-[calc(100vh-4rem)]  overflow-auto" onSubmit={handleSubmit}>
+        <form action={formAction} className="space-y-2 max-h-[calc(100vh-4rem)]  overflow-auto">
           <div className="relative">
             <label className="text-xl text-cstm-gray block mb-2">كلمة المرور الحالية</label>
             <input
               type={show.current ? "text" : "password"}
               id="currentPassword"
-              name="currentPassword"
+              name="current_password"
               className="bg-white block w-full py-4 px-8 text-black border border-0.5 border-[#5501DD66] rounded-[15px] pl-12"
               placeholder="أدخل كلمة المرور الحالية"
-              value={form.currentPassword}
-              onChange={handleChange}
             />
             <button
               type="button"
@@ -59,17 +55,18 @@ const ChangePasswordModal = () => {
             >
               {show.current ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+            {state?.errors?.current_password && (
+              <p className="text-sm text-[12px] text-red-500">{state.errors?.current_password?.[0]}</p>
+            )}
           </div>
           <div className="relative">
             <label className="text-xl text-cstm-gray block mb-2">كلمة المرور الجديدة</label>
             <input
               type={show.new ? "text" : "password"}
               id="newPassword"
-              name="newPassword"
+              name="password"
               className="bg-white block w-full py-4 px-8 text-black border border-0.5 border-[#5501DD66] rounded-[15px] pl-12"
               placeholder="أدخل كلمة المرور الجديدة"
-              value={form.newPassword}
-              onChange={handleChange}
             />
             <button
               type="button"
@@ -79,17 +76,18 @@ const ChangePasswordModal = () => {
             >
               {show.new ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+            {state?.errors?.password && (
+              <p className="text-sm text-[12px] text-red-500">{state.errors?.password?.[0]}</p>
+            )}
           </div>
           <div className="relative">
             <label className="text-xl text-cstm-gray block mb-2">تأكيد كلمة المرور الجديدة</label>
             <input
               type={show.confirm ? "text" : "password"}
               id="confirmNewPassword"
-              name="confirmNewPassword"
+              name="password_confirmation"
               className="bg-white block w-full py-4 px-8 text-black border border-0.5 border-[#5501DD66] rounded-[15px] pl-12"
               placeholder="تأكيد كلمة المرور الجديدة"
-              value={form.confirmNewPassword}
-              onChange={handleChange}
             />
             <button
               type="button"
@@ -99,13 +97,16 @@ const ChangePasswordModal = () => {
             >
               {show.confirm ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+            {state?.errors?.password_confirmation && (
+              <p className="text-sm text-[12px] text-red-500">{state.errors?.password_confirmation?.[0]}</p>
+            )}
           </div>
           <div className="flex items-center gap-x-3 bg-[#FEF9C35E] px-8 rounded-[15px] mt-3">
             <Info size={96} strokeWidth={1} className="text-[#CA8A04]" />
             <p className="text-[#CA8A04]"> كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل، وتتضمن أحرف كبيرة وصغيرة وأرقام ورموز خاصة</p>
           </div>
           <div className="flex gap-6 mt-4">
-            <button type="submit" className="primary-button w-full">
+            <button disabled={isPending} type="submit" className={"primary-button w-full" + (isPending ? " opacity-50 cursor-not-allowed" : "")}>
               حفظ التغييرات
             </button>
             <button

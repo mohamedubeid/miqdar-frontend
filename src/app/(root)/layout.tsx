@@ -1,4 +1,4 @@
-import Navbar from "@/components/layouts/Navbar";
+import AuthStatusClientWrapper from "@/components/layouts/AuthStatusClientWrapper";
 import Footer from "@/components/layouts/Footer";
 import { ToastContainer } from "react-toastify";
 
@@ -14,7 +14,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
 
   return (
     <main>
-        <Navbar navLinks={navLinks}/>
+        <AuthStatusClientWrapper navLinks={navLinks}/>
           {children}
           <ToastContainer newestOnTop position={"top-left"} rtl={true} />
         <Footer navLinks={navLinks}/>

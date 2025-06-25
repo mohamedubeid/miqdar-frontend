@@ -1,14 +1,16 @@
 'use client';
+
 import { useTransition, useState } from "react";
 import { Heart } from "lucide-react";
+import { Product } from "@/lib/definitions";
 import { toggleFavorite } from "@/actions/products";
 import { toast } from "react-toastify";
-import { Product } from "@/lib/definitions";
 
-interface FavoriteButtonProps {
+interface FavoriteProductProps {
   product: Product
 }
-const FavoriteButton = ({ product }: FavoriteButtonProps) => {
+
+const FavoriteProduct = ({ product }: FavoriteProductProps) => {
   const [isFavorite, setIsFavorite] = useState(product.is_favorite);
   const [isPending, startTransition] = useTransition();
 
@@ -29,7 +31,7 @@ const FavoriteButton = ({ product }: FavoriteButtonProps) => {
   return (
     <button
       type="button"
-      className="p-4 border border-[#D1D5DB] rounded-full transition-colors hover:border-red-500 group"
+      className="absolute top-3 right-8 z-10 bg-white rounded-full p-1 shadow hover:bg-gray-100 transition"
       onClick={e => {
         e.stopPropagation();
         e.preventDefault();
@@ -38,16 +40,14 @@ const FavoriteButton = ({ product }: FavoriteButtonProps) => {
       disabled={isPending}
       aria-label="إضافة للمفضلة"
     >
-      <Heart 
+      <Heart
         size={16}
-        className={
-        isFavorite
-          ? "fill-red-500 text-red-500 transition-colors"
-          : "text-gray-500 group-hover:text-red-500 transition-colors"
-        }
+        className={isFavorite ? "fill-red-500 text-red-500" : "text-gray-400"}
       />
     </button>
   )
 }
 
-export default FavoriteButton;
+export default FavoriteProduct;
+
+

@@ -1,9 +1,11 @@
-'use client';
-import { useState } from 'react';
-import { Heart, Ruler } from 'lucide-react';
+
+import { Ruler } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import DesignAnalysisDetailsModal from '@/components/profile/DesignAnalysisDetailsModal';
+import FavoriteProduct from '../product-library/FavoriteProduct';
+import { getProducts } from '@/actions/products';
+import { API_URL } from '@/lib/constants';
+import { Product } from '@/lib/definitions';
 
 const fakeProducts = [
   {
@@ -80,29 +82,19 @@ const fakeProducts = [
   },
 ];
 
-export default function Tabs() {
-  const [activeTab, setActiveTab] = useState<'modern' | 'favorite'>('modern');
-
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const [DesignAnalysisDetailsModalOpen, setDesignAnalysisDetailsModalOpen] = useState(false);
-
-  const [selectedProduct, setSelectedProduct] = useState<
-    { image: string; name: string; length: number; width: number; height: number; unit: string } | undefined
-  >(undefined);
-
-  const toggleFavorite = (id: number) => {
-    setFavorites(prev =>
-      prev.includes(id) ? prev.filter(favId => favId !== id) : [...prev, id]
-    );
-  };
-
-
+export default async function Tabs() {
+  const productsRes = await getProducts({is_favorite: true});
+  const productsData = Array.isArray(productsRes?.data)
+    ? productsRes.data
+    : (productsRes?.data && typeof productsRes.data === 'object')
+      ? Object.values(productsRes.data) as Product[]
+      : [];
 
   return (
     <div className="w-full">
 
       <div className="flex gap-8 mb-6">
-        <button
+        {/* <button
           onClick={() => setActiveTab('modern')}
           className={`px-4 py-2 text-xl font-semibold rounded-none transition-all bg-transparent ${
             activeTab === 'modern'
@@ -111,12 +103,12 @@ export default function Tabs() {
           }`}
         >
           التصاميم الحديثة
-        </button>
+        </button> */}
         <button
-          onClick={() => setActiveTab('favorite')}
+          // onClick={() => setActiveTab('favorite')}
           className={`px-4 py-2 text-xl font-semibold rounded-none transition-all bg-transparent ${
-            activeTab === 'favorite'
-              ? 'text-primary border-b-2 border-primary !font-bold'
+            // activeTab === 'favorite'
+              true ? 'text-primary border-b-2 border-primary !font-bold'
               : 'text-black hover:text-primary'
           }`}
         >
@@ -124,25 +116,27 @@ export default function Tabs() {
         </button>
       </div>
       <div className="mt-12">
-        <DesignAnalysisDetailsModal
+        {/* <DesignAnalysisDetailsModal
           open={DesignAnalysisDetailsModalOpen}
           onOpenChange={setDesignAnalysisDetailsModalOpen}
           product={selectedProduct}
-        />
-        {activeTab === 'modern' ? (
+        /> */}
+        {
+        // activeTab === 'modern' 
+        false? (
 
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
             {fakeProducts.map(product => (
               <div
                 key={product.id}
                 onClick={() => {
-                  setSelectedProduct(product);
-                  setDesignAnalysisDetailsModalOpen(true);
+                  // setSelectedProduct(product);
+                  // setDesignAnalysisDetailsModalOpen(true);
                 }} 
-                className="relative w-full max-w-[308px] h-[419px] mx-auto cursor-pointer"
+                className="relative w-[308px] h-[419px] mx-auto cursor-pointer"
               >
-                <div className="bg-white cstm-card-style w-full max-w-[308px] h-[419px] mx-auto">
-                  <Image src={product.image} alt={product.name} width={308} height={192} className="rounded-t-[16px] w-full max-w-[308px]" />
+                <div className="bg-white cstm-card-style w-[308px] h-[419px] mx-auto">
+                  <Image src={product.image} alt={product.name} width={308} height={192} className="rounded-t-[16px] w-[308px] h-[192px] object-fill" />
                   <div className="px-4 py-6">
                     <h6 className="text-lg font-semibold">{product.name}</h6>
                     <div className="flex gap-1 mt-2">
@@ -159,35 +153,21 @@ export default function Tabs() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-            {fakeProducts.map(product => (
-              <div key={product.id} className="relative w-full max-w-[308px] h-[419px] mx-auto">
-                <button
-                  type="button"
-                  className="absolute top-3 right-4 z-10 bg-white rounded-full p-1 shadow hover:bg-gray-100 transition"
-                  onClick={e => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    toggleFavorite(product.id);
-                  }}
-                  aria-label="إضافة للمفضلة"
-                >
-                  <Heart
-                    size={16}
-                    className={favorites.includes(product.id) ? "fill-red-500 text-red-500" : "text-gray-400"}
-                  />
-                </button>
+            {productsData.map(product => (
+              <div key={product.id} className="relative w-[308px] h-[419px] mx-auto">
+                <FavoriteProduct product={product} />
                 <Link href={`/product-library/${product.slug}`}>
-                  <div className="bg-white cstm-card-style w-full max-w-[308px] h-[419px] mx-auto">
-                    <Image src={product.image} alt={product.name} width={308} height={192} className="rounded-t-[16px] w-full max-w-[308px]" />
+                  <div className="bg-white cstm-card-style  mx-auto">
+                    <Image src={`${API_URL}/storage/${product.main_image}`} alt={product.name_ar} width={308} height={192} className="rounded-t-[16px] w-[308px] h-[192px] object-fill" />
                     <div className="px-4 py-6">
-                      <h6 className="text-lg font-semibold">{product.name}</h6>
+                      <h6 className="text-lg font-semibold">{product.name_ar}</h6>
                       <div className="flex gap-1 mt-2">
                         <Ruler size={20} strokeWidth={1} className="text-primary" />
                         <p className="text-sm text-gray-500">
-                          {`${product.length} ${product.unit} × ${product.width} ${product.unit} × ${product.height} ${product.unit}`}
+                          {`${product.depth_mm} مم × ${product.width_mm} مم × ${product.height_mm} مم`}
                         </p>
                       </div>
-                      <p className="text-[10px] text-[#6B7280] mt-4">تحديث: {product.updatedAt}</p>
+                      <p className="text-[10px] text-[#6B7280] mt-4">تحديث: {product.updated_at}</p>
                     </div>
                   </div>
                 </Link>

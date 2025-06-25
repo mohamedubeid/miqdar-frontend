@@ -6,6 +6,7 @@ import styles from './styles.module.css'
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { Thumb } from './CarouselThumbsButton';
+import { API_URL } from '@/lib/constants';
 
 type PropType = {
   options?: EmblaOptionsType
@@ -13,7 +14,7 @@ type PropType = {
 }
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { options, images } = props
+  const { options, images } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -65,7 +66,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         <div className={styles.embla__container}>
           {images.map((image, index) => (
             <div className={styles.embla__slide} key={index}>
-              <Image src={image} alt="image" className="w-full object-contain" width={583} height={578} />
+              <Image src={`${API_URL}/storage/${image}`} alt="image" className="w-full object-contain" width={583} height={578} />
             </div>
           ))}
         </div>

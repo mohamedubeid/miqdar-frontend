@@ -2,9 +2,15 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ChevronDown, LogOut, User } from 'lucide-react';
 import Link from "next/link";
+import { logout } from "@/actions/auth";
+import { User as UserType } from "@/lib/definitions";
 
-const UserDropDownMenu = () => {
-  const userName = "Mohamed Ubeid";
+interface UserDropDownMenuProps {
+  user: UserType;
+}
+
+const UserDropDownMenu = ({ user }: UserDropDownMenuProps) => {
+  const userName = user.name;
   const initials = userName
     .split(" ")
     .map((n) => n[0])
@@ -15,10 +21,10 @@ const UserDropDownMenu = () => {
       <DropdownMenuTrigger className="" asChild>
         <button className="flex items-center justify-center gap-2">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcdn.png" />
+            <AvatarImage src={user.avatar} />
             <AvatarFallback className="text-primary bg-primary-100">{initials}</AvatarFallback>
           </Avatar>
-          محمد عبدالله
+          {userName}
           <ChevronDown size={16} />
         </button>
       </DropdownMenuTrigger>
@@ -32,7 +38,10 @@ const UserDropDownMenu = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-600">
+        <DropdownMenuItem className="text-red-600"   onClick={async (e) => {
+          e.preventDefault();
+          await logout();
+        }}>
           تسجيل الخروج
           <DropdownMenuShortcut className="ml-0 mr-auto"><LogOut size={16} className="text-red-600" /></DropdownMenuShortcut>
         </DropdownMenuItem>
