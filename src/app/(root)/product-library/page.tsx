@@ -10,35 +10,31 @@ import CategoryFilter from "@/components/product-library/CategoryFilter";
 import ProductSearchInput from "@/components/product-library/ProductSearchInput";
 import Pagination from "@/components/product-library/Pagination";
 
-// interface ProductLibraryPageProps {
-//   searchParams: {
-//     sort_by?: string;
-//     order?: string;
-//     category?: string;
-//     search?: string;
-//     page?: string;
-//   };
-// }
-interface ProductLibraryPageProps {
-  searchParams: Record<string, string | string[] | undefined>;
-}
 
-const Page = async ({ searchParams }: ProductLibraryPageProps) => {
-    const {
+const Page = async ({ searchParams }: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) => {
+  const {
     sort_by = "created_at",
     order = "desc",
     category,
     search,
     page = "1",
   } = await searchParams;
+
+  function normalizeParam(param?: string | string[]): string | undefined {
+    if (!param) return undefined;
+    return Array.isArray(param) ? param[0] : param;
+  }
+
   const [categoriesRes, productsRes] = await Promise.all([
     getCategories(),
     getProducts({
-      sortBy: sort_by,
-      sortType: order,
-      category,
-      name: search,
-      page: parseInt(page),
+      sortBy: normalizeParam(sort_by),
+      sortType: normalizeParam(order),
+      category: normalizeParam(category),
+      name: normalizeParam(search),
+      page: parseInt(normalizeParam(page) ?? "1"),
       perPage: 12,
     }),
   ]);
