@@ -123,7 +123,7 @@ const Page = () => {
                 id="country"
                 name="country"
                 className="bg-white block w-full py-4 px-8 text-black border border-0.5 border-[#5501DD66] rounded-[15px]"
-                placeholder="مصمم منتجات"
+                placeholder="الدولة"
               />
               {state?.errors?.country && (
                 <p className="text-sm text-[12px] text-red-500">{state.errors?.country?.[0]}</p>
@@ -136,7 +136,7 @@ const Page = () => {
                 id="city"
                 name="city"
                 className="bg-white block w-full py-4 px-8 text-black border border-0.5 border-[#5501DD66] rounded-[15px]"
-                placeholder="مصمم منتجات"
+                placeholder="المدينة"
               />
               {state?.errors?.city && (
                 <p className="text-sm text-[12px] text-red-500">{state.errors?.city?.[0]}</p>
@@ -154,11 +154,11 @@ const Page = () => {
               أوافق على الشروط والأحكام
             </label>
           </div> */}
-          <div className="flex items-center my-6">
+          {/* <div className="flex items-center my-6">
             <hr className="flex-grow border-t border-gray-300" />
             <span className="mx-4 text-primary whitespace-nowrap">أو</span>
             <hr className="flex-grow border-t border-gray-300" />
-          </div>
+          </div> */}
           {/* <button className="p-4 border-[0.5px] border-[#9CA3AF] rounded-[15px] flex items-center justify-center gap-2 w-full bg-white hover:bg-black/10" type="button">
             <svg width="27" height="27" viewBox="0 0 48 48">
               <g>
