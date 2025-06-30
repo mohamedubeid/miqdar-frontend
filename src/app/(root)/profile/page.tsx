@@ -6,7 +6,14 @@ import ChangePasswordModal from "@/components/profile/ChangePasswordModal";
 import { getUser } from "@/actions/user";
 import { redirect } from 'next/navigation';
 
-const Page = async () => {
+const Page = async ({ searchParams }: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) => {
+
+  const {
+    page = "1",
+  } = await searchParams;
+
   const user = await getUser();
   if (!user) {
     redirect('/');
@@ -48,7 +55,7 @@ const Page = async () => {
           </div>
         </div>
         <div className="mt-6 cstm-card-style bg-white py-9 px-6 rounded-[16px]">
-          <Tabs />
+          <Tabs page={page}/>
         </div>
       </div>
     </div>

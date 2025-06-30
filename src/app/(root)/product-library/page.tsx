@@ -9,7 +9,7 @@ import SortSelect from "@/components/product-library/SortSelect";
 import CategoryFilter from "@/components/product-library/CategoryFilter";
 import ProductSearchInput from "@/components/product-library/ProductSearchInput";
 import Pagination from "@/components/product-library/Pagination";
-
+import { normalizeParam } from "@/lib/utils";
 
 const Page = async ({ searchParams }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -22,13 +22,8 @@ const Page = async ({ searchParams }: {
     page = "1",
   } = await searchParams;
 
-  function normalizeParam(param?: string | string[]): string | undefined {
-    if (!param) return undefined;
-    return Array.isArray(param) ? param[0] : param;
-  }
-
   const [categoriesRes, productsRes] = await Promise.all([
-    getCategories(),
+    getCategories({perPage: 100}),
     getProducts({
       sortBy: normalizeParam(sort_by),
       sortType: normalizeParam(order),
@@ -49,7 +44,7 @@ const Page = async ({ searchParams }: {
             <hr className="my-4 border-t border-[#E5E7EB]"/>
             <CategoryFilter categories={categoriesRes?.data ?? []} />
             <hr className="my-4 border-t border-[#E5E7EB]"/>
-            <Link href="/product-library" className="secondary-button w-full !block !py-2 !px-2 lg:!px-16">
+            <Link href="/product-library" className="secondary-button w-full !block !py-2 !px-2 lg:!px-16 text-center">
               إعادة تعيين الفلاتر 
             </Link>
           </div>
