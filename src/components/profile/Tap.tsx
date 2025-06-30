@@ -97,7 +97,7 @@ export default async function Tabs({ page }: { page?: string | string[] }) {
     : (productsRes?.data && typeof productsRes.data === 'object')
       ? Object.values(productsRes.data) as Product[]
       : [];
-  if(!productsRes) {
+  if(!productsRes || !productsRes.data || productsData.length === 0) {
     return <div className="text-center text-gray-500">لا توجد منتجات مفضلة</div>;
   }
   return (

@@ -10,6 +10,7 @@ import CategoryFilter from "@/components/product-library/CategoryFilter";
 import ProductSearchInput from "@/components/product-library/ProductSearchInput";
 import Pagination from "@/components/product-library/Pagination";
 import { normalizeParam } from "@/lib/utils";
+import { Product } from "@/lib/definitions";
 
 const Page = async ({ searchParams }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -33,6 +34,16 @@ const Page = async ({ searchParams }: {
       perPage: 12,
     }),
   ]);
+
+  const productsData = Array.isArray(productsRes?.data)
+    ? productsRes.data
+    : (productsRes?.data && typeof productsRes.data === 'object')
+      ? Object.values(productsRes.data) as Product[]
+      : [];
+
+  if(!productsRes || !productsRes.data || productsData.length === 0) {
+    return <div className="text-center text-gray-500">لا توجد منتجات </div>;
+  }
   return (
     <div className="surface-box">
       <div className="container mx-auto py-8 px-4">
@@ -59,7 +70,7 @@ const Page = async ({ searchParams }: {
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {productsRes?.data.map(product => (
+              {productsData.map(product => (
                 <div key={product.id} className="relative">
                   <FavoriteProduct product={product} />
                   <Link href={`/product-library/${product.id}`}>
@@ -93,9 +104,7 @@ const Page = async ({ searchParams }: {
             </div>
           </div>
         </div>
-        {productsRes && (
-          <Pagination currentPage={productsRes.current_page} lastPage={productsRes.last_page} />
-        )}
+        <Pagination currentPage={productsRes.current_page} lastPage={productsRes.last_page} />
       </div>
     </div>
   )
