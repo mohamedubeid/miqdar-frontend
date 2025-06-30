@@ -31,7 +31,7 @@ const FavoriteProduct = ({ product }: FavoriteProductProps) => {
   return (
     <button
       type="button"
-      className="absolute top-3 right-8 z-10 bg-white rounded-full p-1 shadow hover:bg-gray-100 transition"
+      className="absolute top-3 right-4 z-10 bg-white rounded-full p-1 shadow hover:bg-gray-100 transition"
       onClick={e => {
         e.stopPropagation();
         e.preventDefault();

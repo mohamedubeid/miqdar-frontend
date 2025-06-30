@@ -6,7 +6,8 @@ import FavoriteProduct from '../product-library/FavoriteProduct';
 import { getProducts } from '@/actions/products';
 import { API_URL } from '@/lib/constants';
 import { Product } from '@/lib/definitions';
-
+import Pagination from '../product-library/Pagination';
+import { normalizeParam } from '@/lib/utils'; 
 const fakeProducts = [
   {
     id: 1,
@@ -82,14 +83,23 @@ const fakeProducts = [
   },
 ];
 
-export default async function Tabs() {
-  const productsRes = await getProducts({is_favorite: true});
+export default async function Tabs({ page }: { page?: string | string[] }) {
+  // const [activeTab, setActiveTab] = use
+  const productsRes = await getProducts({
+    is_favorite: true,
+    page: parseInt(normalizeParam(page) ?? "1"),
+    perPage: 12,
+    sortBy: normalizeParam("created_at"),
+    sortType: normalizeParam("desc"),
+    });
   const productsData = Array.isArray(productsRes?.data)
     ? productsRes.data
     : (productsRes?.data && typeof productsRes.data === 'object')
       ? Object.values(productsRes.data) as Product[]
       : [];
-
+  if(!productsRes || !productsRes.data || productsData.length === 0) {
+    return <div className="text-center text-gray-500">لا توجد منتجات مفضلة</div>;
+  }
   return (
     <div className="w-full">
 
@@ -156,7 +166,7 @@ export default async function Tabs() {
             {productsData.map(product => (
               <div key={product.id} className="relative w-[308px] h-[419px] mx-auto">
                 <FavoriteProduct product={product} />
-                <Link href={`/product-library/${product.slug}`}>
+                <Link href={`/product-library/${product.id}`}>
                   <div className="bg-white cstm-card-style  mx-auto">
                     <Image src={`${API_URL}/storage/${product.main_image}`} alt={product.name_ar} width={308} height={192} className="rounded-t-[16px] w-[308px] h-[192px] object-fill" />
                     <div className="px-4 py-6">
@@ -176,6 +186,7 @@ export default async function Tabs() {
           </div>
         )}
       </div>
+      <Pagination currentPage={productsRes.current_page} lastPage={productsRes.last_page} />
     </div>
   );
 }

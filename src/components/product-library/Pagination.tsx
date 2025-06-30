@@ -26,7 +26,7 @@ const Pagination = ({ currentPage, lastPage }: PaginationProps) => {
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage <= 1}
-        className="flex items-center justify-center border rounded-full disabled:text-[#D1D5DB] disabled:cursor-default w-[40px] h-[40px]"
+        className={`flex items-center justify-center border rounded-full ${currentPage > 1 ? 'hover:bg-[#E7D8FF] hover:text-white' : ''} disabled:text-[#D1D5DB] disabled:cursor-default w-[40px] h-[40px]`}
       >
         <ChevronRight className="disabled:text-[#D1D5DB]" />
       </button>
@@ -34,7 +34,7 @@ const Pagination = ({ currentPage, lastPage }: PaginationProps) => {
         <button
           key={page}
           onClick={() => handlePageChange(page)}
-          className={`flex items-center justify-center border rounded-full w-[40px] h-[40px] ${page === currentPage ? 'bg-primary text-white' : ''}`}
+          className={`flex items-center justify-center border rounded-full w-[40px] h-[40px] ${page === currentPage ? 'bg-primary text-white' : 'hover:bg-[#E7D8FF] hover:text-white'}`}
         >
           {page}
         </button>
@@ -42,7 +42,7 @@ const Pagination = ({ currentPage, lastPage }: PaginationProps) => {
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage >= lastPage}
-        className="flex items-center justify-center border rounded-full disabled:text-[#D1D5DB] disabled:cursor-default w-[40px] h-[40px]"
+        className={`flex items-center justify-center border rounded-full ${currentPage < lastPage ? 'hover:bg-[#E7D8FF] hover:text-white' : ''} disabled:text-[#D1D5DB] disabled:cursor-default w-[40px] h-[40px]`}
       >
         <ChevronLeft  className="disabled:text-[#D1D5DB]" />
       </button>

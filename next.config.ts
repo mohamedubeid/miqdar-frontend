@@ -16,6 +16,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/admin',
+        destination: 'https://olivedrab-hyena-876790.hostingersite.com/admin/',
+        permanent: false,
+      }
+    ];
+  }
 };
 
 export default nextConfig;

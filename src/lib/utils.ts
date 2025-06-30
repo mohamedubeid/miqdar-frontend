@@ -20,3 +20,8 @@ export function convertValue(value: number, unit: string) {
       return value;
   }
 }
+
+export function normalizeParam(param?: string | string[]): string | undefined {
+  if (!param) return undefined;
+  return Array.isArray(param) ? param[0] : param;
+}

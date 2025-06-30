@@ -1,7 +1,7 @@
 import AuthStatusClientWrapper from "@/components/layouts/AuthStatusClientWrapper";
 import Footer from "@/components/layouts/Footer";
 import { ToastContainer } from "react-toastify";
-
+import 'aos/dist/aos.css';
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
 
   const navLinks: { key: string; link: string }[] = [
