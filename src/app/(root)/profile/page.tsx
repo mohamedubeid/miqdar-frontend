@@ -11,6 +11,12 @@ const Page = async () => {
   if (!user) {
     redirect('/');
   }
+  const userName = user.name;
+  const initials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
   return (
     <div className="surface-box">
       <div className="container mx-auto py-9">
@@ -18,7 +24,7 @@ const Page = async () => {
           <div className="flex gap-6">
             <Avatar className="size-24">
               <AvatarImage src={user.avatar} />
-              <AvatarFallback className="text-primary bg-primary-100">CN</AvatarFallback>
+              <AvatarFallback className="text-primary bg-primary-100">{ initials }</AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-4">
               <div>
