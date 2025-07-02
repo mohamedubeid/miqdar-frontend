@@ -5,19 +5,23 @@ import Image from "next/image";
 import { CloudUpload, Images, Palette, Trash2, ZoomIn, ZoomOut } from 'lucide-react';
 import { toast } from 'react-toastify';
 import AnalysisResult from '@/components/design-analysis/AnalysisResult';
-import { MEASURE_UNITS } from '@/lib/constants';
+import { MEASURE_UNITS, MEASURE_UNITS_OPTIONS } from '@/lib/constants';
 import { analyzeDesign } from '@/actions/products';
+import { convertValue } from '@/lib/utils';
+import { AnalyzeDesignResponse } from '@/lib/definitions';
 
 const Page = () => {
-  const [autoDimensions, setAutoDimensions] = useState(true);
+  const [generateNewImage, setGenerateNewImage] = useState(false);
   const [colorAnalysis, setColorAnalysis] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [productName, setProductName] = useState('');
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
-  const [measureUnit, setMeasureUnit] = useState('mm');
+  const [measureUnit, setMeasureUnit] = useState<MEASURE_UNITS>('mm');
   const [zoom, setZoom] = useState(1);
+  const [analysisResult, setAnalysisResult] = useState<AnalyzeDesignResponse | null>(null);
+  // const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -57,7 +61,7 @@ const Page = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if(!uploadedImage) {
       toast.error("يرجى رفع صورة أولاً");
       return;
@@ -66,22 +70,48 @@ const Page = () => {
       toast.error("يرجى إدخال اسم المنتج");
       return;
     }
-    if(!autoDimensions && (!width || !height)) {
-      toast.error("يرجى إدخال الأبعاد إذا لم يتم تفعيل التحليل التلقائي");
+    if(generateNewImage && (!width || !height)) {
+      toast.error("يرجى ادخال الابعاد اذا تم تفعيل توليد منتج بناء على أبعاد مخصصة");
       return;
     }
     const data = {
       image: uploadedImage,
       productName,
       colorAnalysis,
-      autoDimensions,
-      width: autoDimensions ? null : width,
-      height: autoDimensions ? null : height,
-      measureUnit: autoDimensions ? null : measureUnit,
+      generateNewImage,
+      width: generateNewImage ? null : width,
+      height: generateNewImage ? null : height,
+      measureUnit: measureUnit,
     };
-    const result = analyzeDesign(data);
-    console.log('resultresultresultresultresultresultresultresultresult', result);
-    console.log(data);
+    console.log('data', data);
+    const resultRes = await analyzeDesign({
+      file: data.image,
+      product_name: data.productName,
+      do_generate_image: data.generateNewImage,
+      do_extract_colors: data.colorAnalysis,
+      do_detect_dimensions: true,
+      prompt: data.productName,
+      user_width: convertValue(Number(data.width), data.measureUnit, 'px'),
+      user_height: convertValue(Number(data.height), data.measureUnit, 'px'),
+      target_height_cm: convertValue(Number(data.height), data.measureUnit, 'px')
+    });
+    console.log('resultRes', resultRes);
+    if (!resultRes || resultRes.error) {
+      toast.error('حدث خطأ أثناء تحليل التصميم، يرجى التحقق من البيانات المدخلة');
+      return;
+    }
+    if (resultRes.result && resultRes.message === 'success') {
+      setAnalysisResult(resultRes.result);
+      // if (resultRes.result.generated_image) {
+      //   setPreviewImageUrl(resultRes.result.generated_image);
+      // }
+      toast.success('تم تحليل التصميم بنجاح');
+      return;
+    }
+    else {
+      toast.error(resultRes?.error || 'حدث خطأ أثناء تحليل التصميم، يرجى التحقق من البيانات المدخلة');
+    }
+    setAnalysisResult(null);
   };
 
   const imageRef = useRef<HTMLImageElement>(null);
@@ -206,14 +236,14 @@ const Page = () => {
                 </div>
                 <div className="flex items-center justify-between mt-7">
                   <div className="flex items-center gap-5">
-                    <p>تحليل الأبعاد تلقائياً</p>
+                    <p>توليد منتج بناء على أبعاد مخصصة</p>
                   </div>
                   <label className="inline-flex items-center cursor-pointer">
                     <input
                       id="auto_dimensions"
                       type="checkbox"
-                      checked={autoDimensions}
-                      onChange={() => setAutoDimensions((v) => !v)}
+                      checked={generateNewImage}
+                      onChange={() => setGenerateNewImage((v) => !v)}
                       className="sr-only peer"
                     />
                     <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
@@ -225,7 +255,7 @@ const Page = () => {
                       id="width"
                       type="number"
                       placeholder="العرض"
-                      disabled={autoDimensions}
+                      disabled={!generateNewImage}
                       value={width}
                       onChange={e => setWidth(e.target.value)}
                       className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
@@ -237,7 +267,7 @@ const Page = () => {
                       type="number"
                       placeholder="الطول"
                       required
-                      disabled={autoDimensions}
+                      disabled={!generateNewImage}
                       value={height}
                       onChange={e => setHeight(e.target.value)}
                       className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
@@ -247,11 +277,11 @@ const Page = () => {
                     <select
                       id="measure_unit"
                       value={measureUnit}
-                      onChange={e => setMeasureUnit(e.target.value)}
-                      disabled={autoDimensions}
+                      onChange={e => setMeasureUnit(e.target.value as 'mm' | 'cm' | 'in' | 'px')}
+                      disabled={!generateNewImage}
                       className="min-w-[80px] bg-white border border-gray-500 text-gray-900 text-m rounded-lg outline-none block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
                     >
-                      {MEASURE_UNITS.map(unit => (
+                      {MEASURE_UNITS_OPTIONS.map(unit => (
                         <option key={unit.value} value={unit.value}>
                           {unit.label}
                         </option>
@@ -295,6 +325,9 @@ const Page = () => {
                   </button>}
                 </div>
               </div>
+              {analysisResult?.generated_image && (
+                <p className="text-sm text-primary text-center mt-2">* تم توليد الصورة بناءً على التصميم</p>
+              )}
               {uploadedImage ? (
                 <div className="bg-main-bg h-full w-full rounded-[16px] flex items-center justify-center overflow-auto">
                   <div
@@ -303,6 +336,12 @@ const Page = () => {
                   >
                     <Image
                       ref={imageRef}
+                      // src={
+                      //   analysisResult?.generated_image
+                      //     ? `data:image/png;base64,${analysisResult.generated_image}`
+                      //     : URL.createObjectURL(uploadedImage)
+                      // }
+                      // src={previewImageUrl ? previewImageUrl : URL.createObjectURL(uploadedImage)}
                       src={URL.createObjectURL(uploadedImage)}
                       alt="معاينة التصميم"
                       className="p-8 max-h-[727px] rounded-[16px] object-contain transition-transform duration-200"
@@ -324,7 +363,7 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <AnalysisResult />
+        {analysisResult && <AnalysisResult result={analysisResult} />}
       </div>
     </div>
   )

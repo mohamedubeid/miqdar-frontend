@@ -1,7 +1,7 @@
 'use server';
 
 import { getAuthToken } from '@/lib/session';
-import { AnalyzeDesignData, CategoryApiResponse, Product, ProductApiResponse, ToggleFavoriteState } from '@/lib/definitions';
+import { AnalyzeDesignApiResponse, AnalyzeDesignData, CategoryApiResponse, Product, ProductApiResponse, ToggleFavoriteState } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
 
 
@@ -129,25 +129,36 @@ export async function getProductById(id: string): Promise<{product: Product} | u
   return;
 }
 
-export async function analyzeDesign(data: AnalyzeDesignData) {
+export async function analyzeDesign(data: AnalyzeDesignData): Promise<AnalyzeDesignApiResponse> {
   const token = await getAuthToken();
   if (!token) throw new Error("Unauthorized");
+  const formData = new FormData();
+  if (data.file) formData.append('file', data.file);
+  formData.append('product_name', data.product_name);
+  formData.append('do_generate_image', String(data.do_generate_image));
+  formData.append('do_extract_colors', String(data.do_extract_colors));
+  formData.append('do_detect_dimensions', String(data.do_detect_dimensions));
+  if (data.prompt !== null && data.prompt !== undefined) formData.append('prompt', data.prompt);
+  if (data.user_width !== null && data.user_width !== undefined) formData.append('user_width', String(data.user_width));
+  if (data.user_height !== null && data.user_height !== undefined) formData.append('user_height', String(data.user_height));
+  if (data.target_height_cm !== null && data.target_height_cm !== undefined) formData.append('target_height_cm', String(data.target_height_cm));
+
   const res = await fetch(`${API_URL}/api/process`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data),
+    body: formData,
   });
   const text = await res.text();
   if (!res.ok) {
     const error = JSON.parse(text);
     return {
-      message: error.message || "حدث خطأ أثناء تحليل التصميم، يرجى التحقق مرة اخرى من بياناتك",
-      errors: error.errors,
+      message: error.message || "error",
+      error: error.error || "حدث خطأ أثناء تحليل التصميم، يرجى التحقق مرة اخرى من بياناتك",
     }
   }
-  return { message: 'success' };
+  const result = JSON.parse(text);
+  return { message: 'success', result };
 }
