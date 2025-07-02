@@ -20,6 +20,7 @@ const Page = () => {
   const [height, setHeight] = useState('');
   const [measureUnit, setMeasureUnit] = useState<MEASURE_UNITS>('mm');
   const [zoom, setZoom] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalyzeDesignResponse | null>(null);
   // const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -62,56 +63,64 @@ const Page = () => {
   };
 
   const handleSubmit = async () => {
-    if(!uploadedImage) {
+    if (!uploadedImage) {
       toast.error("يرجى رفع صورة أولاً");
       return;
     }
-    if(!productName) {
+    if (!productName) {
       toast.error("يرجى إدخال اسم المنتج");
       return;
     }
-    if(generateNewImage && (!width || !height)) {
+    if (generateNewImage && (!width || !height)) {
       toast.error("يرجى ادخال الابعاد اذا تم تفعيل توليد منتج بناء على أبعاد مخصصة");
       return;
     }
-    const data = {
-      image: uploadedImage,
-      productName,
-      colorAnalysis,
-      generateNewImage,
-      width: generateNewImage ? null : width,
-      height: generateNewImage ? null : height,
-      measureUnit: measureUnit,
-    };
-    console.log('data', data);
-    const resultRes = await analyzeDesign({
-      file: data.image,
-      product_name: data.productName,
-      do_generate_image: data.generateNewImage,
-      do_extract_colors: data.colorAnalysis,
-      do_detect_dimensions: true,
-      prompt: data.productName,
-      user_width: convertValue(Number(data.width), data.measureUnit, 'px'),
-      user_height: convertValue(Number(data.height), data.measureUnit, 'px'),
-      target_height_cm: convertValue(Number(data.height), data.measureUnit, 'px')
-    });
-    console.log('resultRes', resultRes);
-    if (!resultRes || resultRes.error) {
-      toast.error('حدث خطأ أثناء تحليل التصميم، يرجى التحقق من البيانات المدخلة');
-      return;
-    }
-    if (resultRes.result && resultRes.message === 'success') {
-      setAnalysisResult(resultRes.result);
+
+    setLoading(true);
+
+    try {
+      const data = {
+        image: uploadedImage,
+        productName,
+        colorAnalysis,
+        generateNewImage,
+        width: generateNewImage ? null : width,
+        height: generateNewImage ? null : height,
+        measureUnit: measureUnit,
+      };
+
+      const resultRes = await analyzeDesign({
+        file: data.image,
+        product_name: data.productName,
+        do_generate_image: data.generateNewImage,
+        do_extract_colors: data.colorAnalysis,
+        do_detect_dimensions: true,
+        prompt: data.productName,
+        user_width: convertValue(Number(data.width), data.measureUnit, 'px'),
+        user_height: convertValue(Number(data.height), data.measureUnit, 'px'),
+        target_height_cm: convertValue(Number(data.height), data.measureUnit, 'px'),
+      });
+
+      if (!resultRes || resultRes.error) {
+        toast.error('حدث خطأ أثناء تحليل التصميم، يرجى التحقق من البيانات المدخلة');
+        return;
+      }
+
+      if (resultRes.result && resultRes.message === 'success') {
+        setAnalysisResult(resultRes.result);
       // if (resultRes.result.generated_image) {
       //   setPreviewImageUrl(resultRes.result.generated_image);
       // }
-      toast.success('تم تحليل التصميم بنجاح');
-      return;
-    }
-    else {
+        toast.success('تم تحليل التصميم بنجاح');
+        return;
+      }
+
       toast.error(resultRes?.error || 'حدث خطأ أثناء تحليل التصميم، يرجى التحقق من البيانات المدخلة');
+      setAnalysisResult(null);
+
+    } finally {
+      setLoading(false);
     }
-    setAnalysisResult(null);
   };
 
   const imageRef = useRef<HTMLImageElement>(null);
@@ -147,8 +156,31 @@ const Page = () => {
         <button
           type="button"
           onClick={handleSubmit}
-          className="primary-button mx-auto md:mx-0 md:mr-auto mt-4"
+          disabled={loading}
+          className={`primary-button mx-auto md:mx-0 md:mr-auto mt-4 flex items-center gap-2 custom-disabled ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
         >
+          {loading && (
+            <svg
+              className="animate-spin h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+              ></circle>
+              <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+              ></path>
+            </svg>
+          )}
           <span>تحليل التصميم</span>
         </button>
 
@@ -178,14 +210,16 @@ const Page = () => {
                       <p className="text-cstm-gray">اسحب وأفلت الملفات هنا </p>
                       <p className="text-cstm-gray">أو</p>
                       <button
+                        disabled={loading}
                         type="button"
-                        className="secondary-button hover:!bg-violet-50 !text-violet-700"
+                        className="secondary-button hover:!bg-violet-50 !text-violet-700 custom-disabled"
                         onClick={e => {
                           e.stopPropagation();
                           inputRef.current?.click();
                         }}
                       >تصفح</button>
                       <input
+                        disabled={loading}
                         id="image_upload"
                         type="file"
                         className="sr-only"
@@ -210,9 +244,10 @@ const Page = () => {
                 <div>
                   <label htmlFor="product_name" className="block mb-2 text-sm font-medium text-gray-900">اسم المنتج</label>
                   <input
+                    disabled={loading}
                     type="text"
                     id="product_name"
-                    className="bg-main-bg border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5"
+                    className="bg-main-bg border border-[#E5E7EB] text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5 custom-disabled"
                     placeholder="اسم المنتج"
                     value={productName}
                     onChange={e => setProductName(e.target.value)}
@@ -225,9 +260,10 @@ const Page = () => {
                   </div>
                   <label className="inline-flex items-center cursor-pointer">
                     <input
+                      disabled={loading}
                       id="color_analysis"
                       type="checkbox"
-                      className="sr-only peer"
+                      className="sr-only peer custom-disabled"
                       checked={colorAnalysis}
                       onChange={() => setColorAnalysis(v => !v)}
                     />
@@ -240,11 +276,12 @@ const Page = () => {
                   </div>
                   <label className="inline-flex items-center cursor-pointer">
                     <input
+                      disabled={loading}
                       id="auto_dimensions"
                       type="checkbox"
                       checked={generateNewImage}
                       onChange={() => setGenerateNewImage((v) => !v)}
-                      className="sr-only peer"
+                      className="sr-only peer custom-disabled"
                     />
                     <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                   </label>
@@ -255,7 +292,7 @@ const Page = () => {
                       id="width"
                       type="number"
                       placeholder="العرض"
-                      disabled={!generateNewImage}
+                      disabled={!generateNewImage || loading}
                       value={width}
                       onChange={e => setWidth(e.target.value)}
                       className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
@@ -267,7 +304,7 @@ const Page = () => {
                       type="number"
                       placeholder="الطول"
                       required
-                      disabled={!generateNewImage}
+                      disabled={!generateNewImage || loading}
                       value={height}
                       onChange={e => setHeight(e.target.value)}
                       className="bg-white border border-gray-500 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
@@ -278,7 +315,7 @@ const Page = () => {
                       id="measure_unit"
                       value={measureUnit}
                       onChange={e => setMeasureUnit(e.target.value as 'mm' | 'cm' | 'in' | 'px')}
-                      disabled={!generateNewImage}
+                      disabled={!generateNewImage || loading}
                       className="min-w-[80px] bg-white border border-gray-500 text-gray-900 text-m rounded-lg outline-none block w-full p-2.5 disabled:bg-gray-100 disabled:text-gray-400"
                     >
                       {MEASURE_UNITS_OPTIONS.map(unit => (
@@ -299,7 +336,7 @@ const Page = () => {
                 <h3 className="text-right text-lg font-bold text-gray-800 mb-4">معاينة التصميم</h3>
                 <div className="flex items-center gap-2">
                   <button
-                    disabled={zoom <= 0.5 || !uploadedImage}
+                    disabled={zoom <= 0.5 || !uploadedImage || loading}
                     type="button"
                     className="p-2 rounded bg-gray-100 hover:bg-gray-200 transition
                       disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
@@ -310,7 +347,7 @@ const Page = () => {
                   </button>
                   <span className="text-sm w-10 text-center">{Math.round(zoom * 100)}%</span>
                   <button
-                    disabled={zoom >= 4 || !uploadedImage}
+                    disabled={zoom >= 4 || !uploadedImage || loading}
                     type="button"
                     className="p-2 rounded bg-gray-100 hover:bg-gray-200 transition
                       disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
@@ -319,7 +356,7 @@ const Page = () => {
                   >
                     <ZoomIn size={18} />
                   </button>
-                  {uploadedImage && <button className="focus:none outline-none ms-4" onClick={() => setUploadedImage(null)} disabled={!uploadedImage}>
+                  {uploadedImage && <button className="focus:none outline-none ms-4 custom-disabled" onClick={() => setUploadedImage(null)} disabled={!uploadedImage || loading}>
                     <span className="sr-only">حذف الصورة</span>
                     <Trash2 className="hover:text-red-400" />
                   </button>}

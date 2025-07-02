@@ -116,3 +116,11 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+.custom-disabled:disabled {
+  background-color: #f3f4f6 !important;
+  color: #bdbdbd !important;
+  border-color: #e5e7eb !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important;
+}
