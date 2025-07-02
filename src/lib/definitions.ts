@@ -291,3 +291,12 @@ export interface ProductApiResponse {
   total: number;
 }
 
+export interface AnalyzeDesignData {
+  image: File | undefined;
+  productName: string;
+  colorAnalysis: boolean | string;
+  autoDimensions: boolean;
+  width: string | null;
+  height: string | null;
+  measureUnit: string | null;
+}

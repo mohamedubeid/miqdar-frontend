@@ -85,6 +85,13 @@ export async function login(_state: LoginFormState, formData: FormData): Promise
   return { message: 'success' };
 }
 
+export async function loginWithGoogle(token: string) {
+  if (!token) {
+    return { message: 'Google login token is required', errors: { token: ['Google login token is required'] } };
+  }
+  await setAuthCookie(token, true);
+}
+
 export async function logout() {
   const token = await getAuthToken();
 

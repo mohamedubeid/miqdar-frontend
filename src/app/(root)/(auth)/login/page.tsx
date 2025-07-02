@@ -1,31 +1,42 @@
 'use client';
-import { useActionState, useEffect, useState } from "react";
+import { Suspense, useActionState, useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { login } from "@/actions/auth";
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
 import ForgetPasswordModal from "@/components/auth/ForgetPasswordModal";
-
+import GoogleLoginErrorToast from "@/components/auth/GoogleLoginErrorToast";
 
 const Page = () => {
   const router = useRouter();
   const [state, formAction, isPending] = useActionState(login, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
+  // const searchParams = useSearchParams();
+  // const error = searchParams.get('error');
 
   useEffect(() => {
     if(state?.message == 'success') {
       toast.success('تم تسجيل الدخول بنجاح');
       router.replace('/');
-    }else
-    if (state?.message && state?.message !== 'success') {
+    }else if (state?.message && state?.message !== 'success') {
       toast.error(state.message)
     }
+
+  // if (error) {
+  //   toast.error("فشل تسجيل الدخول عبر جوجل");
+  //   const newUrl = new URL(window.location.href);
+  //   newUrl.searchParams.delete('error');
+  //   window.history.replaceState({}, '', newUrl.toString());
+  // }
   }, [state?.message]);
 
   return (
     <div className="surface-box">
+      <Suspense>
+        <GoogleLoginErrorToast />
+      </Suspense>
       <div className="container mx-auto py-9 flex flex-col items-center gap-6 max-w-[550px]">
         <div className="text-center">
           <h4>تسجيل الدخول</h4>
@@ -85,12 +96,13 @@ const Page = () => {
               }}>نسيت كلمة المرور؟</button>
             </div>
           </div>
+          <button type="submit" disabled={isPending} className={`primary-button !py-4 mx-auto w-full mt-8 !rounded-[15px] ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}> تسجيل دخول </button>
           <div className="flex items-center my-6">
             <hr className="flex-grow border-t border-gray-300" />
             <span className="mx-4 text-primary whitespace-nowrap">أو</span>
             <hr className="flex-grow border-t border-gray-300" />
           </div>
-          {/* <button className="p-4 border-[0.5px] border-[#9CA3AF] rounded-[15px] flex items-center justify-center gap-2 w-full bg-white hover:bg-black/10" type="button">
+          <Link href="https://olivedrab-hyena-876790.hostingersite.com/login/google" className="p-4 border-[0.5px] border-[#9CA3AF] rounded-[15px] flex items-center justify-center gap-2 w-full bg-white hover:bg-black/10" type="button">
             <svg width="27" height="27" viewBox="0 0 48 48">
               <g>
                 <path fill="#4285F4" d="M43.6 20.5h-1.9V20H24v8h11.3c-1.6 4.3-5.7 7-11.3 7-6.6 0-12-5.4-12-12s5.4-12 12-12c2.8 0 5.4 1 7.4 2.7l6.2-6.2C34.1 5.1 29.3 3 24 3 12.9 3 4 11.9 4 23s8.9 20 20 20c11 0 19.7-8 19.7-20 0-1.3-.1-2.7-.3-4z"/>
@@ -100,8 +112,7 @@ const Page = () => {
               </g>
             </svg>
             <span className="text-cstm-gray">تسجيل الدخول باستخدام Google </span>
-          </button> */}
-          <button type="submit" disabled={isPending} className={`primary-button !py-4 mx-auto w-full !rounded-[15px] ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}> تسجيل دخول </button>
+          </Link>
           <p className="text-center text-cstm-gray">
             مستخدم جديد ؟ 
             <Link 

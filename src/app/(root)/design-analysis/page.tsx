@@ -6,6 +6,7 @@ import { CloudUpload, Images, Palette, Trash2, ZoomIn, ZoomOut } from 'lucide-re
 import { toast } from 'react-toastify';
 import AnalysisResult from '@/components/design-analysis/AnalysisResult';
 import { MEASURE_UNITS } from '@/lib/constants';
+import { analyzeDesign } from '@/actions/products';
 
 const Page = () => {
   const [autoDimensions, setAutoDimensions] = useState(true);
@@ -78,6 +79,8 @@ const Page = () => {
       height: autoDimensions ? null : height,
       measureUnit: autoDimensions ? null : measureUnit,
     };
+    const result = analyzeDesign(data);
+    console.log('resultresultresultresultresultresultresultresultresult', result);
     console.log(data);
   };
 

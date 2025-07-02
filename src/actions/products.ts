@@ -1,7 +1,7 @@
 'use server';
 
 import { getAuthToken } from '@/lib/session';
-import { CategoryApiResponse, Product, ProductApiResponse, ToggleFavoriteState } from '@/lib/definitions';
+import { AnalyzeDesignData, CategoryApiResponse, Product, ProductApiResponse, ToggleFavoriteState } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
 
 
@@ -79,11 +79,37 @@ export async function toggleFavorite(productId: number, isFavorite: boolean): Pr
   if (!res.ok) {
     const error = JSON.parse(text);
     return {
-      message: error.message || 'حدث خطأ أثناء التسجيل، يرجى التحقق مرة اخرى من بياناتك',
+      message: error.message || "حدث خطأ أثناء تحديث المفضلة، يرجى التحقق مرة اخرى من بياناتك",
       errors: error.errors,
     }
   }
   return { message: 'success' };
+}
+
+export async function getUserFavoriteProducts(params?: {
+  page?: number;
+  perPage?: number;
+  sortBy?: string;
+  sortType?: string;
+}): Promise<ProductApiResponse | undefined> {
+  const token = await getAuthToken();
+  if (!token) throw new Error("Unauthorized");
+  const query = new URLSearchParams();
+  if (params?.page) query.set("page", params.page.toString());
+  if (params?.perPage) query.set("perPage", params.perPage.toString());
+  if (params?.sortBy) query.set("sortBy", params.sortBy);
+  if (params?.sortType) query.set("sortType", params.sortType);
+  const res = await fetch(`${API_URL}/api/favorites?${query.toString()}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    cache: 'no-store',
+  });
+  if (!res.ok) return;
+
+  return await res.json();
 }
 
 export async function getProductById(id: string): Promise<{product: Product} | undefined> {
@@ -101,4 +127,27 @@ export async function getProductById(id: string): Promise<{product: Product} | u
     return product;
   }
   return;
+}
+
+export async function analyzeDesign(data: AnalyzeDesignData) {
+  const token = await getAuthToken();
+  if (!token) throw new Error("Unauthorized");
+  const res = await fetch(`${API_URL}/api/process`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  const text = await res.text();
+  if (!res.ok) {
+    const error = JSON.parse(text);
+    return {
+      message: error.message || "حدث خطأ أثناء تحليل التصميم، يرجى التحقق مرة اخرى من بياناتك",
+      errors: error.errors,
+    }
+  }
+  return { message: 'success' };
 }

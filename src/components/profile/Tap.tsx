@@ -3,7 +3,7 @@ import { Ruler } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import FavoriteProduct from '../product-library/FavoriteProduct';
-import { getProducts } from '@/actions/products';
+import { getUserFavoriteProducts } from '@/actions/products';
 import { API_URL } from '@/lib/constants';
 import { Product } from '@/lib/definitions';
 import Pagination from '../product-library/Pagination';
@@ -85,13 +85,13 @@ const fakeProducts = [
 
 export default async function Tabs({ page }: { page?: string | string[] }) {
   // const [activeTab, setActiveTab] = use
-  const productsRes = await getProducts({
-    is_favorite: true,
+  const productsRes = await getUserFavoriteProducts({
     page: parseInt(normalizeParam(page) ?? "1"),
     perPage: 12,
     sortBy: normalizeParam("created_at"),
     sortType: normalizeParam("desc"),
     });
+    console.log('productsResproductsResproductsResproductsResproductsRes', productsRes)
   const productsData = Array.isArray(productsRes?.data)
     ? productsRes.data
     : (productsRes?.data && typeof productsRes.data === 'object')
