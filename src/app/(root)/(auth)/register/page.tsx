@@ -154,6 +154,13 @@ const Page = () => {
               أوافق على الشروط والأحكام
             </label>
           </div> */}
+          <button
+            type="submit"
+            disabled={isPending}
+            className={`primary-button !py-4 mx-auto mt12 w-full !rounded-[15px] ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            انشاء حساب
+          </button>
           <div className="flex items-center my-6">
             <hr className="flex-grow border-t border-gray-300" />
             <span className="mx-4 text-primary whitespace-nowrap">أو</span>
@@ -170,13 +177,6 @@ const Page = () => {
             </svg>
             <span className="text-cstm-gray">إنشاء حساب باستخدام Google</span>
           </Link>
-          <button
-            type="submit"
-            disabled={isPending}
-            className={`primary-button !py-4 mx-auto w-full !rounded-[15px] ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            انشاء حساب
-          </button>
         </form>
         <div className="text-center">
           <p className="text-cstm-gray">هل لديك حساب بالفعل؟ 

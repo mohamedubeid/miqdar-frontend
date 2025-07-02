@@ -93,6 +93,7 @@ const Page = () => {
               }}>نسيت كلمة المرور؟</button>
             </div>
           </div>
+          <button type="submit" disabled={isPending} className={`primary-button !py-4 mx-auto w-full mt-8 !rounded-[15px] ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}> تسجيل دخول </button>
           <div className="flex items-center my-6">
             <hr className="flex-grow border-t border-gray-300" />
             <span className="mx-4 text-primary whitespace-nowrap">أو</span>
@@ -109,7 +110,6 @@ const Page = () => {
             </svg>
             <span className="text-cstm-gray">تسجيل الدخول باستخدام Google </span>
           </Link>
-          <button type="submit" disabled={isPending} className={`primary-button !py-4 mx-auto w-full !rounded-[15px] ${isPending ? 'opacity-50 cursor-not-allowed' : ''}`}> تسجيل دخول </button>
           <p className="text-center text-cstm-gray">
             مستخدم جديد ؟ 
             <Link 

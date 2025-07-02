@@ -36,13 +36,13 @@ const Page = async ({ searchParams }: {
             <div className="flex flex-col gap-4">
               <div>
                 <h4>{user.name}</h4>
-                <p className="text-cstm-gray">{user.job_title}</p>
+                {user.job_title && <p className="text-cstm-gray">{user.job_title}</p>}
               </div>
               <div className="flex flex-wrap gap-4">
-                <div className="flex gap-1">
+                {(user.city || user.country )&&<div className="flex gap-1">
                   <MapPin size={16} className="inline" />
                   <p className="text-cstm-gray">{user.city}، {user.country}</p>
-                </div>
+                </div>}
                 <p className="text-cstm-gray">
                   عضو منذ {new Date(user.created_at).toLocaleString('ar-EG', { month: 'long', year: 'numeric' })}
                 </p>
