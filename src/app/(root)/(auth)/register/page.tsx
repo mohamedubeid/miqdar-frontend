@@ -154,12 +154,12 @@ const Page = () => {
               أوافق على الشروط والأحكام
             </label>
           </div> */}
-          {/* <div className="flex items-center my-6">
+          <div className="flex items-center my-6">
             <hr className="flex-grow border-t border-gray-300" />
             <span className="mx-4 text-primary whitespace-nowrap">أو</span>
             <hr className="flex-grow border-t border-gray-300" />
-          </div> */}
-          {/* <button className="p-4 border-[0.5px] border-[#9CA3AF] rounded-[15px] flex items-center justify-center gap-2 w-full bg-white hover:bg-black/10" type="button">
+          </div>
+          <Link href="https://olivedrab-hyena-876790.hostingersite.com/login/google" className="p-4 border-[0.5px] border-[#9CA3AF] rounded-[15px] flex items-center justify-center gap-2 w-full bg-white hover:bg-black/10" type="button">
             <svg width="27" height="27" viewBox="0 0 48 48">
               <g>
                 <path fill="#4285F4" d="M43.6 20.5h-1.9V20H24v8h11.3c-1.6 4.3-5.7 7-11.3 7-6.6 0-12-5.4-12-12s5.4-12 12-12c2.8 0 5.4 1 7.4 2.7l6.2-6.2C34.1 5.1 29.3 3 24 3 12.9 3 4 11.9 4 23s8.9 20 20 20c11 0 19.7-8 19.7-20 0-1.3-.1-2.7-.3-4z"/>
@@ -169,7 +169,7 @@ const Page = () => {
               </g>
             </svg>
             <span className="text-cstm-gray">إنشاء حساب باستخدام Google</span>
-          </button> */}
+          </Link>
           <button
             type="submit"
             disabled={isPending}

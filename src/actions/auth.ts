@@ -85,6 +85,18 @@ export async function login(_state: LoginFormState, formData: FormData): Promise
   return { message: 'success' };
 }
 
+export async function loginWithGoogle(token: string) {
+  // 'use server';
+  if (!token) {
+    // throw new Error('Google login token is required');
+    return { message: 'Google login token is required', errors: { token: ['Google login token is required'] } };
+  }
+  console.log('Google login tokentokentokentokentokentokentokentokentokentokentokentoken:', token);
+  // Store token in HttpOnly cookie
+  await setAuthCookie(token, true);
+  redirect('/');
+}
+
 export async function logout() {
   const token = await getAuthToken();
 

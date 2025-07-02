@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 export const COOKIE_NAME = 'auth_token'
 
 export async function setAuthCookie(token: string, rememberMe: boolean = false) {
+  "use server";
   const cookieStore =await cookies()
   cookieStore.set(COOKIE_NAME, token, {
     httpOnly: true,
