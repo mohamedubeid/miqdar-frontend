@@ -1,20 +1,20 @@
 'use client';
-import { useActionState, useEffect, useState } from "react";
+import { Suspense, useActionState, useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { login } from "@/actions/auth";
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify';
 import ForgetPasswordModal from "@/components/auth/ForgetPasswordModal";
-import { useSearchParams } from 'next/navigation'
+import GoogleLoginErrorToast from "@/components/auth/GoogleLoginErrorToast";
 
 const Page = () => {
   const router = useRouter();
   const [state, formAction, isPending] = useActionState(login, undefined);
   const [showPassword, setShowPassword] = useState(false);
   const [forgetPasswordModalOpen, setForgetPasswordModalOpen] = useState(false);
-  const searchParams = useSearchParams();
-  const error = searchParams.get('error');
+  // const searchParams = useSearchParams();
+  // const error = searchParams.get('error');
 
   useEffect(() => {
     if(state?.message == 'success') {
@@ -24,16 +24,19 @@ const Page = () => {
       toast.error(state.message)
     }
 
-  if (error) {
-    toast.error("فشل تسجيل الدخول عبر جوجل");
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.delete('error');
-    window.history.replaceState({}, '', newUrl.toString());
-  }
-  }, [state?.message, error]);
+  // if (error) {
+  //   toast.error("فشل تسجيل الدخول عبر جوجل");
+  //   const newUrl = new URL(window.location.href);
+  //   newUrl.searchParams.delete('error');
+  //   window.history.replaceState({}, '', newUrl.toString());
+  // }
+  }, [state?.message]);
 
   return (
     <div className="surface-box">
+      <Suspense>
+        <GoogleLoginErrorToast />
+      </Suspense>
       <div className="container mx-auto py-9 flex flex-col items-center gap-6 max-w-[550px]">
         <div className="text-center">
           <h4>تسجيل الدخول</h4>
