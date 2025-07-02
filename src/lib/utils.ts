@@ -1,23 +1,44 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { MEASURE_UNITS } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function convertValue(value: number, unit: string) {
-  switch (unit) {
+export function convertValue(
+  value: number,
+  currentUnit: MEASURE_UNITS,
+  targetUnit: MEASURE_UNITS
+): number {
+  let valueInMm: number;
+  switch (currentUnit) {
     case 'mm':
-      return value;
+      valueInMm = value;
+      break;
     case 'cm':
-      return value / 10;
+      valueInMm = value * 10;
+      break;
     case 'in':
-      return value / 25.4;
+      valueInMm = value * 25.4;
+      break;
     case 'px':
-      // Assume 1 inch = 96px, so 1mm = 96/25.4 px
-      return value * (96 / 25.4);
+      valueInMm = value * (25.4 / 96);
+      break;
     default:
-      return value;
+      valueInMm = value;
+  }
+  switch (targetUnit) {
+    case 'mm':
+      return valueInMm;
+    case 'cm':
+      return valueInMm / 10;
+    case 'in':
+      return valueInMm / 25.4;
+    case 'px':
+      return valueInMm * (96 / 25.4);
+    default:
+      return valueInMm;
   }
 }
 

@@ -292,11 +292,44 @@ export interface ProductApiResponse {
 }
 
 export interface AnalyzeDesignData {
-  image: File | undefined;
-  productName: string;
-  colorAnalysis: boolean | string;
-  autoDimensions: boolean;
-  width: string | null;
-  height: string | null;
-  measureUnit: string | null;
+  file: File | undefined;
+  product_name: string;
+  do_generate_image: boolean;
+  do_extract_colors: boolean;
+  do_detect_dimensions: boolean;
+  prompt: string | null;
+  user_width: number | string | null;
+  user_height: number | string | null;
+  target_height_cm: number | string | null;
 }
+
+export interface AnalyzeDesignResponse {
+  extract_colors?: {
+    colors: string[];
+    time_sec: number;
+    image_url: string;
+  };
+  detect_dimensions?: {
+    dimensions_px: {
+      width: number;
+      height: number;
+    };
+    dimensions_converted: {
+      cm: [number, number];
+      mm: [number, number];
+      in_: [number, number];
+    };
+    image_url: string;
+  };
+  generated_image?: string;
+  product_name: string;
+  user_width?: number;
+  user_height?: number;
+}
+
+export type AnalyzeDesignApiResponse =
+  {
+    message: string;
+    result?: AnalyzeDesignResponse;
+    error?: string;
+  }
