@@ -321,7 +321,7 @@ export interface AnalyzeDesignResponse {
     };
     image_url: string;
   };
-  generated_image?: string;
+  generated_image_url?: string;
   product_name: string;
   user_width?: number;
   user_height?: number;
