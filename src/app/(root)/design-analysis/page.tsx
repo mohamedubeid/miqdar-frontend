@@ -5,7 +5,7 @@ import Image from "next/image";
 import { CloudUpload, Images, Palette, Trash2, ZoomIn, ZoomOut } from 'lucide-react';
 import { toast } from 'react-toastify';
 import AnalysisResult from '@/components/design-analysis/AnalysisResult';
-import { MEASURE_UNITS, MEASURE_UNITS_OPTIONS } from '@/lib/constants';
+import { API_URL, MEASURE_UNITS, MEASURE_UNITS_OPTIONS } from '@/lib/constants';
 import { analyzeDesign } from '@/actions/products';
 import { convertValue } from '@/lib/utils';
 import { AnalyzeDesignResponse } from '@/lib/definitions';
@@ -22,7 +22,7 @@ const Page = () => {
   const [zoom, setZoom] = useState(1);
   const [loading, setLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalyzeDesignResponse | null>(null);
-  // const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -108,9 +108,9 @@ const Page = () => {
 
       if (resultRes.result && resultRes.message === 'success') {
         setAnalysisResult(resultRes.result);
-      // if (resultRes.result.generated_image) {
-      //   setPreviewImageUrl(resultRes.result.generated_image);
-      // }
+      if (resultRes.result.generated_image_url) {
+        setPreviewImageUrl(resultRes.result.generated_image_url);
+      }
         toast.success('تم تحليل التصميم بنجاح');
         return;
       }
@@ -362,8 +362,8 @@ const Page = () => {
                   </button>}
                 </div>
               </div>
-              {analysisResult?.generated_image && (
-                <p className="text-sm text-primary text-center mt-2">* تم توليد الصورة بناءً على التصميم</p>
+              {analysisResult?.generated_image_url && (
+                <p className="text-sm text-primary text-center mt-2">* تم توليد هذه الصورة بواسطة الذكاء الاصطناعي</p>
               )}
               {uploadedImage ? (
                 <div className="bg-main-bg h-full w-full rounded-[16px] flex items-center justify-center overflow-auto">
@@ -374,12 +374,13 @@ const Page = () => {
                     <Image
                       ref={imageRef}
                       // src={
-                      //   analysisResult?.generated_image
+                      //   analysisResult?.generated_image_url
                       //     ? `data:image/png;base64,${analysisResult.generated_image}`
+                      //      ? `${analysisResult.generated_image_url}`
                       //     : URL.createObjectURL(uploadedImage)
                       // }
-                      // src={previewImageUrl ? previewImageUrl : URL.createObjectURL(uploadedImage)}
-                      src={URL.createObjectURL(uploadedImage)}
+                      src={previewImageUrl ? API_URL + previewImageUrl : URL.createObjectURL(uploadedImage)}
+                      // src={URL.createObjectURL(uploadedImage)}
                       alt="معاينة التصميم"
                       className="p-8 max-h-[727px] rounded-[16px] object-contain transition-transform duration-200"
                       width={747}
