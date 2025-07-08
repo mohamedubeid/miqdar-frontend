@@ -17,18 +17,22 @@ export default async function Home() {
             url('/images/hero-bg.png')
           `
         }}>
-          <h1>القياسات الدقيقة للمصممين</h1>
-          <p className="text-[18px] text-[#374151] max-w-[541px] text-center">وفر الوقت والجهد في البحث عن قياسات المنتجات. حلل تصاميمك أو استعرض مكتبتنا للقياسات الدقيقة.</p>
+          <h1>مقدار AI</h1>
+          <p className="text-[18px] text-[#374151] max-w-[541px] text-center">منصة ذكاء اصطناعي متخصص في تصميم المنتجات للسوق السعودي والعربي، يولد المقاسات المحلية تلقائيًا، يقترح الخامات الأنسب، يحلل الألوان بدقة، ويوفر لك مكتبة بلوكات جاهزة مستوحاة من الثقافة والبيئة المحلية لتصاميم أسرع، أذكى، ومتوافقة مع المقاسات والمعايير العربي الصناعية</p>
           <div className="flex flex-col md:flex-row gap-4">
             <Link data-aos="fade-left" href="/design-analysis" className="primary-button">
               <ArrowUpFromLine />
-              <span>رفع صورة المنتج</span>
+              <span>توليد مقاسات المنتجات</span>
             </Link>
             <Link data-aos="fade-right" href="/product-library" className="secondary-button">
               <Database />
               <span>تصفح المكتبة</span>
             </Link>
           </div>
+          <Link href="/about" className="text-primary font-bold text-base px-4 py-2 rounded-md hover:bg-primary-100 transition">
+            <span>تعرف اكثر على مقدار</span>
+          </Link>
+
         </section>
         <section id="features" className="flex flex-col items-center justify-center gap-y-8 py-16">
           <h3 data-aos="fade-up">ميزاتنا الرئيسية</h3>
