@@ -43,22 +43,33 @@ const Page = () => {
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0];
-      if (allowedTypes.includes(file.type)) {
-        setUploadedImage(file);
-      } else {
+      if (!allowedTypes.includes(file.type)) {
         toast.error('يرجى رفع صورة بصيغة PNG أو JPG أو SVG فقط');
+        return;
       }
+      if (file.size > 512000) {
+        toast.error('يجب ألا يتجاوز حجم الصورة 500KB');
+        return;
+      }
+      setUploadedImage(file);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      if (allowedTypes.includes(file.type)) {
-        setUploadedImage(file);
-      } else {
+
+      if (!allowedTypes.includes(file.type)) {
         toast.error('يرجى رفع صورة بصيغة PNG أو JPG أو SVG فقط');
+        return;
       }
+
+      if (file.size > 512000) {
+        toast.error('يجب ألا يتجاوز حجم الصورة 500KB');
+        return;
+      }
+
+      setUploadedImage(file);
     }
   };
 
