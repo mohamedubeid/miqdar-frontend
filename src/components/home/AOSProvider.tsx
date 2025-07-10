@@ -8,6 +8,7 @@ export const AOSProvider = () => {
     AOS.init({
       once: true,
       duration: 1000,
+      disable: window.innerWidth < 768,
     });
   }, []);
 

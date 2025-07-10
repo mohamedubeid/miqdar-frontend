@@ -99,6 +99,7 @@ const DownloadDesignModal = ({
             })}
           </div>
         </div>
+        <a href="https://olivedrab-hyena-876790.hostingersite.com/storage/products/July2025/TJG1kY8jnzhlEGkliyr3.stp" download={true}>tttttttt</a>
         <button
           className="primary-button w-fit mx-auto mt-4"
           onClick={handleDownload}

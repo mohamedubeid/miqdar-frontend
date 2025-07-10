@@ -199,7 +199,8 @@ const Page = () => {
           <div className="w-full max-w-[395px]">
             <div>
               <div className="bg-white rounded-[16px] p-6 pb-10 cstm-card-style">
-                <h3 className="text-right text-lg font-bold text-gray-800 mb-4">تحميل الملف</h3>
+                <h3 className="text-right text-lg font-bold text-gray-800 mb-1">تحميل الملف</h3>
+                <p className="text-right text-sm text-gray-500 mb-5">يجب ألا يتجاوز حجم الصورة 500KB</p>
                 <div
                   className={`border-2 border-dashed border-[#CBD5E1] rounded-[16px] flex flex-col items-center justify-center text-center space-y-4 h-[282px] transition cursor-pointer ${dragActive ? 'bg-violet-50 border-violet-400' : ''}`}
                   onDragEnter={handleDrag}
