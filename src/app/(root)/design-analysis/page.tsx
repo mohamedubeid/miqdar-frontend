@@ -164,6 +164,12 @@ const Page = () => {
       <div className="container mx-auto py-8">
         <h3>تحليل التصميم</h3>
         <p className="text-cstm-gray mt-4">قم بتحميل التصميم الخاص بك للحصول على قياسات دقيقة باستخدام الذكاء الاصطناعي </p>
+        <div className="flex items-center justify-between">
+          <div className="bg-yellow-100 border border-yellow-300 text-yellow-700 p-4 my-4 rounded">
+            <p className="text-sm">
+              ملاحظة: نموذج الذكاء الاصطناعي الحالي لا يزال في مرحلة التجريب، وقد لا تكون النتائج دقيقة بنسبة 100٪. نحن نعمل باستمرار على تحسين أدائه، لذا يرجى مراجعة النتائج بعناية.
+            </p>
+          </div>
         <button
           type="button"
           onClick={handleSubmit}
@@ -194,6 +200,7 @@ const Page = () => {
           )}
           <span>تحليل التصميم</span>
         </button>
+        </div>
 
         <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8 mt-8">
           <div className="w-full max-w-[395px]">
