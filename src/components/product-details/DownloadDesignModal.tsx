@@ -55,19 +55,23 @@ const DownloadDesignModal = ({
     step: getParsedFiles(design_file_step),
   };
 
-  const handleDownload = () => {
-    selected.forEach((format) => {
+  const handleDownload = async () => {
+    for (const format of selected) {
       const files = filesMap[format];
-      files.forEach((file) => {
+      for (const file of files) {
+        const response = await fetch(`${API_URL}/storage/${file.download_link}`);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
         const a = document.createElement('a');
-        a.href = `${API_URL}/storage/${file.download_link}`;
+        a.href = url;
         a.download = file.original_name;
-        a.target = '_blank';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-      });
-    });
+        window.URL.revokeObjectURL(url);
+      }
+    }
   };
 
   return (
