@@ -19,9 +19,9 @@ const FORMATS = [
 
 type DownloadDesignModalProps = {
   design_file_stl?: string | null;
-  design_file_obj?: string | null;
+  design_file_obj: DesignFile[];
   design_file_fbx?: string | null;
-  design_file_step?: string | null;
+  design_file_step: DesignFile[];
 };
 
 const DownloadDesignModal = ({
@@ -50,30 +50,31 @@ const DownloadDesignModal = ({
 
   const filesMap: Record<string, DesignFile[]> = {
     stl: getParsedFiles(design_file_stl),
-    obj: getParsedFiles(design_file_obj),
+    obj: design_file_obj,
     fbx: getParsedFiles(design_file_fbx),
-    step: getParsedFiles(design_file_step),
+    step: design_file_step,
   };
 
-  const handleDownload = async () => {
-    for (const format of selected) {
+  const handleDownload = () => {
+    selected.forEach((format) => {
       const files = filesMap[format];
-      for (const file of files) {
-        const response = await fetch(`${API_URL}/storage/${file.download_link}`);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-
+      files.forEach((file) => {
         const a = document.createElement('a');
-        a.href = url;
+        if (format !== 'obj' && format !== 'step') {
+          a.href = `${API_URL}/storage/${file.download_link}`;
+        }else {
+          a.href = file.download_link;
+        }
         a.download = file.original_name;
+        a.target = '_blank';
         document.body.appendChild(a);
-        a.click();
+        if (a.href) {
+          a.click();
+        }
         document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      }
-    }
+      });
+    });
   };
-
   return (
     <Dialog>
       <DialogTrigger className="secondary-button">تحميل ملف التصميم</DialogTrigger>

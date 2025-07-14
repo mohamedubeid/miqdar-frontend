@@ -129,6 +129,17 @@ export async function getProductById(id: string): Promise<{product: Product} | u
   return;
 }
 
+export async function getDesignFile({productId, format} :{productId: string, format: string}) {
+  const res = await fetch(`${API_URL}/api/get-download-link/${productId}/${format}`, {
+    cache: "no-store",
+  });
+  if (res.ok) {
+    const designFile = await res.json();
+    return designFile;
+  }
+  return;
+}
+
 export async function analyzeDesign(data: AnalyzeDesignData): Promise<AnalyzeDesignApiResponse> {
   const token = await getAuthToken();
   if (!token) throw new Error("Unauthorized");

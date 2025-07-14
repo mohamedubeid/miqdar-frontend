@@ -5,7 +5,8 @@ import ShareButton from '@/components/product-details/ShareButton';
 import DownloadDesignModal from '@/components/product-details/DownloadDesignModal';
 import { EmblaOptionsType } from 'embla-carousel'
 import { Check } from 'lucide-react'
-import { getProductById } from '@/actions/products';
+import { getProductById, getDesignFile } from '@/actions/products';
+import { DesignFile } from '@/lib/definitions';
 
 const OPTIONS: EmblaOptionsType = {
   dragFree: false,
@@ -17,14 +18,38 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const { id } = await params
   const productRes = await getProductById(id);
+  if (!productRes || !productRes.product) return;
+  const product = productRes.product;
   let images: string[] = [];
-
   try {
-    images = productRes && productRes.product && productRes.product.images ? JSON.parse(productRes?.product.images).map((path: string) => path.replace(/\\/g, '/')) : [];
+    images = product.images ? JSON.parse(product.images).map((path: string) => path.replace(/\\/g, '/')) : [];
   } catch (error) {
     console.error("Failed to parse images:", error);
   }
-  if(!productRes || !productRes.product) return; //redirect to login or /
+  const [objFile, stepFile] = await Promise.all([
+    getDesignFile({ productId: product.id.toString(), format: 'obj' }),
+    getDesignFile({ productId: product.id.toString(), format: 'step' }),
+  ]);
+
+  const designFileObj: DesignFile[] = objFile?.download_url
+  ? [
+      {
+        original_name: `design.obj`,
+        download_link: objFile.download_url,
+      },
+    ]
+  : [];
+
+  const designFileStep: DesignFile[] = stepFile?.download_url
+  ? [
+      {
+        original_name: `design.step`,
+        download_link: stepFile.download_url,
+      },
+    ]
+  : [];
+
+  if(!productRes || !productRes.product) return;
   return (
     <div className="surface-box px-2 py-19">
       <div className="container mx-auto p-6 bg-white rounded-[16px]">
@@ -36,9 +61,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
           <DownloadDesignModal
             design_file_stl={productRes?.product.design_file_stl}
-            design_file_obj={productRes?.product.design_file_obj}
+            design_file_obj={designFileObj}
             design_file_fbx={productRes?.product.design_file_fbx}
-            design_file_step={productRes?.product.design_file_step}
+            design_file_step={designFileStep}
           />
         </div>
         <div className="flex flex-col md:flex-row gap-8 mt-8">
