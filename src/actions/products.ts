@@ -3,14 +3,14 @@
 import { getAuthToken } from '@/lib/session';
 import { AnalyzeDesignApiResponse, AnalyzeDesignData, CategoryApiResponse, Product, ProductApiResponse, ToggleFavoriteState } from '@/lib/definitions';
 import { API_URL } from '@/lib/constants';
-
+import { redirect } from 'next/navigation';
 
 export async function getCategories(params?: {
   page?: number;
   perPage?: number;
 }): Promise<CategoryApiResponse | undefined> {
   const token = await getAuthToken();
-  if (!token) throw new Error("Unauthorized");
+  if (!token) redirect('/login');;
   const query = new URLSearchParams();
   if (params?.page) query.set("page", params.page.toString());
   if (params?.perPage) query.set("per_page", params.perPage.toString());
@@ -40,7 +40,7 @@ export async function getProducts(params?: {
   is_favorite?: boolean;
 }): Promise<ProductApiResponse | undefined> {
   const token = await getAuthToken();
-  if (!token) throw new Error("Unauthorized");
+  if (!token) redirect('/login');;
   const query = new URLSearchParams();
   if (params?.sortBy) query.set("sortBy", params.sortBy);
   if (params?.sortType) query.set("sortType", params.sortType);
@@ -65,7 +65,7 @@ export async function getProducts(params?: {
 
 export async function toggleFavorite(productId: number, isFavorite: boolean): Promise<ToggleFavoriteState> {
   const token = await getAuthToken();
-  if (!token) throw new Error("Unauthorized");
+  if (!token) redirect('/login');;
   const res = await fetch(`${API_URL}/api/products/favorite`, {
     method: 'POST',
     headers: {
@@ -93,7 +93,7 @@ export async function getUserFavoriteProducts(params?: {
   sortType?: string;
 }): Promise<ProductApiResponse | undefined> {
   const token = await getAuthToken();
-  if (!token) throw new Error("Unauthorized");
+  if (!token) redirect('/login');;
   const query = new URLSearchParams();
   if (params?.page) query.set("page", params.page.toString());
   if (params?.perPage) query.set("perPage", params.perPage.toString());
@@ -114,7 +114,7 @@ export async function getUserFavoriteProducts(params?: {
 
 export async function getProductById(id: string): Promise<{product: Product} | undefined> {
   const token = await getAuthToken();
-  if (!token) throw new Error("Unauthorized");
+  if (!token) redirect('/login');
   const res = await fetch(`${API_URL}/api/products/${id}`, {
     headers: {
       Accept: "application/json",
@@ -142,7 +142,7 @@ export async function getDesignFile({productId, format} :{productId: string, for
 
 export async function analyzeDesign(data: AnalyzeDesignData): Promise<AnalyzeDesignApiResponse> {
   const token = await getAuthToken();
-  if (!token) throw new Error("Unauthorized");
+  if (!token) redirect('/login');;
   const formData = new FormData();
   if (data.file) formData.append('file', data.file);
   formData.append('product_name', data.product_name);
