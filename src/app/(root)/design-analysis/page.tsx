@@ -206,6 +206,7 @@ const Page = () => {
           <button
             className="primary-button !bg-gray-300 !text-gray-600 !border-gray-300 !cursor-not-allowed hover:!bg-gray-300 hover:!text-gray-600 hover:!border-gray-300"
             disabled
+            onClick={handleSubmit}
           >
             <Ruler size={16} />
             <span>تحليل التصميم (مغلق حالياً)</span>
