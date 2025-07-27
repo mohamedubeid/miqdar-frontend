@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import Image from "next/image";
-import { CloudUpload, Images, Palette, Trash2, ZoomIn, ZoomOut } from 'lucide-react';
+import { CloudUpload, Images, Palette, Ruler, Trash2, ZoomIn, ZoomOut } from 'lucide-react';
 import { toast } from 'react-toastify';
 import AnalysisResult from '@/components/design-analysis/AnalysisResult';
 import { API_URL, MEASURE_UNITS, MEASURE_UNITS_OPTIONS } from '@/lib/constants';
@@ -162,15 +162,18 @@ const Page = () => {
   return (
     <div className="surface-box">
       <div className="container mx-auto py-8">
+        <div className="bg-yellow-100 border border-yellow-300 text-yellow-900 px-6 py-4 rounded-md mb-6 text-center text-lg font-semibold">
+          ⚠️ هذه الصفحة مغلقة حالياً للصيانة. نحن نعمل على تحسين النظام وسيتم إعادة تفعيلها قريباً.
+        </div>
         <h3>تحليل التصميم</h3>
         <p className="text-cstm-gray mt-4">قم بتحميل التصميم الخاص بك للحصول على قياسات دقيقة باستخدام الذكاء الاصطناعي </p>
-        <div className="flex items-center justify-between">
-          <div className="bg-yellow-100 border border-yellow-300 text-yellow-700 p-4 my-4 rounded">
+        <div className="flex items-center justify-end">
+          {/* <div className="bg-yellow-100 border border-yellow-300 text-yellow-700 p-4 my-4 rounded">
             <p className="text-sm">
               ملاحظة: نموذج الذكاء الاصطناعي الحالي لا يزال في مرحلة التجريب، وقد لا تكون النتائج دقيقة بنسبة 100٪. نحن نعمل باستمرار على تحسين أدائه، لذا يرجى مراجعة النتائج بعناية.
             </p>
-          </div>
-        <button
+          </div> */}
+        {/* <button
           type="button"
           onClick={handleSubmit}
           disabled={loading}
@@ -199,7 +202,14 @@ const Page = () => {
             </svg>
           )}
           <span>تحليل التصميم</span>
-        </button>
+        </button> */}
+          <button
+            className="primary-button !bg-gray-300 !text-gray-600 !border-gray-300 !cursor-not-allowed hover:!bg-gray-300 hover:!text-gray-600 hover:!border-gray-300"
+            disabled
+          >
+            <Ruler size={16} />
+            <span>تحليل التصميم (مغلق حالياً)</span>
+          </button>
         </div>
 
         <div className="flex flex-col md:flex-row items-center md:items-stretch gap-8 mt-8">
