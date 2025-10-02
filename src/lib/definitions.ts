@@ -333,3 +333,38 @@ export type AnalyzeDesignApiResponse =
     result?: AnalyzeDesignResponse;
     error?: string;
   }
+
+export interface Expert {
+  id: number;
+  image: string;
+  full_name: string;
+  country_flag: string;
+  bio: string;
+  linkedIn: string;
+  desc: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ExpertApiResponse {
+  status: string;
+  data: {
+    current_page: number;
+    data: Expert[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Array<{
+      url: string | null;
+      label: string;
+      active: boolean;
+    }>;
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+  };
+}
