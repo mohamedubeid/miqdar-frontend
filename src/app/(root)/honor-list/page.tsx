@@ -1,67 +1,16 @@
 import React from "react";
 import ExpertProfileCard from "@/components/profile/ExpertProfileCard";
 import Link from 'next/link';
+import { getExperts } from '@/actions/experts';
 
-const page = () => {
-  // Sample expert data
-  const experts = [
-    {
-      name: "محمد علي القاسم",
-      expertise: "خبير في صناعة النسيج والأقمشة مع تخصص في المعايير الدولية للمقاسات",
-      contribution: "ساهم في إدراج معايير المقاسات المصرية للأقمشة والمنسوجات التقليدية وطور أدلة القياس الدقيق",
-      rating: 4,
-      profileImage: "/placeholders/pro1.png",
-      countryFlag: "/placeholders/cat1.jpg"
-    },
-    {
-      name: "فاطمة أحمد السعيد",
-      expertise: "خبيرة في تصميم الأزياء التقليدية مع خبرة واسعة في المقاسات النسائية",
-      contribution: "طورت نظام مقاسات شامل للملابس النسائية التقليدية وشاركت في وضع المعايير المحلية",
-      rating: 5,
-      profileImage: "/placeholders/pro2.jpg",
-      countryFlag: "/placeholders/cat2.jpg"
-    },
-    {
-      name: "عبدالرحمن محمد العتيبي",
-      expertise: "خبير في صناعة الأحذية والجلود مع تخصص في المقاسات الرجالية",
-      contribution: "ساهم في تطوير معايير مقاسات الأحذية التقليدية والحديثة مع التركيز على الراحة والجودة",
-      rating: 4,
-      profileImage: "/placeholders/pro3.jpg",
-      countryFlag: "/placeholders/cat3.jpg"
-    },
-    {
-      name: "فاطمة أحمد السعيد",
-      expertise: "خبيرة في تصميم الأزياء التقليدية مع خبرة واسعة في المقاسات النسائية",
-      contribution: "طورت نظام مقاسات شامل للملابس النسائية التقليدية وشاركت في وضع المعايير المحلية",
-      rating: 5,
-      profileImage: "/placeholders/pro2.jpg",
-      countryFlag: "/placeholders/cat2.jpg"
-    },
-    {
-      name: "عبدالرحمن محمد العتيبي",
-      expertise: "خبير في صناعة الأحذية والجلود مع تخصص في المقاسات الرجالية",
-      contribution: "ساهم في تطوير معايير مقاسات الأحذية التقليدية والحديثة مع التركيز على الراحة والجودة",
-      rating: 4,
-      profileImage: "/placeholders/pro3.jpg",
-      countryFlag: "/placeholders/cat3.jpg"
-    },
-    {
-      name: "فاطمة أحمد السعيد",
-      expertise: "خبيرة في تصميم الأزياء التقليدية مع خبرة واسعة في المقاسات النسائية",
-      contribution: "طورت نظام مقاسات شامل للملابس النسائية التقليدية وشاركت في وضع المعايير المحلية",
-      rating: 5,
-      profileImage: "/placeholders/pro2.jpg",
-      countryFlag: "/placeholders/cat2.jpg"
-    },
-    {
-      name: "عبدالرحمن محمد العتيبي",
-      expertise: "خبير في صناعة الأحذية والجلود مع تخصص في المقاسات الرجالية",
-      contribution: "ساهم في تطوير معايير مقاسات الأحذية التقليدية والحديثة مع التركيز على الراحة والجودة",
-      rating: 4,
-      profileImage: "/placeholders/pro3.jpg",
-      countryFlag: "/placeholders/cat3.jpg"
-    }
-  ];
+const Page = async () => {
+  const expertsData = await getExperts();
+  const experts = expertsData?.data?.data || [];
+
+  const stripHtml = (html: string): string => {
+    return html.replace(/<[^>]*>/g, '');
+  };
+
   return (
     <>
     <section id="honor-list-intro">
@@ -85,23 +34,31 @@ const page = () => {
     <section id="honot-list" className="pt-20">
       <h3 className="text-center mb-6">خبراؤنا المكرمون</h3>
       <p className="text-center">تعرف على الخبراء الذين ساهموا في بناء وتطوير منصة مقدار بخبرتهم ومعرفتهم العميقة</p>
-      <div className="my-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {experts.map((expert, index) => (
-          <ExpertProfileCard
-            key={index}
-            name={expert.name}
-            expertise={expert.expertise}
-            contribution={expert.contribution}
-            rating={expert.rating}
-            profileImage={expert.profileImage}
-            countryFlag={expert.countryFlag}
-          />
-        ))}
-      </div>
+      
+      {experts.length > 0 ? (
+        <div className="my-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {experts.map((expert) => (
+            <ExpertProfileCard
+              key={expert.id}
+              name={expert.full_name}
+              expertise={stripHtml(expert.bio)}
+              contribution={stripHtml(expert.desc)}
+              rating={5}
+              socialHandle={expert.linkedIn}
+              profileImage={expert.image}
+              countryFlag={expert.country_flag}
+              linkedInUrl={expert.linkedIn}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <p className="text-gray-600">لا يوجد خبراء متاحين حالياً</p>
+        </div>
+      )}
     </section>
 
-    {/* Join Expert Team Section */}
-    <section className="py-20">
+    <section>
       <div 
         className="p-12 text-center"
         style={{
@@ -128,4 +85,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

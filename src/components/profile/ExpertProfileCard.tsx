@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { API_URL } from '@/lib/constants';
 
 interface ExpertProfileCardProps {
   name: string;
@@ -9,6 +10,7 @@ interface ExpertProfileCardProps {
   socialHandle: string;
   profileImage: string;
   countryFlag: string;
+  linkedInUrl?: string;
 }
 
 const ExpertProfileCard: React.FC<ExpertProfileCardProps> = ({
@@ -16,9 +18,25 @@ const ExpertProfileCard: React.FC<ExpertProfileCardProps> = ({
   expertise,
   contribution,
   rating,
-  socialHandle,
-  profileImage
+  profileImage,
+  countryFlag,
+  linkedInUrl
 }) => {
+  const getSocialHandle = (url: string): string => {
+    try {
+      const urlObj = new URL(url);
+      const pathParts = urlObj.pathname.split('/').filter(part => part);
+      const handle = pathParts[pathParts.length - 1] || 'expert';
+      
+      // Remove numbers and special characters, keep only letters and hyphens
+      const nameOnly = handle.replace(/[0-9]/g, '').replace(/^-+|-+$/g, '');
+      
+      return nameOnly || 'expert';
+    } catch {
+      return 'expert';
+    }
+  };
+
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <svg
@@ -36,14 +54,14 @@ const ExpertProfileCard: React.FC<ExpertProfileCardProps> = ({
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden card-style max-w-sm mx-auto">
       <div className="relative h-64 bg-gray-100">
         <Image
-          src={profileImage}
+          src={`${API_URL}/storage/${profileImage}`}
           alt={name}
           fill
           className="object-cover"
         />
         <div className="absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md">
           <Image
-            src="/images/country-flag.png"
+            src={`${API_URL}/storage/${countryFlag}` || "/images/country-flag.png"}
             alt="Country flag"
             width={20}
             height={20}
@@ -87,8 +105,9 @@ const ExpertProfileCard: React.FC<ExpertProfileCardProps> = ({
           {renderStars(rating)}
         </div>
           <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">{getSocialHandle(linkedInUrl ?? '') ?? 'LinkedIn'}</span>
             <a 
-              href={`https://linkedin.com/in/${socialHandle}`}
+              href={linkedInUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-75 transition-opacity"
