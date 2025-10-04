@@ -10,7 +10,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
     { key: "مكتبة المنتجات", link: "/product-library" },
     { key: "عن مقدار", link: "/about" },
     { key: "تواصل معنا", link: "/contact" },
-    // { key: "القائمة الشرفية", link: "/honor-list" },
+    { key: "القائمة الشرفية", link: "/honor-list" },
   ];
 
   return (
