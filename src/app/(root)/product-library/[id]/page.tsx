@@ -3,6 +3,7 @@ import EmblaCarousel from '@/components/product-details/EmblaCarousel'
 import FavoriteButton from '@/components/product-details/FavoriteButton';
 import ShareButton from '@/components/product-details/ShareButton';
 import DownloadDesignModal from '@/components/product-details/DownloadDesignModal';
+import InteractiveStarRating from '@/components/product-details/InteractiveStarRating';
 import { EmblaOptionsType } from 'embla-carousel'
 import { Check } from 'lucide-react'
 import { getProductById, getDesignFile } from '@/actions/products';
@@ -58,6 +59,14 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <div>
             <h3>{productRes?.product.name_ar}</h3>
             <p className="text-cstm-gray">{productRes?.product.name_en}</p>
+            <div className="mt-2">
+              <InteractiveStarRating 
+                productId={productRes?.product.id} 
+                initialRating={productRes?.product.rate} 
+                size="md" 
+                showRating={true} 
+              />
+            </div>
           </div>
           <DownloadDesignModal
             design_file_stl={productRes?.product.design_file_stl}

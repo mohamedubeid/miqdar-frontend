@@ -86,6 +86,35 @@ export async function toggleFavorite(productId: number, isFavorite: boolean): Pr
   return { message: 'success' };
 }
 
+export async function rateProduct(productId: number, rating: number): Promise<{ message: string; errors?: any }> {
+  const token = await getAuthToken();
+  if (!token) redirect('/login');
+  const res = await fetch(`${API_URL}/api/products/${productId}/rate`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ rating }),
+  });
+  const text = await res.text();
+  if (!res.ok) {
+    try {
+      const error = JSON.parse(text);
+      return {
+        message: error.message || "حدث خطأ أثناء تقييم المنتج، يرجى المحاولة مرة أخرى",
+        errors: error.errors,
+      };
+    } catch {
+      return {
+        message: "حدث خطأ أثناء تقييم المنتج، يرجى المحاولة مرة أخرى",
+      };
+    }
+  }
+  return { message: 'success' };
+}
+
 export async function getUserFavoriteProducts(params?: {
   page?: number;
   perPage?: number;
