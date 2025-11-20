@@ -1,9 +1,33 @@
 import Image from "next/image";
-import { ArrowDownToLine, ArrowLeft, ArrowUpFromLine, Check, CloudUpload, Database, GraduationCap, Info, PencilRuler, PenTool, Printer, Ruler, UserPlus } from "lucide-react";
+import { ArrowDownToLine, ArrowLeft, ArrowUpFromLine, Check, CloudUpload, FileText, GraduationCap, Info, LineChart, Package, PencilRuler, PenTool, Printer, Ruler, UserPlus, Users } from "lucide-react";
 import Categories from "@/components/home/Categories";
 import Link from "next/link";
 import { getUser } from "@/actions/user";
 import { AOSProvider } from "@/components/home/AOSProvider";
+import HowItWorksModal from "@/components/home/HowItWorksModal";
+
+// const impactStats = [
+//   {
+//     value: "25K+",
+//     label: "استخدام تحليل AI",
+//     icon: FileText,
+//   },
+//   {
+//     value: "100K+",
+//     label: "المستخدمون النشطون",
+//     icon: Users,
+//   },
+//   {
+//     value: "500K+",
+//     label: "إجمالي تنزيلات المنتجات",
+//     icon: ArrowDownToLine,
+//   },
+//   {
+//     value: "2.5M+",
+//     label: "الزوار شهرياً",
+//     icon: LineChart,
+//   },
+// ] as const;
 
 export default async function Home() {
   const user = await getUser();
@@ -20,18 +44,45 @@ export default async function Home() {
           <h1>مقدار AI</h1>
           <p className="text-[14px] md:text-[18px] text-[#374151] max-w-[541px] text-center px-4 md:p-2">منصة ذكاء اصطناعي متخصص في تصميم المنتجات للسوق السعودي والعربي، يولد المقاسات المحلية تلقائيًا، يقترح الخامات الأنسب، يحلل الألوان بدقة، ويوفر لك مكتبة بلوكات جاهزة مستوحاة من الثقافة والبيئة المحلية لتصاميم أسرع، أذكى، ومتوافقة مع المقاسات والمعايير العربي الصناعية</p>
           <div className="flex flex-col md:flex-row gap-4">
-            <Link data-aos="fade-left" href="/design-analysis" className="primary-button">
-              <ArrowUpFromLine />
-              <span>توليد مقاسات المنتجات</span>
+            <Link
+              href="/design-analysis"
+              className="design-analysis-button"
+            >
+              <Image
+                src="/design-analysis-icon.svg"
+                alt="Design Analysis Icon"
+                width={31}
+                height={31}
+              />
+              <div className="flex flex-col gap-1 flex-1">
+                <span className="font-bold text-lg">تحليل التصميم AI</span>
+                <span className="text-xs font-normal">
+                  حقل صورة أو نموذج ثلاثي الأبعاد للتحليل الفوري
+                </span>
+              </div>
             </Link>
-            <Link data-aos="fade-right" href="/product-library" className="secondary-button">
-              <Database />
-              <span>تصفح المكتبة</span>
+            <Link
+              href="/product-library"
+              className="library-button"
+            >
+              <Image
+                src="/elements.svg"
+                alt="Elements Icon"
+                width={26}
+                height={26}
+                className="flex-shrink-0"
+              />
+              <div className="flex flex-col text-right gap-1">
+                <span className="font-bold text-base">تصفح المكتبة</span>
+                <span className="text-xs text-[#4B5563]">
+                  مئات المنتجات الشائعة مع قياسات دقيقة
+                </span>
+              </div>
             </Link>
           </div>
-          <Link href="/about" className="text-primary font-bold text-base px-4 py-2 rounded-md hover:bg-primary-100 transition">
+          {/* <Link href="/about" className="text-primary font-bold text-base px-4 py-2 rounded-md hover:bg-primary-100 transition">
             <span>تعرف اكثر على مقدار</span>
-          </Link>
+          </Link> */}
 
         </section>
         <section id="features" className="flex flex-col items-center justify-center gap-y-8 py-16">
@@ -101,7 +152,23 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        {user && <Categories />}
+
+        {/* <section className="bg-primary text-white py-16 px-4" dir="rtl">
+          <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            {impactStats.map(({ value, label, icon: Icon }) => (
+              <div key={value} className="flex flex-col items-center text-center gap-4">
+                <div>
+                  <p className="text-3xl font-bold leading-tight">{value}</p>
+                  <p className="mt-2 text-lg font-medium">{label}</p>
+                </div>
+                <Icon size={36} strokeWidth={1.5} className="text-white" />
+              </div>
+            ))}
+          </div>
+        </section> */}
+
+        {/* //check later */}
+        {user && <Categories /> } 
         <section data-aos="fade-up" className="py-16 bg-main-bg text-center p-2">
           <h3>كيف يعمل</h3>
           <p className="text-cstm-gray mt-8">خطوات بسيطة تمكنك من الحصول على القياسات الدقيقة بسرعة وسهولة</p>
@@ -125,8 +192,8 @@ export default async function Home() {
             </div>
             <div className="flex-auto w-full">
               <div data-aos="flip-up" className="flex flex-col gap-y-6 text-start bg-white p-6 rounded-[16px]">
-                <h4 className="text-primary">تحميل التصميم أو اختيار منتج</h4>
-                <p className="text-cstm-gray">قم بتحميل صورة أو نموذج ثلاثي الأبعاد للتصميم الخاص بك، أو اختر منتجاً من مكتبتنا الشاملة</p>
+                <h4 className="text-primary">اختر المنتج</h4>
+                <p className="text-cstm-gray">اختر المنتج من قائمة المنتجات</p>
                 <div className="flex items-center flex-wrap gap-x-3 text-primary">
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">صور</p>
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">نماذج ثلاثية الأبعاد</p>
@@ -134,16 +201,16 @@ export default async function Home() {
                 </div>
               </div>
               <div data-aos="flip-down" className="flex flex-col gap-y-6 text-start bg-white p-6 rounded-[16px] mt-10">
-                <h4 className="text-primary">تحليل ذكي للقياسات</h4>
-                <p className="text-cstm-gray">يقوم نظامنا المتطور بتحليل التصميم واستخراج جميع القياسات الضرورية بدقة عالية</p>
+                <h4 className="text-primary">الاطلاع على تفاصيله</h4>
+                <p className="text-cstm-gray">استعرض تفاصيل مثل الأبعاد، اللون، والملاحظات المهمة لكل منتج</p>
                 <div className="flex items-center flex-wrap gap-x-3 text-primary">
-                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">نتائج فورية</p>
-                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">دقة عالية</p>
-                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">تحليل تلقائي</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">المقاس</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">اللون</p>
+                  <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">الملاحظات</p>
                 </div>
               </div>
               <div data-aos="flip-up" className="flex flex-col gap-y-6 text-start bg-white p-6 rounded-[16px] mt-10">
-                <h4 className="text-primary">تصدير وتنزيل النتائج</h4>
+                <h4 className="text-primary">تصدير وتنزيل التصميم</h4>
                 <p className="text-cstm-gray">احصل على تقرير شامل بجميع القياسات بالتنسيق الذي تفضله</p>
                 <div className="flex items-center flex-wrap gap-x-3 text-primary">
                   <p className="px-3 py-1 text-sm bg-primary-100 rounded-2xl">JSON</p>
@@ -158,52 +225,7 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        <section data-aos="fade-up" className="p-2 pt-4 pb-16 w-full max-w-[896px] mx-auto">
-          <div className="flex items-center justify-around">
-            <div className="p-6 bg-[#3B82F61A] rounded-full">
-              <CloudUpload size={28} className="text-primary"/>
-            </div>
-            <div className="p-6 bg-[#3B82F61A] rounded-full">
-              <Ruler size={28} className="text-primary"/>
-            </div>
-            <div className="p-6 bg-[#3B82F61A] rounded-full">
-              <ArrowDownToLine size={28} className="text-primary"/>
-            </div>
-          </div>
-          <div className="flex items-center w-full mt-4">
-            <div className="flex-1 h-0.25 bg-primary-100 mx-2"></div>
-            <div className="relative z-10 grid px-4 py-2 text-white bg-primary rounded-full place-items-center">
-              1
-            </div>
-            <div className="flex-2 h-0.25 bg-primary-100 mx-2"></div>
-            <div className="relative z-10 grid px-4 py-2 text-white bg-primary rounded-full place-items-center">
-              2
-            </div>
-            <div className="flex-2 h-0.25 bg-primary-100 mx-2"></div>
-            <div className="relative z-10 grid px-4 py-2 text-white bg-primary rounded-full place-items-center">
-              3
-            </div>
-            <div className="flex-1 h-0.25 bg-primary-100 mx-2"></div>
-          </div>
-          <div className="flex items-center justify-around gap-x-4">
-            <div data-aos="fade-up-left" className="text-center">
-              <h6>حمّل التصميم أو اختر منتج</h6>
-              <p className="text-cstm-gray mt-4">حمّل صورة أو نموذج ثلاثي الأبعاد أو اختر من مكتبتنا </p>
-            </div>
-            <div data-aos="fade-up" className="text-center">
-              <h6>تحليل الذكاء الاصطناعي / عرض القياسات</h6>
-              <p className="text-cstm-gray mt-4">يقوم نظامنا بتحليل التصميم وعرض القياسات الدقيقة</p>
-            </div>
-            <div data-aos="fade-up-right" className="text-center">
-              <h6>تنزيل النتائج</h6>
-              <p className="text-cstm-gray mt-4">احصل على القياسات بتنسيقات متعددة جاهزة للاستخدام</p>
-            </div>
-          </div>
-            <Link href="/design-analysis" className="primary-button mx-auto mt-8 w-min">
-              <span>ابدأ الآن</span>
-              <ArrowLeft size={16} />
-            </Link>
-        </section>
+        <HowItWorksModal isAuthenticated={Boolean(user)} />
         <section data-aos="fade-up" className="bg-main-bg">
           <div className="container mx-auto py-16">
             <h3 className="text-center">فوائد للجميع</h3>
