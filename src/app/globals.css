@@ -103,6 +103,27 @@
     @apply bg-main-bg p-2;
   }
 
+  .design-analysis-button {
+    @apply flex items-center justify-between gap-4 px-8 py-2 rounded-lg bg-primary text-white border border-white transition;
+    min-width: fit-content;
+    box-shadow: 0px 4px 6px -1px #0000001A, 0px 2px 4px -2px #0000001A;
+  }
+  .design-analysis-button:hover {
+    @apply bg-primary text-white;
+  }
+
+  .library-button {
+    @apply flex items-center justify-between gap-4 px-8 py-2 rounded-lg border transition bg-white;
+    border-color: #e5dcff;
+    box-shadow: 0px 4px 6px -1px #0000001A, 0px 2px 4px -2px #0000001A;
+    direction: rtl;
+    min-width: fit-content;
+    color: var(--color-primary);
+  }
+  .library-button:hover {
+    box-shadow: 0px 6px 12px -1px #00000026, 0px 4px 6px -2px #0000001A;
+  }
+
 }
 
 /* Remove number input arrows for Chrome, Safari, Edge, Opera */
