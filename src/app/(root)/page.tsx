@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowDownToLine, ArrowLeft, ArrowUpFromLine, Check, CloudUpload, FileText, GraduationCap, Info, LineChart, Package, PencilRuler, PenTool, Printer, Ruler, UserPlus, Users } from "lucide-react";
+import { ArrowLeft, Check, GraduationCap, Info, PencilRuler, PenTool, Printer, UserPlus } from "lucide-react";
 import Categories from "@/components/home/Categories";
 import Link from "next/link";
 import { getUser } from "@/actions/user";
