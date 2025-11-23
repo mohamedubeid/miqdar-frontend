@@ -140,6 +140,36 @@ export async function getDesignFile({productId, format} :{productId: string, for
   return;
 }
 
+export async function incrementDownloadCount(productId: number): Promise<{ success: boolean; message?: string }> {
+  const token = await getAuthToken();
+  if (!token) redirect('/login');
+  const res = await fetch(`${API_URL}/api/products/${productId}/download`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    try {
+      const error = JSON.parse(text);
+      return {
+        success: false,
+        message: error.message || "حدث خطأ أثناء تحديث عدد التنزيلات",
+      };
+    } catch {
+      return {
+        success: false,
+        message: "حدث خطأ أثناء تحديث عدد التنزيلات",
+      };
+    }
+  }
+  return { success: true };
+}
+
 export async function analyzeDesign(data: AnalyzeDesignData): Promise<AnalyzeDesignApiResponse> {
   const token = await getAuthToken();
   if (!token) redirect('/login');;

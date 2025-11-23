@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { DesignFile } from '@/lib/definitions';
 import { API_URL } from "@/lib/constants";
+import { incrementDownloadCount } from "@/actions/products";
 
 const FORMATS = [
   { label: "STL", value: "stl" },
@@ -18,6 +20,7 @@ const FORMATS = [
 ];
 
 type DownloadDesignModalProps = {
+  productId: number;
   design_file_stl?: string | null;
   design_file_obj: DesignFile[];
   design_file_fbx?: string | null;
@@ -25,12 +28,14 @@ type DownloadDesignModalProps = {
 };
 
 const DownloadDesignModal = ({
+  productId,
   design_file_stl,
   design_file_obj,
   design_file_fbx,
   design_file_step,
 }: DownloadDesignModalProps) => {
   const [selected, setSelected] = useState<string[]>([]);
+  const router = useRouter();
 
   const handleToggle = (format: string) => {
     setSelected((prev) =>
@@ -55,7 +60,18 @@ const DownloadDesignModal = ({
     step: design_file_step,
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
+    // Increment download count
+    try {
+      await incrementDownloadCount(productId);
+      // Refresh the page to show updated download count
+      router.refresh();
+    } catch (error) {
+      console.error('Failed to increment download count:', error);
+      // Continue with download even if increment fails
+    }
+
+    // Download files
     selected.forEach((format) => {
       const files = filesMap[format];
       files.forEach((file) => {

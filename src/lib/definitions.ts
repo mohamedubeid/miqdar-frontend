@@ -254,6 +254,7 @@ export interface Product {
   main_image: string;
   images: string | null; // stored as JSON string (e.g. '["img1.png", "img2.png"]')
   favorite_count: number | null;
+  download_count: number | null;
   design_file: string | null;
   notes: string | null;
   created_at: string;

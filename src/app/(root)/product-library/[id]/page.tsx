@@ -4,7 +4,7 @@ import FavoriteButton from '@/components/product-details/FavoriteButton';
 import ShareButton from '@/components/product-details/ShareButton';
 import DownloadDesignModal from '@/components/product-details/DownloadDesignModal';
 import { EmblaOptionsType } from 'embla-carousel'
-import { Check } from 'lucide-react'
+import { Check, Download } from 'lucide-react'
 import { getProductById, getDesignFile } from '@/actions/products';
 import { DesignFile } from '@/lib/definitions';
 
@@ -60,6 +60,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
             <p className="text-cstm-gray">{productRes?.product.name_en}</p>
           </div>
           <DownloadDesignModal
+            productId={productRes?.product.id}
             design_file_stl={productRes?.product.design_file_stl}
             design_file_obj={designFileObj}
             design_file_fbx={productRes?.product.design_file_fbx}
@@ -69,6 +70,14 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="flex flex-col md:flex-row gap-8 mt-8">
           <div className="flex-1">
             <EmblaCarousel options={OPTIONS} images={images} />
+            {productRes?.product.download_count !== null && productRes?.product.download_count !== undefined && (
+              <div className="flex items-center gap-2 mt-4 px-4 py-3 bg-white border border-primary rounded-lg w-fit">
+                <span className="text-primary font-medium">
+                  تم تنزيل المنتج ({productRes.product.download_count})
+                </span>
+                <Download size={20} className="text-primary" />
+              </div>
+            )} 
           </div>
           <div className="flex-1">
             <div className="flex flex-col gap-y-8">
