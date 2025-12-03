@@ -162,8 +162,8 @@ const Page = () => {
   return (
     <div className="surface-box">
       <div className="container mx-auto py-8">
-        <div className="bg-yellow-100 border border-yellow-300 text-yellow-900 px-6 py-4 rounded-md mb-6 text-center text-lg font-semibold">
-          ⚠️ هذه الصفحة مغلقة حالياً للصيانة. نحن نعمل على تحسين النظام وسيتم إعادة تفعيلها قريباً.
+        <div className="bg-yellow-50/50 text-yellow-800 px-6 py-4 rounded-md mb-6 text-center text-lg font-medium">
+        دقة الموديل الذكي (AI) في تقدير المقاسات تتراوح حالياً بين 85٪ و 90٪، ونعمل باستمرار على تحسينها وزيادتها.
         </div>
         <h3>تحليل التصميم</h3>
         <p className="text-cstm-gray mt-4">قم بتحميل التصميم الخاص بك للحصول على قياسات دقيقة باستخدام الذكاء الاصطناعي </p>
