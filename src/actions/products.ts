@@ -86,7 +86,7 @@ export async function toggleFavorite(productId: number, isFavorite: boolean): Pr
   return { message: 'success' };
 }
 
-export async function rateProduct(productId: number, rating: number): Promise<{ message: string; errors?: any }> {
+export async function rateProduct(productId: number, rating: number): Promise<{ message: string; errors?: Record<string, string[]> }> {
   const token = await getAuthToken();
   if (!token) redirect('/login');
   const res = await fetch(`${API_URL}/api/products/${productId}/rate`, {
