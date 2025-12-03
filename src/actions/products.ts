@@ -140,15 +140,14 @@ export async function getDesignFile({productId, format} :{productId: string, for
   return;
 }
 
-export async function incrementDownloadCount(productId: number): Promise<{ success: boolean; message?: string }> {
+export async function incrementDownloadCount(productId: number): Promise<{ success: boolean; message?: string; download_count?: number }> {
   const token = await getAuthToken();
   if (!token) redirect('/login');
-  const res = await fetch(`${API_URL}/api/products/${productId}/download`, {
-    method: 'POST',
+  const res = await fetch(`${API_URL}/api/products/${productId}/record-download`, {
+    method: 'GET',
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
     },
     cache: 'no-store',
   });
@@ -167,7 +166,12 @@ export async function incrementDownloadCount(productId: number): Promise<{ succe
       };
     }
   }
-  return { success: true };
+  try {
+    const data = await res.json();
+    return { success: true, download_count: data.download_count };
+  } catch {
+    return { success: true };
+  }
 }
 
 export async function analyzeDesign(data: AnalyzeDesignData): Promise<AnalyzeDesignApiResponse> {
