@@ -5,7 +5,7 @@ import Image from "next/image";
 import { CloudUpload, Images, Palette, Ruler, Trash2, ZoomIn, ZoomOut } from 'lucide-react';
 import { toast } from 'react-toastify';
 import AnalysisResult from '@/components/design-analysis/AnalysisResult';
-import { API_URL, MEASURE_UNITS, MEASURE_UNITS_OPTIONS } from '@/lib/constants';
+import { MEASURE_UNITS, MEASURE_UNITS_OPTIONS } from '@/lib/constants';
 import { analyzeDesign } from '@/actions/products';
 import { convertValue } from '@/lib/utils';
 import { AnalyzeDesignResponse } from '@/lib/definitions';
@@ -22,7 +22,6 @@ const Page = () => {
   const [zoom, setZoom] = useState(1);
   const [loading, setLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalyzeDesignResponse | null>(null);
-  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
@@ -119,9 +118,10 @@ const Page = () => {
 
       if (resultRes.result && resultRes.message === 'success') {
         setAnalysisResult(resultRes.result);
-      if (resultRes.result.generated_image_url) {
-        setPreviewImageUrl(resultRes.result.generated_image_url);
-      }
+        // Don't set previewImageUrl - keep showing the uploaded image
+        // if (resultRes.result.generated_image_url) {
+        //   setPreviewImageUrl(resultRes.result.generated_image_url);
+        // }
         toast.success('تم تحليل التصميم بنجاح');
         return;
       }
@@ -173,43 +173,36 @@ const Page = () => {
               ملاحظة: نموذج الذكاء الاصطناعي الحالي لا يزال في مرحلة التجريب، وقد لا تكون النتائج دقيقة بنسبة 100٪. نحن نعمل باستمرار على تحسين أدائه، لذا يرجى مراجعة النتائج بعناية.
             </p>
           </div> */}
-        {/* <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={loading}
-          className={`primary-button mx-auto md:mx-0 md:mr-auto mt-4 flex items-center gap-2 custom-disabled ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
-        >
-          {loading && (
-            <svg
-              className="animate-spin h-4 w-4"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-              ></circle>
-              <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
-              ></path>
-            </svg>
-          )}
-          <span>تحليل التصميم</span>
-        </button> */}
           <button
-            className="primary-button !bg-gray-300 !text-gray-600 !border-gray-300 !cursor-not-allowed hover:!bg-gray-300 hover:!text-gray-600 hover:!border-gray-300"
-            disabled
+            type="button"
             onClick={handleSubmit}
+            disabled={loading}
+            className={`primary-button mx-auto md:mx-0 md:mr-auto mt-4 flex items-center gap-2 custom-disabled ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
           >
+            {loading && (
+              <svg
+                className="animate-spin h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                ></circle>
+                <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"
+                ></path>
+              </svg>
+            )}
             <Ruler size={16} />
-            <span>تحليل التصميم (مغلق حالياً)</span>
+            <span>تحليل التصميم</span>
           </button>
         </div>
 
@@ -392,9 +385,6 @@ const Page = () => {
                   </button>}
                 </div>
               </div>
-              {analysisResult?.generated_image_url && (
-                <p className="text-sm text-primary text-center mt-2">* تم توليد هذه الصورة بواسطة الذكاء الاصطناعي</p>
-              )}
               {uploadedImage ? (
                 <div className="bg-main-bg h-full w-full rounded-[16px] flex items-center justify-center overflow-auto">
                   <div
@@ -403,14 +393,7 @@ const Page = () => {
                   >
                     <Image
                       ref={imageRef}
-                      // src={
-                      //   analysisResult?.generated_image_url
-                      //     ? `data:image/png;base64,${analysisResult.generated_image}`
-                      //      ? `${analysisResult.generated_image_url}`
-                      //     : URL.createObjectURL(uploadedImage)
-                      // }
-                      src={previewImageUrl ? API_URL + previewImageUrl : URL.createObjectURL(uploadedImage)}
-                      // src={URL.createObjectURL(uploadedImage)}
+                      src={URL.createObjectURL(uploadedImage)}
                       alt="معاينة التصميم"
                       className="p-8 max-h-[727px] rounded-[16px] object-contain transition-transform duration-200"
                       width={747}
