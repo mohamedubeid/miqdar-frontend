@@ -268,6 +268,7 @@ export interface Product {
   design_file_step?: string | null;
   design_file_fbx?: string | null;
   materials: ProductMaterial[];
+  rate?: string | null;
 }
 
 export interface PaginationLink {
