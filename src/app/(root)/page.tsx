@@ -41,8 +41,8 @@ export default async function Home() {
             url('/images/hero-bg.png')
           `
         }}>
-          <h1>مقدار AI</h1>
-          <p className="text-[14px] md:text-[18px] text-[#374151] max-w-[541px] text-center px-4 md:p-2">منصة ذكاء اصطناعي متخصص في تصميم المنتجات للسوق السعودي والعربي، يولد المقاسات المحلية تلقائيًا، يقترح الخامات الأنسب، يحلل الألوان بدقة، ويوفر لك مكتبة بلوكات جاهزة مستوحاة من الثقافة والبيئة المحلية لتصاميم أسرع، أذكى، ومتوافقة مع المقاسات والمعايير العربي الصناعية</p>
+          <h1>منصة مقدار</h1>
+          <p className="text-[14px] md:text-[18px] text-[#374151] max-w-[541px] text-center px-4 md:p-2">مكتبة محلية شاملة توثق المقاسات والمنتجات المحلية في المملكة العربية السعودية والوطن العربي</p>
           <div className="flex flex-col md:flex-row gap-4">
             <Link
               href="/design-analysis"
