@@ -75,7 +75,7 @@ const Page = async ({ searchParams }: {
                   <FavoriteProduct product={product} />
                   <Link href={`/product-library/${product.id}`}>
                     <div className="bg-white cstm-card-style mx-auto h-[388px]">
-                    <Image src={`${API_URL}/storage/${product.main_image}`} alt={product.name_ar} width={210} height={192} className="rounded-t-[16px] w-full h-[192px] object-fill" unoptimized />
+                    <Image src={`${API_URL}/storage/${product.main_image}`} alt={product.name_ar} width={210} height={192} className="rounded-t-[16px] w-full h-[192px] object-fill" />
                     <div className="px-4 py-6">
                         <h6 className="text-lg font-semibold">{product.name_ar}</h6>
                         {product.depth_mm && product.width_mm && product.height_mm && (
