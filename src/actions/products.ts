@@ -197,7 +197,10 @@ export async function incrementDownloadCount(productId: number): Promise<{ succe
   }
   try {
     const data = await res.json();
-    return { success: true, download_count: data.download_count };
+    return { 
+      success: true, 
+      download_count: data.download_count ?? data.downloadCount ?? data.count ?? undefined 
+    };
   } catch {
     return { success: true };
   }

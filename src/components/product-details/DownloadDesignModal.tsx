@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from "react";
-// import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DesignFile } from '@/lib/definitions';
-// import { incrementDownloadCount } from "@/actions/products";
+import { incrementDownloadCount } from "@/actions/products";
 
 const FORMATS = [
   { label: "STL", value: "stl" },
@@ -25,6 +24,8 @@ type DownloadDesignModalProps = {
   design_file_obj: DesignFile[];
   design_file_fbx: DesignFile[];
   design_file_step: DesignFile[];
+  currentCount: number | null;
+  onCountUpdate: (count: number) => void;
 };
 
 const DownloadDesignModal = ({
@@ -33,9 +34,10 @@ const DownloadDesignModal = ({
   design_file_obj,
   design_file_fbx,
   design_file_step,
+  currentCount,
+  onCountUpdate,
 }: DownloadDesignModalProps) => {
   const [selected, setSelected] = useState<string | null>(null);
-  // const router = useRouter();
 
   const filesMap: Record<string, DesignFile[]> = {
     stl: design_file_stl,
@@ -47,17 +49,16 @@ const DownloadDesignModal = ({
   const handleDownload = async () => {
     if (!selected) return;
 
-    // try {
-    //   await incrementDownloadCount(productId);
-    //   router.refresh();
-    // } catch (error) {
-    //   console.error('Failed to increment download count:', error);
-    // }
-
     const files = filesMap[selected];
     if (!files?.length) return;
 
     const file = files[0];
+    
+    const newCount = (currentCount ?? 0) + 1;
+    onCountUpdate(newCount);
+
+    incrementDownloadCount(productId).catch(() => {});
+
     const a = document.createElement('a');
     a.href = file.download_link;
     a.download = file.original_name;

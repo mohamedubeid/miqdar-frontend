@@ -2,16 +2,16 @@
 import EmblaCarousel from '@/components/product-details/EmblaCarousel'
 import FavoriteButton from '@/components/product-details/FavoriteButton';
 import ShareButton from '@/components/product-details/ShareButton';
-import DownloadDesignModal from '@/components/product-details/DownloadDesignModal';
+import DownloadCountManager from '@/components/product-details/DownloadCountManager';
+import { DownloadCountProvider } from '@/components/product-details/DownloadCountProvider';
 import InteractiveStarRating from '@/components/product-details/InteractiveStarRating';
 import { EmblaOptionsType } from 'embla-carousel'
-import { Check, Download } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { getProductById, getDesignFile } from '@/actions/products';
 import { DesignFile } from '@/lib/definitions';
 
 const OPTIONS: EmblaOptionsType = {
   dragFree: false,
-  // direction: 'rtl',
   loop: false
 }
 
@@ -72,43 +72,45 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   if(!productRes || !productRes.product) return;
   return (
-    <div className="surface-box px-2 py-19">
-      <div className="container mx-auto p-6 bg-white rounded-[16px]">
+    <DownloadCountProvider initialCount={productRes?.product.download_count ?? null}>
+      <div className="surface-box px-2 py-19">
+        <div className="container mx-auto p-6 bg-white rounded-[16px]">
 
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-          <div>
-            <h3>{productRes?.product.name_ar}</h3>
-            <p className="text-cstm-gray">{productRes?.product.name_en}</p>
-            <div className="mt-2">
-              <InteractiveStarRating 
-                productId={productRes?.product.id} 
-                initialRating={productRes?.product.rate} 
-                size="md" 
-                showRating={true} 
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div>
+              <h3>{productRes?.product.name_ar}</h3>
+              <p className="text-cstm-gray">{productRes?.product.name_en}</p>
+              <div className="mt-2">
+                <InteractiveStarRating 
+                  productId={productRes?.product.id} 
+                  initialRating={productRes?.product.rate} 
+                  size="md" 
+                  showRating={true} 
+                />
+              </div>
+            </div>
+            <DownloadCountManager
+              productId={productRes?.product.id}
+              design_file_stl={designFileStl}
+              design_file_obj={designFileObj}
+              design_file_fbx={designFileFbx}
+              design_file_step={designFileStep}
+              variant="modal"
+            />
+          </div>
+          <div className="flex flex-col md:flex-row gap-8 mt-8">
+            <div className="flex-1">
+              <EmblaCarousel options={OPTIONS} images={images} />
+              <DownloadCountManager
+                productId={productRes?.product.id}
+                design_file_stl={designFileStl}
+                design_file_obj={designFileObj}
+                design_file_fbx={designFileFbx}
+                design_file_step={designFileStep}
+                variant="display"
               />
             </div>
-          </div>
-          <DownloadDesignModal
-            productId={productRes?.product.id}
-            design_file_stl={designFileStl}
-            design_file_obj={designFileObj}
-            design_file_fbx={designFileFbx}
-            design_file_step={designFileStep}
-          />
-        </div>
-        <div className="flex flex-col md:flex-row gap-8 mt-8">
-          <div className="flex-1">
-            <EmblaCarousel options={OPTIONS} images={images} />
-            {productRes?.product.download_count !== null && productRes?.product.download_count !== undefined && (
-              <div className="flex items-center gap-2 mt-4 px-4 py-3 bg-white border border-primary rounded-lg w-fit">
-                <span className="text-primary font-medium">
-                  تم تنزيل المنتج ({productRes.product.download_count})
-                </span>
-                <Download size={20} className="text-primary" />
-              </div>
-            )} 
-          </div>
-          <div className="flex-1">
+            <div className="flex-1">
             <div className="flex flex-col gap-y-8">
               <div>
                 <h4 className="border-r-4 border-primary ps-4">الوصف</h4>
@@ -169,14 +171,6 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 </div>
               </div>
               <div className="flex flex-wrap justify-between items-center gap-4 mt-4">
-                {/* <button className="primary-button !bg-[#1F2937] hover:!bg-[#1F2937cc] !border-none hover:!text-white">
-                  <Pencil size={16} />
-                  <span>تعديل القياسات</span>
-                </button> */}
-                {/* <button className="primary-button">
-                  <Ruler size={16} />
-                  <span>تحليل التصميم</span>
-                </button> */}
                 <div className="flex items-center gap-4">
                   <ShareButton />
                   <FavoriteButton product={productRes?.product}/>
@@ -184,9 +178,10 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
               </div>
             </div>
           </div>
+          </div>
         </div>
       </div>
-    </div>
+    </DownloadCountProvider>
   )
 }
 
