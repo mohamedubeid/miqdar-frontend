@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from "react";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Dialog,
@@ -33,14 +34,8 @@ const DownloadDesignModal = ({
   design_file_fbx,
   design_file_step,
 }: DownloadDesignModalProps) => {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
   const router = useRouter();
-
-  const handleToggle = (format: string) => {
-    setSelected((prev) =>
-      prev.includes(format) ? prev.filter((f) => f !== format) : [...prev, format]
-    );
-  };
 
   const filesMap: Record<string, DesignFile[]> = {
     stl: design_file_stl,
@@ -50,32 +45,30 @@ const DownloadDesignModal = ({
   };
 
   const handleDownload = async () => {
-    // Increment download count
+    if (!selected) return;
+
     try {
       await incrementDownloadCount(productId);
-      // Refresh the page to show updated download count
       router.refresh();
     } catch (error) {
       console.error('Failed to increment download count:', error);
-      // Continue with download even if increment fails
     }
 
-    // Download files
-    selected.forEach((format) => {
-      const files = filesMap[format];
-      files.forEach((file) => {
-        const a = document.createElement('a');
-        // All formats now use the download_link directly from the API
-        a.href = file.download_link;
-        a.download = file.original_name;
-        a.target = '_blank';
-        document.body.appendChild(a);
-        if (a.href) {
-          a.click();
-        }
-        document.body.removeChild(a);
-      });
-    });
+    const files = filesMap[selected];
+    if (!files?.length) return;
+
+    const file = files[0];
+    const a = document.createElement('a');
+    a.href = file.download_link;
+    a.download = file.original_name;
+    a.target = '_blank';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    
+    setTimeout(() => {
+      document.body.removeChild(a);
+    }, 100);
   };
   return (
     <Dialog>
@@ -90,12 +83,14 @@ const DownloadDesignModal = ({
             {FORMATS.map((format) => {
               const isAvailable = filesMap[format.value]?.length > 0;
               return (
-                <label key={format.value} className="flex items-center gap-2 opacity-100">
+                <label key={format.value} className="flex items-center gap-2 opacity-100 cursor-pointer">
                   <input
-                    type="checkbox"
-                    checked={selected.includes(format.value)}
-                    onChange={() => handleToggle(format.value)}
-                    className="accent-primary w-5 h-5 rounded-[4px]"
+                    type="radio"
+                    name="file-format"
+                    value={format.value}
+                    checked={selected === format.value}
+                    onChange={() => setSelected(format.value)}
+                    className="accent-primary w-5 h-5"
                     disabled={!isAvailable}
                   />
                   <span className={isAvailable ? '' : 'text-gray-400 line-through'}>
@@ -106,13 +101,12 @@ const DownloadDesignModal = ({
             })}
           </div>
         </div>
-        {/* <a href="https://olivedrab-hyena-876790.hostingersite.com/storage/products/July2025/TJG1kY8jnzhlEGkliyr3.stp" download={true}>tttttttt</a> */}
         <button
           className="primary-button w-fit mx-auto mt-4"
           onClick={handleDownload}
-          disabled={selected.length === 0}
+          disabled={!selected}
         >
-          تحميل الملفات المحددة
+          تحميل الملف
         </button>
       </DialogContent>
     </Dialog>
