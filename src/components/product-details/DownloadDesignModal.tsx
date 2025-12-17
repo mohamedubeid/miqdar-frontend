@@ -9,7 +9,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DesignFile } from '@/lib/definitions';
-import { API_URL } from "@/lib/constants";
 import { incrementDownloadCount } from "@/actions/products";
 
 const FORMATS = [
@@ -21,9 +20,9 @@ const FORMATS = [
 
 type DownloadDesignModalProps = {
   productId: number;
-  design_file_stl?: string | null;
+  design_file_stl: DesignFile[];
   design_file_obj: DesignFile[];
-  design_file_fbx?: string | null;
+  design_file_fbx: DesignFile[];
   design_file_step: DesignFile[];
 };
 
@@ -43,20 +42,10 @@ const DownloadDesignModal = ({
     );
   };
 
-  const getParsedFiles = (data?: string | null): DesignFile[] => {
-    try {
-      if (!data) return [];
-      return JSON.parse(data);
-    } catch (err) {
-      console.error('Failed to parse design file:', err);
-      return [];
-    }
-  };
-
   const filesMap: Record<string, DesignFile[]> = {
-    stl: getParsedFiles(design_file_stl),
+    stl: design_file_stl,
     obj: design_file_obj,
-    fbx: getParsedFiles(design_file_fbx),
+    fbx: design_file_fbx,
     step: design_file_step,
   };
 
@@ -76,11 +65,8 @@ const DownloadDesignModal = ({
       const files = filesMap[format];
       files.forEach((file) => {
         const a = document.createElement('a');
-        if (format !== 'obj' && format !== 'step') {
-          a.href = `${API_URL}/storage/${file.download_link}`;
-        }else {
-          a.href = file.download_link;
-        }
+        // All formats now use the download_link directly from the API
+        a.href = file.download_link;
         a.download = file.original_name;
         a.target = '_blank';
         document.body.appendChild(a);

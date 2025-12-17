@@ -27,16 +27,36 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   } catch (error) {
     console.error("Failed to parse images:", error);
   }
-  const [objFile, stepFile] = await Promise.all([
+  const [stlFile, objFile, fbxFile, stepFile] = await Promise.all([
+    getDesignFile({ productId: product.id.toString(), format: 'stl' }),
     getDesignFile({ productId: product.id.toString(), format: 'obj' }),
+    getDesignFile({ productId: product.id.toString(), format: 'fbx' }),
     getDesignFile({ productId: product.id.toString(), format: 'step' }),
   ]);
+
+  const designFileStl: DesignFile[] = stlFile?.download_url
+  ? [
+      {
+        original_name: `design.stl`,
+        download_link: stlFile.download_url,
+      },
+    ]
+  : [];
 
   const designFileObj: DesignFile[] = objFile?.download_url
   ? [
       {
         original_name: `design.obj`,
         download_link: objFile.download_url,
+      },
+    ]
+  : [];
+
+  const designFileFbx: DesignFile[] = fbxFile?.download_url
+  ? [
+      {
+        original_name: `design.fbx`,
+        download_link: fbxFile.download_url,
       },
     ]
   : [];
@@ -70,9 +90,9 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
           <DownloadDesignModal
             productId={productRes?.product.id}
-            design_file_stl={productRes?.product.design_file_stl}
+            design_file_stl={designFileStl}
             design_file_obj={designFileObj}
-            design_file_fbx={productRes?.product.design_file_fbx}
+            design_file_fbx={designFileFbx}
             design_file_step={designFileStep}
           />
         </div>
