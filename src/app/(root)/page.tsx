@@ -32,7 +32,7 @@ import HowItWorksModal from "@/components/home/HowItWorksModal";
 export default async function Home() {
   const user = await getUser();
   return (
-    <>
+    <div className="overflow-y-hidden">
     <AOSProvider />
       <div>
         <section id="hero-section" data-aos="fade-up"  className="relative flex flex-col items-center justify-center gap-y-10 h-screen bg-cover bg-center bg-no-repeat" style={{
@@ -335,6 +335,6 @@ export default async function Home() {
           </div>
         </section>}
       </div>
-    </>
+    </div>
   );
 }
