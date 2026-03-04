@@ -44,23 +44,13 @@ export default async function Home() {
           <h1>منصة مقدار</h1>
           <p className="text-[14px] md:text-[18px] text-[#374151] max-w-[541px] text-center px-4 md:p-2">مكتبة محلية شاملة توثق المقاسات والمنتجات المحلية في المملكة العربية السعودية والوطن العربي</p>
           <div className="flex flex-col md:flex-row gap-4">
-            <Link
-              href="/design-analysis"
-              className="design-analysis-button"
-            >
-              <Image
-                src="/design-analysis-icon.svg"
-                alt="Design Analysis Icon"
-                width={31}
-                height={31}
-              />
+            {/* <Link href="/design-analysis" className="design-analysis-button">
+              <Image src="/design-analysis-icon.svg" alt="Design Analysis Icon" width={31} height={31} />
               <div className="flex flex-col gap-1 flex-1">
                 <span className="font-bold text-lg">تحليل التصميم AI</span>
-                <span className="text-xs font-normal">
-                  حقل صورة أو نموذج ثلاثي الأبعاد للتحليل الفوري
-                </span>
+                <span className="text-xs font-normal">حقل صورة أو نموذج ثلاثي الأبعاد للتحليل الفوري</span>
               </div>
-            </Link>
+            </Link> */}
             <Link
               href="/product-library"
               className="library-button"
@@ -121,10 +111,10 @@ export default async function Home() {
                     <Check size={16} strokeWidth={1.5} className="text-primary" />
                     <p>تنزيل النتائج بتنسيقات متعددة</p>
                   </div>
-                    <Link href="/design-analysis" className="primary-button w-fit">
-                      <span> جرب الآن</span>
-                      <ArrowLeft size={16} strokeWidth={1} />
-                    </Link>
+                  {/* <Link href="/design-analysis" className="primary-button w-fit">
+                    <span> جرب الآن</span>
+                    <ArrowLeft size={16} strokeWidth={1} />
+                  </Link> */}
                 </div>
               </div>
               <div data-aos="fade-up-right" className="flex-auto card-style">

@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { ArrowLeft, ArrowDownToLine, CloudUpload, Ruler, X } from "lucide-react";
+// import Link from "next/link"; // uncomment with design-analysis button below
+import { ArrowDownToLine, CloudUpload, Ruler, X } from "lucide-react";
+// import { ArrowLeft } from "lucide-react"; // uncomment with design-analysis button below
 
 interface HowItWorksModalProps {
   isAuthenticated: boolean;
@@ -88,10 +89,10 @@ const HowItWorksModal = ({ isAuthenticated }: HowItWorksModalProps) => {
                 </p>
               </div>
             </div>
-            <Link href="/design-analysis" className="primary-button mx-auto w-min">
+            {/* <Link href="/design-analysis" className="primary-button mx-auto w-min">
               <span>ابدأ الآن</span>
               <ArrowLeft size={16} />
-            </Link>
+            </Link> */}
           </div>
         </section>
       </div>
