@@ -215,7 +215,7 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        <HowItWorksModal isAuthenticated={Boolean(user)} />
+        {/* <HowItWorksModal isAuthenticated={Boolean(user)} /> */}
         <section data-aos="fade-up" className="bg-main-bg">
           <div className="container mx-auto py-16">
             <h3 className="text-center">فوائد للجميع</h3>
